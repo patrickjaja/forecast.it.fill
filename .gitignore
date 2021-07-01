@@ -1,3 +1,4 @@
 .env
 http-client.local.json
 vendor
+.idea

@@ -1,0 +1,7 @@
+{
+  "test": {
+    "host": "https://api.forecast.it/api",
+    "show_env": "1",
+    "api_key": "xxx"
+  }
+}
