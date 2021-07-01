@@ -1,4 +1,4 @@
-# create forecast.it time entries based on jira comments you have written
+# create forecast.it time entries based on jira comments
  - run at the end of the day to fill your forecast.it timesheet
 
 # getting started
