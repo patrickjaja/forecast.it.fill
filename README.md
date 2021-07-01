@@ -1,5 +1,5 @@
 # create forecast.it time entries based on jira comments
- - run at the end of the day to fill your forecast.it timesheet
+ - run at the end of the day (since its date('Y-m-d 00:00') per default) to fill your forecast.it timesheet
 
 # getting started
  - `composer install`
