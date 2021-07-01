@@ -1,0 +1,33 @@
+### GET my person id -- 211932
+GET {{host}}/v1/persons
+Accept: application/json
+X-FORECAST-API-KEY: {{api_key}}
+
+### GET my project id -- 94336
+GET {{host}}/v1/projects
+Accept: application/json
+X-FORECAST-API-KEY: {{api_key}}
+
+### GET targeted task -- 2306965
+GET {{host}}/v2/projects/94336/tasks
+Accept: application/json
+X-FORECAST-API-KEY: {{api_key}}
+
+### GET my time registrations
+GET {{host}}/v3/persons/211932/time_registrations?updated_after=20210701T073111
+Accept: application/json
+X-FORECAST-API-KEY: {{api_key}}
+
+### GET my time registrations with environment variables
+POST {{host}}/v1/time_registrations
+Accept: application/json
+Content-Type: application/json
+X-FORECAST-API-KEY: {{api_key}}
+
+{
+  "person":211932,
+  "task":2306965,
+  "time_registered":480,
+  "date":"2021-07-01",
+  "notes":"Test Entry created by p.schoenfeld@nexus-united.com"
+}
