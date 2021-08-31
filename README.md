@@ -1,5 +1,5 @@
 # create forecast.it time entries based on jira comments
- - run at the end of the day (date('Y-m-d 00:00') used by default) to fill your forecast.it timesheet
+ - run `php bin/console forecast:import:activity` at the end of the day (date('Y-m-d 00:00') used by default) to fill your forecast.it timesheet with your jira activity
 
 # getting started
  - `composer install`
