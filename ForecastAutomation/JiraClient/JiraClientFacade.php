@@ -1,13 +1,13 @@
 <?php
 
-namespace ForecastAutomation\Jira;
+namespace ForecastAutomation\JiraClient;
 
 use ForecastAutomation\Kernel\AbstractFacade;
 
 /**
- * @method \ForecastAutomation\Jira\JiraFactory getFactory()
+ * @method \ForecastAutomation\JiraClient\JiraClientFactory getFactory()
  */
-class JiraFacade extends AbstractFacade
+class JiraClientFacade extends AbstractFacade
 {
     public function getComments(string $startDate): array
     {

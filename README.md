@@ -1,6 +1,6 @@
 # Forecast.it activity automation process
 ### supported activity sources
- - [jira](ForecastAutomation/Jira/Shared/Plugin/JiraActivityPlugin.php)
+ - [jira](ForecastAutomation/JiraClient/Shared/Plugin/JiraActivityPlugin.php)
    (will create an activity entry if you comment a ticket)
  - [gitlab](ForecastAutomation/GitlabClient/Shared/Plugin/GitlabActivityPlugin.php)
    (will create an activity if you comment a MR by consuming gitlab event api)
@@ -15,7 +15,6 @@
  - create `.env` with your configuration
 
 ToDo:
-    - rename Jira to JiraClient
     - reduce configuration parameters by consuming more api endpoints (i.e. forecast /persons to receive personid)
     - add tests
     - add tooling

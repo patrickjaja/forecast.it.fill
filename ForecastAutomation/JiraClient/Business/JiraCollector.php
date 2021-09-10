@@ -1,13 +1,13 @@
 <?php
 
-namespace ForecastAutomation\Jira\Business;
+namespace ForecastAutomation\JiraClient\Business;
 
-use ForecastAutomation\Jira\Shared\Dto\JiraConfigDto;
+use ForecastAutomation\JiraClient\Shared\Dto\JiraConfigDto;
 use JiraRestApi\Issue\Issue;
 use JiraRestApi\Issue\IssueService;
 
 /**
- * @method \ForecastAutomation\Jira\JiraFactory getFactory()
+ * @method \ForecastAutomation\JiraClient\JiraFactory getFactory()
  */
 class JiraCollector
 {

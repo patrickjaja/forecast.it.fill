@@ -1,14 +1,14 @@
 <?php
 
-namespace ForecastAutomation\Jira;
+namespace ForecastAutomation\JiraClient;
 
-use ForecastAutomation\Jira\Business\JiraCollector;
-use ForecastAutomation\Jira\Shared\Dto\JiraConfigDto;
+use ForecastAutomation\JiraClient\Business\JiraCollector;
+use ForecastAutomation\JiraClient\Shared\Dto\JiraConfigDto;
 use ForecastAutomation\Kernel\AbstractFactory;
 use JiraRestApi\Configuration\ArrayConfiguration;
 use JiraRestApi\Issue\IssueService;
 
-class JiraFactory extends AbstractFactory
+class JiraClientFactory extends AbstractFactory
 {
     public function createJiraConfigDto(): JiraConfigDto
     {

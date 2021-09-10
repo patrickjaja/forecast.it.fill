@@ -1,6 +1,6 @@
 <?php
 
-namespace ForecastAutomation\Jira\Shared\Dto;
+namespace ForecastAutomation\JiraClient\Shared\Dto;
 
 use ForecastAutomation\Kernel\Shared\Dto\AbstractDto;
 
