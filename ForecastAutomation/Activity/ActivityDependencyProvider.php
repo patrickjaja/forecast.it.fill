@@ -3,9 +3,11 @@
 namespace ForecastAutomation\Activity;
 
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginCollection;
+use ForecastAutomation\GitlabClient\Shared\Plugin\GitlabActivityPlugin;
 use ForecastAutomation\Jira\Shared\Plugin\JiraActivityPlugin;
 use ForecastAutomation\Kernel\AbstractDependencyProvider;
 use ForecastAutomation\Kernel\Locator;
+use ForecastAutomation\MattermostClient\Shared\Plugin\MattermostActivityPlugin;
 
 class ActivityDependencyProvider extends AbstractDependencyProvider
 {
@@ -18,6 +20,11 @@ class ActivityDependencyProvider extends AbstractDependencyProvider
 
     public function getActivityPlugins(): ActivityPluginCollection
     {
-        return (new ActivityPluginCollection(new JiraActivityPlugin()));
+        return (new ActivityPluginCollection(
+            new MattermostActivityPlugin(),
+            new JiraActivityPlugin(),
+            new GitlabActivityPlugin(),
+        )
+        );
     }
 }

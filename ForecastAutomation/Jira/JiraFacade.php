@@ -2,7 +2,6 @@
 
 namespace ForecastAutomation\Jira;
 
-use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\Kernel\AbstractFacade;
 
 /**
@@ -10,8 +9,8 @@ use ForecastAutomation\Kernel\AbstractFacade;
  */
 class JiraFacade extends AbstractFacade
 {
-    public function getJiraActivities(string $startDate): ActivityDtoCollection
+    public function getComments(string $startDate): array
     {
-        return $this->getFactory()->createJiraCollector()->getJiraActivities($startDate);
+        return $this->getFactory()->createJiraCollector()->getComments($startDate);
     }
 }

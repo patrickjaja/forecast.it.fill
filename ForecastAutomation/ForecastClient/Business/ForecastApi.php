@@ -8,12 +8,13 @@ use GuzzleHttp\Client;
 
 class ForecastApi
 {
-    private const TASK_LIST_ENDPOINT = '/api/v2/projects/{{PROJECT_ID}}/tasks', TIME_REGISTRATIONS_ENDPOINT = '/api/v1/time_registrations', COMMENT_IDENTIFIER = 'Ticket Bearbeitung: ';
+    private const TASK_LIST_ENDPOINT = '/api/v2/projects/{{PROJECT_ID}}/tasks', TIME_REGISTRATIONS_ENDPOINT = '/api/v1/time_registrations';
 
     public static $TASK_CHACHE = [];
 
     public function __construct(private Client $guzzleClient, private ForecastConfigDto $forecastConfigDto)
     {
+        //ToDo: Use \Psr\SimpleCache\CacheInterface $this->cache->set($cacheKey, $result, 6000)
         self::$TASK_CHACHE = $this->callGetApi(
             str_replace('{{PROJECT_ID}}', $forecastConfigDto->forecastProjectId, self::TASK_LIST_ENDPOINT)
         );
@@ -56,9 +57,9 @@ class ForecastApi
             $writeTimeRegistration = [
                 'person' => (int)$this->forecastConfigDto->forecastPersonId,
                 'task' => $this->findTaskIdToNeedle($activityDto->needle),
-                'time_registered' => 15,
-                'date' => $activityDto->updated->format('Y-m-d'),
-                'notes' => self::COMMENT_IDENTIFIER . substr(preg_replace('/\[[^)]+\]/', '', $activityDto->description), 0, 60),
+                'time_registered' => $activityDto->duration,
+                'date' => $activityDto->created->format('Y-m-d'),
+                'notes' => $activityDto->description,
             ];
             $writeResponse = $this->callPostApi(self::TIME_REGISTRATIONS_ENDPOINT, $writeTimeRegistration);
             echo "New Time Entry (date: $writeResponse->date, person: $writeResponse->person, notes: $writeResponse->notes \n";

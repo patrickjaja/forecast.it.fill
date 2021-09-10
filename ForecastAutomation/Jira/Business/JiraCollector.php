@@ -2,8 +2,6 @@
 
 namespace ForecastAutomation\Jira\Business;
 
-use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
-use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\Jira\Shared\Dto\JiraConfigDto;
 use JiraRestApi\Issue\Issue;
 use JiraRestApi\Issue\IssueService;
@@ -17,7 +15,7 @@ class JiraCollector
     {
     }
 
-    public function getJiraActivities(string $startDate): ActivityDtoCollection
+    public function getComments(string $startDate): array
     {
         $activities = $this->jiraClient->search(
             sprintf($this->jiraConfigDto->jiraQuery, $startDate),
@@ -42,27 +40,6 @@ class JiraCollector
             }
         }
 
-        return $this->createActivityDtoCollection($jiraActivities);
-    }
-
-    private function createActivityDtoCollection(array $jiraActivities): ActivityDtoCollection
-    {
-        $activityDtoArray = [];
-        foreach ($jiraActivities as $jiraTicketNumber => $jiraActivity) {
-            $activityDtoArray [] = new ActivityDto(
-                $jiraActivity[0]->self,
-                $jiraActivity[0]->id,
-                $jiraTicketNumber,
-                $jiraTicketNumber,
-                $jiraActivity[0]->body,
-                new \DateTime($jiraActivity[0]->created),
-                new \DateTime($jiraActivity[0]->updated),
-                $jiraActivity[0]->updateAuthor->displayName,
-                $jiraActivity[0]->updateAuthor->emailAddress,
-                $jiraActivity[0]->updateAuthor->accountId,
-            );
-        }
-
-        return new ActivityDtoCollection(...$activityDtoArray);
+        return $jiraActivities;
     }
 }
