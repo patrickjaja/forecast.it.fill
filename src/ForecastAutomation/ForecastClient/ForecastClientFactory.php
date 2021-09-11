@@ -23,8 +23,13 @@ class ForecastClientFactory extends AbstractFactory
     public function createForecastApi(): ForecastApi
     {
         return new ForecastApi(
-            new Client(['base_uri' => (string)$_ENV['FORECAST_HOST']]),
+            $this->createClient(),
             $this->createForecastConfigDto(),
         );
+    }
+
+    public function createClient(): Client
+    {
+        return new Client(['base_uri' => (string)$_ENV['FORECAST_HOST']]);
     }
 }

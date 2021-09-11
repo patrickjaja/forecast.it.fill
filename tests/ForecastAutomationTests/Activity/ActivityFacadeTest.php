@@ -17,13 +17,7 @@ class ActivityFacadeTest extends TestCase
     public const TEST_CREATED = '2021-01-01 00:00:01';
     public const TEST_DURATION = 100;
 
-    protected function setUp(): void
-    {
-
-        parent::setUp();
-    }
-
-    public function testCanCollectActivityFromPlugins()
+    public function testCanCollectActivityFromPlugins(): void
     {
         $activityDto = $this->createActivityFacade()->collect()->current();
         $this->assertSame(self::TEST_NEEDLE_1, $activityDto->needle);

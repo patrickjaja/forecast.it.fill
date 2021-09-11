@@ -20,7 +20,7 @@
     "autoload": {
         "psr-4": {
             "ForecastAutomation\\": "src/ForecastAutomation",
-            "ForecastAutomationTests\\": "tests"
+            "ForecastAutomationTests\\": "tests/ForecastAutomationTests"
         },
         "classmap": [
             "src/ForecastAutomation"
