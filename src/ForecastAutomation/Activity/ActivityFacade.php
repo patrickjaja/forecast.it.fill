@@ -10,7 +10,8 @@ use ForecastAutomation\Kernel\AbstractFacade;
  */
 class ActivityFacade extends AbstractFacade
 {
-    public function collect(): ActivityDtoCollection {
+    public function collect(): ActivityDtoCollection
+    {
         return $this->getFactory()->createActivityCollector()->collect();
     }
 }

@@ -17,7 +17,6 @@ class AbstractDependencyProvider implements ContainerInterface
 
     public function provideDependencies(Locator $locator): void
     {
-
     }
 
     public function get(string $id)

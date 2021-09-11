@@ -23,7 +23,7 @@ class JiraCollector
             $this->jiraConfigDto->jiraMaxResults
         );
         $ticketList = array_map(
-            static function(Issue $issue) {
+            static function (Issue $issue) {
                 return $issue->key;
             },
             $activities->getIssues()

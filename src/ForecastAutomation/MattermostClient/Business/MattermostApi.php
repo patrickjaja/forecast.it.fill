@@ -91,7 +91,7 @@ class MattermostApi
             if ($channel->total_msg_count > 0 &&
                 $this->isDirectChannel($channel) &&
                 $channel->last_post_at >= ((int)$channelFilterQueryDto->lastPostAt->format('U') * 1000)) {
-                    $filteredChannel[] = $channel;
+                $filteredChannel[] = $channel;
             }
         }
 

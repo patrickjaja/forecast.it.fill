@@ -9,13 +9,14 @@ class AbstractCommandPlugin extends Command
 {
     private Locator $locator;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->locator = new Locator($this);
         parent::__construct();
     }
 
-    public function getFacade():object {
-
+    public function getFacade(): object
+    {
         return $this->locator->getFacade();
     }
 }

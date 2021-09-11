@@ -9,9 +9,12 @@ use Symfony\Component\Console\Application;
  */
 class ConsoleCommandInstaller
 {
-    public function __construct(private Application $application, private array $consoleCommands) { }
+    public function __construct(private Application $application, private array $consoleCommands)
+    {
+    }
 
-    public function install(): Application {
+    public function install(): Application
+    {
         foreach ($this->consoleCommands as $consoleCommand) {
             $this->application->add($consoleCommand);
         }

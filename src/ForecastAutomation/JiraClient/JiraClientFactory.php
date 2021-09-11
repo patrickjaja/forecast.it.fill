@@ -21,7 +21,8 @@ class JiraClientFactory extends AbstractFactory
         );
     }
 
-    public function createJiraClient(): IssueService {
+    public function createJiraClient(): IssueService
+    {
         return new IssueService(new ArrayConfiguration((array)$this->createJiraConfigDto()));
     }
 

@@ -45,15 +45,18 @@ class ActivityDtoCollection implements Iterator, ArrayAccess
         $this->position = 0;
     }
 
-    public function offsetExists($offset): bool {
+    public function offsetExists($offset): bool
+    {
         return array_key_exists($offset, $this->activityDtos);
     }
 
-    public function offsetGet($offset): mixed {
+    public function offsetGet($offset): mixed
+    {
         return $this->array[$offset] ?? null;
     }
 
-    public function offsetSet($offset, $value): void {
+    public function offsetSet($offset, $value): void
+    {
         if (is_null($offset)) {
             $this->activityDtos[] = $value;
         } else {
@@ -61,11 +64,13 @@ class ActivityDtoCollection implements Iterator, ArrayAccess
         }
     }
 
-    public function offsetUnset($offset): void {
+    public function offsetUnset($offset): void
+    {
         unset($this->activityDtos[$offset]);
     }
 
-    public function merge(ActivityDtoCollection $collection): ActivityDtoCollection {
+    public function merge(ActivityDtoCollection $collection): ActivityDtoCollection
+    {
         $this->activityDtos = array_merge($this->activityDtos, $collection->activityDtos);
         return $this;
     }

@@ -7,11 +7,13 @@ use ForecastAutomation\Kernel\AbstractFactory;
 
 class ActivityFactory extends AbstractFactory
 {
-    public function getActivityPlugins(): ActivityPluginCollection {
+    public function getActivityPlugins(): ActivityPluginCollection
+    {
         return $this->getProvidedDependency(ActivityDependencyProvider::ACTIVITY_PLUGINS);
     }
 
-    public function createActivityCollector(): ActivityCollector {
+    public function createActivityCollector(): ActivityCollector
+    {
         return new ActivityCollector($this->getActivityPlugins());
     }
 }

@@ -10,7 +10,8 @@ use Symfony\Component\Console\Application;
  */
 class ConsoleFacade extends AbstractFacade
 {
-    public function installConsoleCommands(Application $application): void {
+    public function installConsoleCommands(Application $application): void
+    {
         $this->getFactory()->createConsoleCommandInstaller($application)->install();
     }
 }

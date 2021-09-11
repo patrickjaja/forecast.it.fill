@@ -10,13 +10,16 @@ use ForecastAutomation\Kernel\AbstractFactory;
 
 class ForecastDataImportFactory extends AbstractFactory
 {
-    public function createForecastDataImportProcess(): ForecastDataImportProcess {
-        return new ForecastDataImportProcess($this->getActivityFacade(),$this->createForecastActivityWriter());
+    public function createForecastDataImportProcess(): ForecastDataImportProcess
+    {
+        return new ForecastDataImportProcess($this->getActivityFacade(), $this->createForecastActivityWriter());
     }
-    public function getActivityFacade(): ActivityFacade {
+    public function getActivityFacade(): ActivityFacade
+    {
         return $this->getProvidedDependency(ForecastDataImportDependencyProvider::ACTIVITY_FACADE);
     }
-    public function getForecastClientFacade(): ForecastClientFacade {
+    public function getForecastClientFacade(): ForecastClientFacade
+    {
         return $this->getProvidedDependency(ForecastDataImportDependencyProvider::FORECAST_CLIENT_FACADE);
     }
     public function createForecastActivityWriter(): ForecastActivityWriter
