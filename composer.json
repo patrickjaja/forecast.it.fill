@@ -20,5 +20,8 @@
         "classmap": [
           "ForecastAutomation"
         ]
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     }
 }
