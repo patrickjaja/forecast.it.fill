@@ -10,7 +10,7 @@
  - [jira](src/ForecastAutomation/JiraClient/Shared/Plugin/JiraActivityPlugin.php)
    (will create an activity entry if you comment a ticket)
  - [gitlab](src/ForecastAutomation/GitlabClient/Shared/Plugin/GitlabActivityPlugin.php)
-   (will create an activity if you comment a MR by consuming gitlab event api)
+   (will create an activity if you [comment or approve](src/ForecastAutomation/GitlabClient/Shared/Plugin/GitlabActivityPlugin.php#L25) a MR by consuming gitlab event api)
  - [mattermost](src/ForecastAutomation/MattermostClient/Shared/Plugin/MattermostActivityPlugin.php)
    (will create an activity if you direct message a text that includes a ticketnumber)
 ### ✨ How to use
