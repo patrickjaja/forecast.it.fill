@@ -3,9 +3,9 @@ build:
     coverage:
       tests:
         override:
-          - command: 'vendor/bin/phpunit --coverage-clover=coverage.clover'
+          - command: 'XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover=coverage.xml'
             coverage:
-              file: coverage.clover
+              file: coverage.xml
 
               # These formats are supported:
               # clover, cobertura, jacoco, python-cc, ruby-cc, go-cc, lcov

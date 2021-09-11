@@ -23,7 +23,7 @@ class ActivityFacadeTest extends TestCase
         parent::setUp();
     }
 
-    public function testSomething()
+    public function testCanCollectActivityFromPlugins()
     {
         $activityDto = $this->createActivityFacade()->collect()->current();
         $this->assertSame(self::TEST_NEEDLE_1, $activityDto->needle);
