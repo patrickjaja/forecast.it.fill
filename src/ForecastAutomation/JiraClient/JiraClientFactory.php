@@ -25,7 +25,7 @@ class JiraClientFactory extends AbstractFactory
             $_ENV['JIRA_TOKEN'],
             $_ENV['JIRA_HOST'],
             $_ENV['JIRA_USER'],
-            (int)$_ENV['JIRA_MAX_RESULTS'],
+            (int) $_ENV['JIRA_MAX_RESULTS'],
             $_ENV['JIRA_QUERY'],
         );
     }

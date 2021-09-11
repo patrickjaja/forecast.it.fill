@@ -31,7 +31,7 @@ class GitlabApi
             ['query' => array_merge((array) $queryDto, $this->getToken())],
         );
 
-        return json_decode((string)$res->getBody(), null, 512, JSON_THROW_ON_ERROR);
+        return json_decode((string) $res->getBody(), null, 512, JSON_THROW_ON_ERROR);
     }
 
     private function getToken(): array
