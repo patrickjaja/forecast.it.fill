@@ -25,7 +25,7 @@ class MattermostClientFacade extends AbstractFacade
         return $this->getFactory()->createMattermostApi()->getChannel($channelFilterQueryDto);
     }
 
-    public function getPosts(MattermostPostsQueryDto $mattermostPostsQueryDto): \stdClass
+    public function getPosts(MattermostPostsQueryDto $mattermostPostsQueryDto): array
     {
         return $this->getFactory()->createMattermostApi()->getPosts($mattermostPostsQueryDto);
     }

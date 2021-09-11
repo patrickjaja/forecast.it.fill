@@ -36,6 +36,7 @@ class AbstractDependencyProvider implements ContainerInterface
     public function has(string $id): bool
     {
         // TODO: Implement has() method.
+        return true;
     }
 
     public function set(string $id, $concrete): void

@@ -61,7 +61,7 @@ class ActivityPluginCollection implements Iterator, ArrayAccess
 
     public function offsetGet($offset): mixed
     {
-        return $this->array[$offset] ?? null;
+        return $this->plugins[$offset] ?? null;
     }
 
     public function offsetSet($offset, $value): void

@@ -1,4 +1,4 @@
-name: Format (PHP)
+name: php-cs-fixer
 
 on:
   push:
@@ -17,10 +17,10 @@ jobs:
       - name: Install
         run: composer install
 
-      - name: Run php-cs-fixer
+      - name: Run php-cs-fixer fix src/
         run: ./vendor/bin/php-cs-fixer fix src/
 
-      - name: Run php-cs-fixer
+      - name: Run php-cs-fixer fix tests/
         run: ./vendor/bin/php-cs-fixer fix tests/
 
       - uses: stefanzweifel/git-auto-commit-action@v4

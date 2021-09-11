@@ -69,7 +69,7 @@ class ForecastApi
             ]
         );
 
-        return json_decode($res->getBody(), null, 512, JSON_THROW_ON_ERROR);
+        return json_decode((string)$res->getBody(), null, 512, JSON_THROW_ON_ERROR);
     }
 
     private function callPostApi(string $path, array $postData)
@@ -87,7 +87,7 @@ class ForecastApi
             ]
         );
 
-        return json_decode($res->getBody(), null, 512, JSON_THROW_ON_ERROR);
+        return json_decode((string)$res->getBody(), null, 512, JSON_THROW_ON_ERROR);
     }
 
     private function findTaskIdToNeedle(string $taskNeedle): int

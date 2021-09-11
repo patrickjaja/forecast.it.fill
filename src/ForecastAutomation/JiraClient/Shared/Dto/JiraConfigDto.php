@@ -19,7 +19,7 @@ class JiraConfigDto extends AbstractDto
         public string $jiraPassword,
         public string $jiraHost,
         public string $jiraUser,
-        public string $jiraMaxResults,
+        public int $jiraMaxResults,
         public string $jiraQuery
     ) {
     }

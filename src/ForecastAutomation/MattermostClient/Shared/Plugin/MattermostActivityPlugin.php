@@ -46,11 +46,11 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
         return $this->mapEventsToActivity($filteredPostsCollection);
     }
 
-    private function filterPosts(\stdClass $postsCollection)
+    private function filterPosts(array $postsCollection): array
     {
         $filteredPosts = [];
         foreach ($postsCollection as $post) {
-            if ($this->hasNeedle($post->message)) {
+            if ($this->hasNeedle($post['message'])) {
                 $filteredPosts[] = $post;
             }
         }

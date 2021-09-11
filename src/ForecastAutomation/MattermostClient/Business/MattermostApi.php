@@ -41,19 +41,19 @@ class MattermostApi
                 ],
             ]
         );
-        $channelArray = json_decode($res->getBody(), null, 512, JSON_THROW_ON_ERROR);
+        $channelArray = json_decode((string)$res->getBody(), null, 512, JSON_THROW_ON_ERROR);
 
         return $this->applyChannelFilter($channelArray, $channelFilterQueryDto);
     }
 
-    public function getPosts(MattermostPostsQueryDto $postsQueryDto): \stdClass
+    public function getPosts(MattermostPostsQueryDto $postsQueryDto): array
     {
         $this->auth();
         $res = $this->guzzleClient->request(
             'GET',
             sprintf(self::POSTS_API, $postsQueryDto->channelId),
             [
-                'query' => ['since' => $postsQueryDto->since->format('U') * 1000],
+                'query' => ['since' => (int)$postsQueryDto->since->format('U') * 1000],
                 'headers' => [
                     'Authorization' => 'Bearer '.static::$token,
                     'Content-Type' => 'application/json',
@@ -61,7 +61,7 @@ class MattermostApi
             ],
         );
 
-        return json_decode($res->getBody(), null, 512, JSON_THROW_ON_ERROR)->posts;
+        return json_decode((string)$res->getBody(), true, 512, JSON_THROW_ON_ERROR)->posts;
     }
 
     private function auth(): string

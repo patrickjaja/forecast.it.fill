@@ -17,7 +17,7 @@ use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginInterface;
 use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
 
 /**
- * @method \ForecastAutomation\JiraClient\JiraFacade getFacade()
+ * @method \ForecastAutomation\JiraClient\JiraClientFacade getFacade()
  */
 class JiraActivityPlugin extends AbstractPlugin implements ActivityPluginInterface
 {

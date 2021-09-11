@@ -61,7 +61,7 @@ class ActivityDtoCollection implements Iterator, ArrayAccess
 
     public function offsetGet($offset): mixed
     {
-        return $this->array[$offset] ?? null;
+        return $this->activityDtos[$offset] ?? null;
     }
 
     public function offsetSet($offset, $value): void

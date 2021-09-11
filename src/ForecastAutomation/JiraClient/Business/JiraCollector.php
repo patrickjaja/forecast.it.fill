@@ -16,7 +16,7 @@ use JiraRestApi\Issue\Issue;
 use JiraRestApi\Issue\IssueService;
 
 /**
- * @method \ForecastAutomation\JiraClient\JiraFactory getFactory()
+ * @method \ForecastAutomation\JiraClient\JiraClientFactory getFactory()
  */
 class JiraCollector
 {
