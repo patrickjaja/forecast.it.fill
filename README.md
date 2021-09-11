@@ -1,5 +1,6 @@
 [![Minimum PHP version: 8.0.0](https://img.shields.io/badge/php-8.0%2B-blue.svg)](https://github.com/patrickjaja/forecast.it.fill)
-[![Continuous Integration](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/php.yml/badge.svg)](https://github.com/patrickjaja/forecast.it.fill/actions)
+[![Tests](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phptests.yml/badge.svg)](https://github.com/patrickjaja/forecast.it.fill/actions)
+[![phpstan level5](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phpstan.yml/badge.svg)](https://github.com/patrickjaja/forecast.it.fill/actions)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/patrickjaja/forecast.it.fill/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/patrickjaja/forecast.it.fill?branch=master)
 [![Scrutinizer Code Coverage](https://scrutinizer-ci.com/g/patrickjaja/forecast.it.fill/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/patrickjaja/forecast.it.fill?branch=master)
 
