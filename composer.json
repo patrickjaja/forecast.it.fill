@@ -1,5 +1,6 @@
 {
-    "name": "patrickjaja/jira_comment_to_forecast",
+    "name": "patrickjaja/forecast.it.fill",
+    "description": "Enjoy and stay focused on important things. Leave the time reporting system automized.",
     "license": "BSD-3-Clause",
     "require": {
         "lesstif/php-jira-rest-client": "^2.5",
@@ -12,6 +13,9 @@
         "friendsofphp/php-cs-fixer": "^3.1",
         "squizlabs/php_codesniffer": "^3.6",
         "infection/infection": "^0.25.0"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
     },
     "autoload": {
         "psr-4": {
