@@ -1,8 +1,12 @@
 build:
-tests:
-  override:
-    -
-      command: 'vendor/bin/phpunit --coverage-clover=coverage.xml'
-      coverage:
-        file: 'coverage.xml'
-        format: 'clover'
+  nodes:
+    coverage:
+      tests:
+        override:
+          - command: 'vendor/bin/phpunit --coverage-clover=coverage.clover'
+            coverage:
+              file: coverage.clover
+
+              # These formats are supported:
+              # clover, cobertura, jacoco, python-cc, ruby-cc, go-cc, lcov
+              format: 'clover'
