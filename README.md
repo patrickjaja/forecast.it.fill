@@ -1,3 +1,17 @@
+[![Minimum PHP version: 8.0.0](https://img.shields.io/badge/php-8.0%2B-blue.svg)](https://github.com/patrickjaja/forecast.it.fill)
+
+[comment]: <> ([![Continuous Integration]&#40;https://github.com/infection/infection/workflows/Continuous%20Integration/badge.svg&#41;]&#40;https://github.com/infection/infection/actions&#41;)
+
+[comment]: <> ([![Build Status]&#40;https://travis-ci.org/infection/infection.svg?branch=master&#41;]&#40;https://travis-ci.org/infection/infection&#41;)
+
+[comment]: <> ([![Scrutinizer Code Quality]&#40;https://scrutinizer-ci.com/g/infection/infection/badges/quality-score.png?b=master&#41;]&#40;https://scrutinizer-ci.com/g/infection/infection/?branch=master&#41;)
+
+[comment]: <> ([![Infection MSI]&#40;https://img.shields.io/endpoint?url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Finfection%2Finfection%2Fmaster&#41;]&#40;https://infection.github.io&#41;)
+
+[comment]: <> ([![codecov]&#40;https://codecov.io/gh/infection/infection/branch/master/graph/badge.svg&#41;]&#40;https://codecov.io/gh/infection/infection&#41;)
+
+[comment]: <> ([![Slack channel: #infection on the Symfony slack]&#40;https://img.shields.io/badge/slack-%23infection-green.svg?style=flat-square&#41;]&#40;https://symfony.com/slack-invite&#41;)
+
 # Forecast.it activity automation process
 ### supported activity sources
  - [jira](ForecastAutomation/JiraClient/Shared/Plugin/JiraActivityPlugin.php)
