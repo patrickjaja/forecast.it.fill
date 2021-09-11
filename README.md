@@ -6,17 +6,17 @@
 [comment]: <> ([![codecov]&#40;https://codecov.io/gh/infection/infection/branch/master/graph/badge.svg&#41;]&#40;https://codecov.io/gh/infection/infection&#41;)
 
 # Forecast.it activity automation process
-### supported activity sources
+### ⚡ supported activity sources
  - [jira](src/ForecastAutomation/JiraClient/Shared/Plugin/JiraActivityPlugin.php)
    (will create an activity entry if you comment a ticket)
  - [gitlab](src/ForecastAutomation/GitlabClient/Shared/Plugin/GitlabActivityPlugin.php)
    (will create an activity if you comment a MR by consuming gitlab event api)
  - [mattermost](src/ForecastAutomation/MattermostClient/Shared/Plugin/MattermostActivityPlugin.php)
    (will create an activity if you direct message a text that includes a ticketnumber)
-### How to use
+### ✨ How to use
  - run `php bin/console forecast:import:activity` at the end of the day (date('Y-m-d 00:00') used by default) to fill your forecast.it timesheet with your [enabled activity plugins](src/ForecastAutomation/Activity/ActivityDependencyProvider.php)
 
-### setup
+### ⚙️ setup
  - `composer install`
  - create `http-client.local.json` (to get forecast_ids via `forecast_api.http`)
  - create `.env` with your configuration
