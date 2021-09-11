@@ -22,10 +22,11 @@
  - create `.env` with your configuration
 
 ToDo:
-    - reduce configuration parameters by consuming more api endpoints (i.e. forecast /persons to receive personid)
-    - add tests
-    - add tooling
-    - add github workflow
-    - Logging (any open source logging target?)
-    - save latest sync state and allow sync everything missed in between
-    - allow more than one jira project to be synced to forecast
+- reduce configuration parameters by consuming more api endpoints (i.e. forecast /persons to receive personid)
+- add tests
+- add tooling
+- add github workflow
+- Logging (any open source logging target?)
+- extract Kernel (find project name)
+- save latest sync state and allow sync everything missed in between
+- allow more than one jira project to be synced to forecast
