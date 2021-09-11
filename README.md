@@ -1,6 +1,7 @@
 [![Minimum PHP version: 8.0.0](https://img.shields.io/badge/php-8.0%2B-blue.svg)](https://github.com/patrickjaja/forecast.it.fill)
 [![Continuous Integration](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/php.yml/badge.svg)](https://github.com/patrickjaja/forecast.it.fill/actions)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/patrickjaja/forecast.it.fill/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/patrickjaja/forecast.it.fill?branch=master)
+[![Scrutinizer Code Coverage](https://scrutinizer-ci.com/g/patrickjaja/forecast.it.fill/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/patrickjaja/forecast.it.fill?branch=master)
 
 [comment]: <> ([![codecov]&#40;https://codecov.io/gh/infection/infection/branch/master/graph/badge.svg&#41;]&#40;https://codecov.io/gh/infection/infection&#41;)
 
