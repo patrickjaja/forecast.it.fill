@@ -1,4 +1,8 @@
 .env
 http-client.local.json
+http-client.private.env.json
 vendor
 .idea
+.php-cs-fixer.cache
+.phpunit.result.cache
+cloverage.xml
