@@ -1,8 +1,10 @@
 .env
 http-client.local.json
 http-client.private.env.json
+http-client.env.json
 vendor
 .idea
 .php-cs-fixer.cache
 .phpunit.result.cache
 cloverage.xml
+phpstan/

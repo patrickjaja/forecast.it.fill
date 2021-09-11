@@ -1,0 +1,16 @@
+includes:
+    - dev-tools/vendor/jangregor/phpstan-prophecy/extension.neon
+    - dev-tools/vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - dev-tools/vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+    level: 5
+    paths:
+        - src
+        - tests
+    ignoreErrors:
+        - '/^Class [a-zA-Z\\]+ extends @final class PhpCsFixer\\(ConfigurationException\\InvalidConfigurationException|ConfigurationException\\InvalidFixerConfigurationException|Tokenizer\\Tokens)\.$/'
+        - '/^Unsafe call to private method [a-zA-Z\\]+::[a-zA-Z]+\(\) through static::\.$/'
+        - '/^\$this\(PhpCsFixer\\Tokenizer\\Tokens\) does not accept PhpCsFixer\\Tokenizer\\Token\|null\.$/'
+    tipsOfTheDay: false
+    tmpDir: phpstan/cache

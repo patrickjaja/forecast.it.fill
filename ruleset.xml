@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset name="SprykerProject">
+    <description>
+        Spryker Coding Standard for Project.
+
+        Extends main Spryker Coding Standard.
+        All sniffs in ./Sniffs will be auto loaded
+    </description>
+
+    <rule ref="./../../vendor/spryker/code-sniffer/Spryker/ruleset.xml">
+        <exclude name="Spryker.Commenting.FileDocBlock"/>
+        <exclude name="Spryker.Formatting.MethodSignatureParametersLineBreakMethod"/>
+        <exclude name="Spryker.PHP.SingleQuote"/>
+        <exclude name="Spryker.Classes.ReturnTypeHint"/>
+    </rule>
+
+    <!-- Define your own sniffs here -->
+    <!-- specific sniffs to include -->
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/DeclareStrictTypesSniff.php" />
+
+</ruleset>
