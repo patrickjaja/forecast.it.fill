@@ -1,10 +1,5 @@
 [![Minimum PHP version: 8.0.0](https://img.shields.io/badge/php-8.0%2B-blue.svg)](https://github.com/patrickjaja/forecast.it.fill)
-
-
-[comment]: <> ([![Continuous Integration]&#40;https://github.com/infection/infection/workflows/Continuous%20Integration/badge.svg&#41;]&#40;https://github.com/infection/infection/actions&#41;)
-
-[comment]: <> ([![Build Status]&#40;https://travis-ci.org/infection/infection.svg?branch=master&#41;]&#40;https://travis-ci.org/infection/infection&#41;)
-
+[![Continuous Integration](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/php.yml/badge.svg)](https://github.com/patrickjaja/forecast.it.fill/actions)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/patrickjaja/forecast.it.fill/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/patrickjaja/forecast.it.fill?branch=master)
 
 [comment]: <> ([![Infection MSI]&#40;https://img.shields.io/endpoint?url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Finfection%2Finfection%2Fmaster&#41;]&#40;https://infection.github.io&#41;)
