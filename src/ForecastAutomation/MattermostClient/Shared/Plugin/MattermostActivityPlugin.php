@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of forecast.it.fill.
+ * (c) Patrick Jaja <patrickjaja@web.de>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace ForecastAutomation\MattermostClient\Shared\Plugin;
 
 use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
@@ -73,8 +82,8 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
     {
         $matchPattern = sprintf('(%s-[0-9]{3,})i', $_ENV['GITLAB_PATTERN']);
         $resultMatch = preg_match($matchPattern, $target_title, $match);
-        if ($resultMatch === 0 || !isset($match[0])) {
-            throw new \Exception('gitlab needle not found for target_title: ' . $target_title);
+        if (0 === $resultMatch || !isset($match[0])) {
+            throw new \Exception('gitlab needle not found for target_title: '.$target_title);
         }
 
         return strtoupper($match[0]);
@@ -84,7 +93,7 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
     {
         $matchPattern = sprintf('(%s-[0-9]{3,})i', $_ENV['MATTERMOST_PATTERN']);
         $resultMatch = preg_match($matchPattern, $target_title, $match);
-        if ($resultMatch === 0 || !isset($match[0])) {
+        if (0 === $resultMatch || !isset($match[0])) {
             return false;
         }
 

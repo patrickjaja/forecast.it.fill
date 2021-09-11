@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of forecast.it.fill.
+ * (c) Patrick Jaja <patrickjaja@web.de>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace ForecastAutomation\ForecastClient\Business;
 
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
@@ -8,7 +17,8 @@ use GuzzleHttp\Client;
 
 class ForecastApi
 {
-    private const TASK_LIST_ENDPOINT = '/api/v2/projects/{{PROJECT_ID}}/tasks', TIME_REGISTRATIONS_ENDPOINT = '/api/v1/time_registrations';
+    private const TASK_LIST_ENDPOINT = '/api/v2/projects/{{PROJECT_ID}}/tasks';
+    private const TIME_REGISTRATIONS_ENDPOINT = '/api/v1/time_registrations';
 
     public static array $TASK_CACHE = [];
 
@@ -18,9 +28,29 @@ class ForecastApi
         $this->warmTaskCache();
     }
 
+    public function writeActivities(ActivityDtoCollection $activityDtoCollection): int
+    {
+        $savedActivities = 0;
+        foreach ($activityDtoCollection as $activityDto) {
+            $writeTimeRegistration = [
+                'person' => (int) $this->forecastConfigDto->forecastPersonId,
+                'task' => $this->findTaskIdToNeedle($activityDto->needle),
+                'time_registered' => $activityDto->duration,
+                'date' => $activityDto->created->format('Y-m-d'),
+                'notes' => $activityDto->description,
+            ];
+            $writeResponse = $this->callPostApi(self::TIME_REGISTRATIONS_ENDPOINT, $writeTimeRegistration);
+            //ToDo: return output or use loggertrait, otherwise not testable
+//            echo "New Time Entry (date: $writeResponse->date, person: $writeResponse->person, notes: $writeResponse->notes \n";
+            ++$savedActivities;
+        }
+
+        return $savedActivities;
+    }
+
     private function warmTaskCache(): array
     {
-        if (count(static::$TASK_CACHE) === 0) {
+        if (0 === \count(static::$TASK_CACHE)) {
             static::$TASK_CACHE = $this->callGetApi(
                 str_replace('{{PROJECT_ID}}', $this->forecastConfigDto->forecastProjectId, self::TASK_LIST_ENDPOINT)
             );
@@ -39,7 +69,7 @@ class ForecastApi
             ]
         );
 
-        return \json_decode($res->getBody(), null, 512, JSON_THROW_ON_ERROR);
+        return json_decode($res->getBody(), null, 512, JSON_THROW_ON_ERROR);
     }
 
     private function callPostApi(string $path, array $postData)
@@ -53,41 +83,21 @@ class ForecastApi
                     'Content-Type' => 'application/json',
                     'Accept' => 'application/json',
                 ],
-                'body' => \json_encode($postData, JSON_THROW_ON_ERROR),
+                'body' => json_encode($postData, JSON_THROW_ON_ERROR),
             ]
         );
 
-        return \json_decode($res->getBody(), null, 512, JSON_THROW_ON_ERROR);
-    }
-
-    public function writeActivities(ActivityDtoCollection $activityDtoCollection): int
-    {
-        $savedActivities = 0;
-        foreach ($activityDtoCollection as $activityDto) {
-            $writeTimeRegistration = [
-                'person' => (int)$this->forecastConfigDto->forecastPersonId,
-                'task' => $this->findTaskIdToNeedle($activityDto->needle),
-                'time_registered' => $activityDto->duration,
-                'date' => $activityDto->created->format('Y-m-d'),
-                'notes' => $activityDto->description,
-            ];
-            $writeResponse = $this->callPostApi(self::TIME_REGISTRATIONS_ENDPOINT, $writeTimeRegistration);
-            //ToDo: return output or use loggertrait, otherwise not testable
-//            echo "New Time Entry (date: $writeResponse->date, person: $writeResponse->person, notes: $writeResponse->notes \n";
-            $savedActivities++;
-        }
-
-        return $savedActivities;
+        return json_decode($res->getBody(), null, 512, JSON_THROW_ON_ERROR);
     }
 
     private function findTaskIdToNeedle(string $taskNeedle): int
     {
         foreach (static::$TASK_CACHE as $task) {
-            if (\str_contains($task->title, $taskNeedle)) {
+            if (str_contains($task->title, $taskNeedle)) {
                 return $task->id;
             }
         }
 
-        return (int)$this->forecastConfigDto->forecastFallbackTaskId;
+        return (int) $this->forecastConfigDto->forecastFallbackTaskId;
     }
 }

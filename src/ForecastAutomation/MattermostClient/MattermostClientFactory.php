@@ -1,9 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of forecast.it.fill.
+ * (c) Patrick Jaja <patrickjaja@web.de>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace ForecastAutomation\MattermostClient;
 
-use ForecastAutomation\GitlabClient\Business\GitlabApi;
-use ForecastAutomation\GitlabClient\Shared\Dto\GitlabConfigDto;
 use ForecastAutomation\Kernel\AbstractFactory;
 use ForecastAutomation\MattermostClient\Business\MattermostApi;
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostConfigDto;
@@ -24,7 +31,7 @@ class MattermostClientFactory extends AbstractFactory
     public function createMattermostApi(): MattermostApi
     {
         return new MattermostApi(
-            new Client(['base_uri' => (string)$_ENV['MATTERMOST_HOST']]),
+            new Client(['base_uri' => (string) $_ENV['MATTERMOST_HOST']]),
             $this->createMattermostConfigDto(),
         );
     }

@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of forecast.it.fill.
+ * (c) Patrick Jaja <patrickjaja@web.de>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace ForecastAutomation\GitlabClient\Business;
 
 use ForecastAutomation\GitlabClient\Shared\Dto\GitlabConfigDto;
@@ -19,10 +28,10 @@ class GitlabApi
         $res = $this->guzzleClient->request(
             'GET',
             self::EVENTS_API,
-            ['query' => array_merge((array)$queryDto, $this->getToken())],
+            ['query' => array_merge((array) $queryDto, $this->getToken())],
         );
 
-        return \json_decode($res->getBody(), null, 512, JSON_THROW_ON_ERROR);
+        return json_decode($res->getBody(), null, 512, JSON_THROW_ON_ERROR);
     }
 
     private function getToken(): array

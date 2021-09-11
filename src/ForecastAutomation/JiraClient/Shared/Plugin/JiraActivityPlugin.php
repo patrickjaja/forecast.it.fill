@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of forecast.it.fill.
+ * (c) Patrick Jaja <patrickjaja@web.de>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace ForecastAutomation\JiraClient\Shared\Plugin;
 
 use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
@@ -24,7 +33,7 @@ class JiraActivityPlugin extends AbstractPlugin implements ActivityPluginInterfa
     {
         $activityDtoArray = [];
         foreach ($jiraComments as $jiraTicketNumber => $jiraComment) {
-            $activityDtoArray [] = new ActivityDto(
+            $activityDtoArray[] = new ActivityDto(
                 $jiraTicketNumber,
                 sprintf(
                     '%s: %s - %s',
@@ -33,7 +42,7 @@ class JiraActivityPlugin extends AbstractPlugin implements ActivityPluginInterfa
                     sprintf('%s...', substr(preg_replace('/\[[^)]+\]/', '', $jiraComment[0]->body), 0, 60))
                 ),
                 new \DateTime($jiraComment[0]->updated),
-                self::ACTIVITY_DURATION * count($jiraComment)
+                self::ACTIVITY_DURATION * \count($jiraComment)
             );
         }
 

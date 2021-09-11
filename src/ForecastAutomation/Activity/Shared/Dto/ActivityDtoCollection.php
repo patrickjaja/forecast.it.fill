@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of forecast.it.fill.
+ * (c) Patrick Jaja <patrickjaja@web.de>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace ForecastAutomation\Activity\Shared\Dto;
 
 use ArrayAccess;
@@ -37,7 +46,7 @@ class ActivityDtoCollection implements Iterator, ArrayAccess
 
     public function valid(): bool
     {
-        return array_key_exists($this->position, $this->activityDtos);
+        return \array_key_exists($this->position, $this->activityDtos);
     }
 
     public function rewind(): void
@@ -47,7 +56,7 @@ class ActivityDtoCollection implements Iterator, ArrayAccess
 
     public function offsetExists($offset): bool
     {
-        return array_key_exists($offset, $this->activityDtos);
+        return \array_key_exists($offset, $this->activityDtos);
     }
 
     public function offsetGet($offset): mixed
@@ -57,7 +66,7 @@ class ActivityDtoCollection implements Iterator, ArrayAccess
 
     public function offsetSet($offset, $value): void
     {
-        if (is_null($offset)) {
+        if (null === $offset) {
             $this->activityDtos[] = $value;
         } else {
             $this->activityDtos[$offset] = $value;
@@ -69,9 +78,10 @@ class ActivityDtoCollection implements Iterator, ArrayAccess
         unset($this->activityDtos[$offset]);
     }
 
-    public function merge(ActivityDtoCollection $collection): ActivityDtoCollection
+    public function merge(self $collection): self
     {
         $this->activityDtos = array_merge($this->activityDtos, $collection->activityDtos);
+
         return $this;
     }
 }

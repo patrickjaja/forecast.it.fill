@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of forecast.it.fill.
+ * (c) Patrick Jaja <patrickjaja@web.de>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace ForecastAutomation\Activity;
 
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
@@ -17,6 +26,7 @@ class ActivityCollector
         foreach ($this->activityPluginCollection as $activityPlugin) {
             $activityDtoCollection = $activityDtoCollection->merge($activityPlugin->collect());
         }
+
         return $activityDtoCollection;
     }
 }

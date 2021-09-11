@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of forecast.it.fill.
+ * (c) Patrick Jaja <patrickjaja@web.de>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace ForecastAutomation\MattermostClient\Business;
 
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostChannelFilterQueryDto;
@@ -27,12 +36,12 @@ class MattermostApi
             sprintf(self::CHANNEL_API, $this->mattermostConfigDto->teamId),
             [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . static::$token,
+                    'Authorization' => 'Bearer '.static::$token,
                     'Content-Type' => 'application/json',
                 ],
             ]
         );
-        $channelArray = \json_decode($res->getBody(), null, 512, JSON_THROW_ON_ERROR);
+        $channelArray = json_decode($res->getBody(), null, 512, JSON_THROW_ON_ERROR);
 
         return $this->applyChannelFilter($channelArray, $channelFilterQueryDto);
     }
@@ -46,18 +55,18 @@ class MattermostApi
             [
                 'query' => ['since' => $postsQueryDto->since->format('U') * 1000],
                 'headers' => [
-                    'Authorization' => 'Bearer ' . static::$token,
+                    'Authorization' => 'Bearer '.static::$token,
                     'Content-Type' => 'application/json',
                 ],
             ],
         );
 
-        return \json_decode($res->getBody(), null, 512, JSON_THROW_ON_ERROR)->posts;
+        return json_decode($res->getBody(), null, 512, JSON_THROW_ON_ERROR)->posts;
     }
 
     private function auth(): string
     {
-        if (static::$token !== '') {
+        if ('' !== static::$token) {
             return static::$token;
         }
         $res = $this->guzzleClient->request(
@@ -74,7 +83,7 @@ class MattermostApi
             ],
         );
         $token = $res->getHeader('token');
-        if (count($token) === 0) {
+        if (0 === \count($token)) {
             throw new \Exception('could not auth to mattermost');
         }
         static::$token = $token[0];
@@ -88,9 +97,9 @@ class MattermostApi
     ): array {
         $filteredChannel = [];
         foreach ($channelArray as $channel) {
-            if ($channel->total_msg_count > 0 &&
-                $this->isDirectChannel($channel) &&
-                $channel->last_post_at >= ((int)$channelFilterQueryDto->lastPostAt->format('U') * 1000)) {
+            if ($channel->total_msg_count > 0
+                && $this->isDirectChannel($channel)
+                && $channel->last_post_at >= ((int) $channelFilterQueryDto->lastPostAt->format('U') * 1000)) {
                 $filteredChannel[] = $channel;
             }
         }
@@ -100,6 +109,6 @@ class MattermostApi
 
     private function isDirectChannel(\stdClass $channel): bool
     {
-        return ($channel->type === 'D');
+        return 'D' === $channel->type;
     }
 }

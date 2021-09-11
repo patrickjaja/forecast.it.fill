@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of forecast.it.fill.
+ * (c) Patrick Jaja <patrickjaja@web.de>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace ForecastAutomation\GitlabClient\Shared\Plugin;
 
 use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
@@ -28,13 +37,13 @@ class GitlabActivityPlugin extends AbstractPlugin implements ActivityPluginInter
     {
         $activityDtoArray = [];
         foreach ($events as $event) {
-            if (in_array($event->action_name, self::ALLOWED_ACTION_NAMES, true)) {
+            if (\in_array($event->action_name, self::ALLOWED_ACTION_NAMES, true)) {
                 $duration = self::ACTIVITY_DURATION;
                 $ticketNr = $this->getNeedle($event->target_title);
                 if (isset($activityDtoArray[$ticketNr])) {
                     $duration = self::ACTIVITY_DURATION + $activityDtoArray[$ticketNr]->duration;
                 }
-                $activityDtoArray [$ticketNr] = new ActivityDto(
+                $activityDtoArray[$ticketNr] = new ActivityDto(
                     $ticketNr,
                     sprintf('%s: %s (%s)', self::ACTIVITY_SUFFIX, $event->target_title, $event->action_name),
                     new \DateTime($event->created_at),
@@ -50,8 +59,8 @@ class GitlabActivityPlugin extends AbstractPlugin implements ActivityPluginInter
     {
         $matchPattern = sprintf('(%s-[0-9]{3,})i', $_ENV['GITLAB_PATTERN']);
         $resultMatch = preg_match($matchPattern, $target_title, $match);
-        if ($resultMatch === 0 || !isset($match[0])) {
-            throw new \Exception('gitlab needle not found for target_title: ' . $target_title);
+        if (0 === $resultMatch || !isset($match[0])) {
+            throw new \Exception('gitlab needle not found for target_title: '.$target_title);
         }
 
         return strtoupper($match[0]);
