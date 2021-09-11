@@ -1,11 +1,6 @@
 <?php
 
-$header = <<<'EOF'
-This file is part of forecast.it.fill.
-(c) Patrick Jaja <patrickjaja@web.de>
-This source file is subject to the MIT license that is bundled
-with this source code in the file LICENSE.
-EOF;
+$header = 'This file is part of forecast.it.fill project. (c) Patrick Jaja <patrickjaja@web.de> This source file is subject to the MIT license that is bundled with this source code in the file LICENSE.';
 
 $finder = PhpCsFixer\Finder::create()
     ->in([__DIR__.'/src',__DIR__.'/tests']);
