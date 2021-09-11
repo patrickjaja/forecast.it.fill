@@ -1,5 +1,6 @@
 {
     "name": "patrickjaja/jira_comment_to_forecast",
+    "license": "BSD-3-Clause",
     "require": {
         "lesstif/php-jira-rest-client": "^2.5",
         "guzzlehttp/guzzle": "^7.3",
