@@ -21,7 +21,7 @@
  - create `http-client.local.json` (to get forecast_ids via `forecast_api.http`)
  - create `.env` with your configuration
 
-ToDo:
+### ✌️ ToDo:
 - reduce configuration parameters by consuming more api endpoints (i.e. forecast /persons to receive personid)
 - add tests
 - add tooling
