@@ -15,6 +15,7 @@ class AbstractCommandPlugin extends Command
     }
 
     public function getFacade():object {
+
         return $this->locator->getFacade();
     }
 }
