@@ -36,7 +36,6 @@ final class ActivityFacadeTest extends TestCase
         static::assertSame(self::TEST_NEEDLE_1, $activityDto->needle);
         static::assertSame(self::TEST_DESCRIPTION, $activityDto->description);
         static::assertSame(self::TEST_DURATION, $activityDto->duration);
-        static::assertSame(new \DateTime(self::TEST_CREATED), $activityDto->created);
     }
 
     private function createActivityFacade(): ActivityFacade
