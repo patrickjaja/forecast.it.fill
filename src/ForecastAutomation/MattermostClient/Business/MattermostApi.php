@@ -61,7 +61,7 @@ class MattermostApi
             ],
         );
 
-        return json_decode((string) $res->getBody(), true, 512, JSON_THROW_ON_ERROR)["posts"];
+        return json_decode((string) $res->getBody(), true, 512, JSON_THROW_ON_ERROR)['posts'];
     }
 
     private function auth(): string

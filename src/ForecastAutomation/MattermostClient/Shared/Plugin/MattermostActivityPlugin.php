@@ -38,8 +38,7 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
             );
 
             //ToDo: check if we can merge arrays like that
-            $filteredPostsCollection = +
-                $this->filterPosts($postsCollection)
+            $filteredPostsCollection = +$this->filterPosts($postsCollection)
             ;
         }
 
