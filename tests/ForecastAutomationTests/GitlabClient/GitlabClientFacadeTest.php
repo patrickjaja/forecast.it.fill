@@ -11,11 +11,6 @@ declare(strict_types=1);
 
 namespace ForecastAutomationTests\GitlabClient;
 
-use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
-use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
-use ForecastAutomation\ForecastClient\ForecastClientFacade;
-use ForecastAutomation\ForecastClient\ForecastClientFactory;
-use ForecastAutomation\ForecastClient\Shared\Dto\ForecastConfigDto;
 use ForecastAutomation\GitlabClient\GitlabClientFacade;
 use ForecastAutomation\GitlabClient\GitlabClientFactory;
 use ForecastAutomation\GitlabClient\Shared\Dto\GitlabConfigDto;

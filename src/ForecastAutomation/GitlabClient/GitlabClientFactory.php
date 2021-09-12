@@ -36,6 +36,6 @@ class GitlabClientFactory extends AbstractFactory
 
     public function createClient(): Client
     {
-        return new Client(['base_uri' => (string)$_ENV['GITLAB_URL']]);
+        return new Client(['base_uri' => (string) $_ENV['GITLAB_URL']]);
     }
 }
