@@ -57,7 +57,7 @@ class GitlabActivityPlugin extends AbstractPlugin implements ActivityPluginInter
 
     private function getNeedle(string $target_title): string
     {
-        $matchPattern = sprintf('(%s-[0-9]{3,})i', $_ENV['GITLAB_PATTERN']);
+        $matchPattern = sprintf('(%s-[0-9]{1,})i', $_ENV['GITLAB_PATTERN']);
         $resultMatch = preg_match($matchPattern, $target_title, $match);
         if (0 === $resultMatch || !isset($match[0])) {
             throw new \Exception('gitlab needle not found for target_title: '.$target_title);

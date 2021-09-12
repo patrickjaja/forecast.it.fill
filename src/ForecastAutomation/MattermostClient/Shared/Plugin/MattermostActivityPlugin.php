@@ -68,7 +68,7 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
             $activityDtoArray[$ticketNr] = new ActivityDto(
                 $ticketNr,
                 sprintf('%s: %s', self::POST_SUFFIX, $ticketNr),
-                new \DateTime(date('d-m-Y', ($post->create_at / 1000))),
+                new \DateTime(date('d-m-Y', (int)($post['create_at'] / 1000))),
                 $duration
             );
         }
@@ -78,7 +78,7 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
 
     private function getNeedle(string $target_title): string
     {
-        $matchPattern = sprintf('(%s-[0-9]{3,})i', $_ENV['GITLAB_PATTERN']);
+        $matchPattern = sprintf('(%s-[0-9]{1,})i', $_ENV['GITLAB_PATTERN']);
         $resultMatch = preg_match($matchPattern, $target_title, $match);
         if (0 === $resultMatch || !isset($match[0])) {
             throw new \Exception('gitlab needle not found for target_title: '.$target_title);
@@ -89,7 +89,7 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
 
     private function hasNeedle(string $target_title): bool
     {
-        $matchPattern = sprintf('(%s-[0-9]{3,})i', $_ENV['MATTERMOST_PATTERN']);
+        $matchPattern = sprintf('(%s-[0-9]{1,})i', $_ENV['MATTERMOST_PATTERN']);
         $resultMatch = preg_match($matchPattern, $target_title, $match);
         if (0 === $resultMatch || !isset($match[0])) {
             return false;

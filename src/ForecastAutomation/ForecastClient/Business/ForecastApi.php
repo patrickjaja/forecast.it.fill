@@ -93,7 +93,7 @@ class ForecastApi
     private function findTaskIdToNeedle(string $taskNeedle): int
     {
         foreach (static::$TASK_CACHE as $task) {
-            if (str_contains($task->title, $taskNeedle)) {
+            if (str_starts_with($task->title, $taskNeedle)) {
                 return $task->id;
             }
         }
