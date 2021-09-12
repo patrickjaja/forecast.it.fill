@@ -38,6 +38,6 @@ class MattermostClientFactory extends AbstractFactory
 
     public function createClient(): Client
     {
-        return new Client(['base_uri' => (string)$_ENV['MATTERMOST_HOST']]);
+        return new Client(['base_uri' => (string) $_ENV['MATTERMOST_HOST']]);
     }
 }
