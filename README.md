@@ -30,6 +30,7 @@ Enable and configure plugins on your needs and enjoy newly acquired free time.
 ### ✌️ ToDo:
 - reduce configuration parameters by consuming more api endpoints (i.e. forecast /persons to receive personid)
 - add tests
+- add negative tests
 - add tooling
 - add github workflow
 - move direct channel filter to dto

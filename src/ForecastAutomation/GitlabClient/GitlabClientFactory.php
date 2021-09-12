@@ -29,8 +29,13 @@ class GitlabClientFactory extends AbstractFactory
     public function createGitlabApi(): GitlabApi
     {
         return new GitlabApi(
-            new Client(['base_uri' => (string) $_ENV['GITLAB_URL']]),
+            $this->createClient(),
             $this->createGitlabConfigDto(),
         );
+    }
+
+    public function createClient(): Client
+    {
+        return new Client(['base_uri' => (string)$_ENV['GITLAB_URL']]);
     }
 }
