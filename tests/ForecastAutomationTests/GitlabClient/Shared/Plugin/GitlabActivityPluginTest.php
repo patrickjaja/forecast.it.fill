@@ -12,12 +12,7 @@ declare(strict_types=1);
 namespace ForecastAutomationTests\GitlabClient\Shared\Plugin;
 
 use ForecastAutomation\GitlabClient\GitlabClientFacade;
-use ForecastAutomation\GitlabClient\GitlabClientFactory;
-use ForecastAutomation\GitlabClient\Shared\Dto\GitlabConfigDto;
-use ForecastAutomation\GitlabClient\Shared\Dto\GitlabQueryDto;
 use ForecastAutomation\GitlabClient\Shared\Plugin\GitlabActivityPlugin;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -30,7 +25,7 @@ final class GitlabActivityPluginTest extends TestCase
 
     public function testCanReadEvents(): void
     {
-        $_ENV['GITLAB_PATTERN']= self::TICKET_PATTERN;
+        $_ENV['GITLAB_PATTERN'] = self::TICKET_PATTERN;
         $activityDtoCollection = $this->createGitlabActivityPlugin()->collect();
         static::assertSame(self::TICKET_PATTERN.'-1234', $activityDtoCollection->offsetGet(0)->needle);
         static::assertSame('Entwicklungsprozess: TESTNR-1234 (commented on)', $activityDtoCollection->offsetGet(0)->description);
@@ -52,7 +47,7 @@ final class GitlabActivityPluginTest extends TestCase
 
         $gitlabClientFacadeMock
             ->method('getEvents')
-            ->willReturn(['event1'=>$testEvent1])
+            ->willReturn(['event1' => $testEvent1])
         ;
 
         $gitlabActivityPluginMock = $this->getMockBuilder(GitlabActivityPlugin::class)
@@ -63,8 +58,6 @@ final class GitlabActivityPluginTest extends TestCase
             ->method('getFacade')
             ->willReturn($gitlabClientFacadeMock)
         ;
-
-
 
         return $gitlabActivityPluginMock;
     }
