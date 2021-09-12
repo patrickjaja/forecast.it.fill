@@ -20,8 +20,8 @@ class ForecastActivityWriter
     {
     }
 
-    public function writeActivities(ActivityDtoCollection $activityDtoCollection): void
+    public function writeActivities(ActivityDtoCollection $activityDtoCollection): int
     {
-        $this->forecastClientFacade->writeActivities($activityDtoCollection);
+        return $this->forecastClientFacade->writeActivities($activityDtoCollection);
     }
 }

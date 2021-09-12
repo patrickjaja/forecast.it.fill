@@ -22,8 +22,8 @@ class ForecastDataImportProcess
     ) {
     }
 
-    public function start(): void
+    public function start(): int
     {
-        $this->forecastActivityWriter->writeActivities($this->activityFacade->collect());
+        return $this->forecastActivityWriter->writeActivities($this->activityFacade->collect());
     }
 }

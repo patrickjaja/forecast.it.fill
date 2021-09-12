@@ -18,8 +18,8 @@ use ForecastAutomation\Kernel\AbstractFacade;
  */
 class ForecastDataImportFacade extends AbstractFacade
 {
-    public function startImportProcess(): void
+    public function startImportProcess(): int
     {
-        $this->getFactory()->createForecastDataImportProcess()->start();
+        return $this->getFactory()->createForecastDataImportProcess()->start();
     }
 }

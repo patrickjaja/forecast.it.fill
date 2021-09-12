@@ -40,11 +40,11 @@ final class ActivityFacadeTest extends TestCase
 
     private function createActivityFacade(): ActivityFacade
     {
-        $nullActivityPluginMock = $this->getMockBuilder(ActivityPluginInterface::class)
+        $activityPluginMock = $this->getMockBuilder(ActivityPluginInterface::class)
             ->onlyMethods(['collect'])
             ->getMock()
         ;
-        $nullActivityPluginMock
+        $activityPluginMock
             ->method('collect')
             ->willReturn(
                 new ActivityDtoCollection(
@@ -64,7 +64,7 @@ final class ActivityFacadeTest extends TestCase
         ;
         $activityFactoryMock
             ->method('getActivityPlugins')
-            ->willReturn(new ActivityPluginCollection($nullActivityPluginMock))
+            ->willReturn(new ActivityPluginCollection($activityPluginMock))
         ;
 
         $activityFacadeMock = $this->getMockBuilder(ActivityFacade::class)
