@@ -21,8 +21,8 @@ use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
  */
 class JiraActivityPlugin extends AbstractPlugin implements ActivityPluginInterface
 {
-    private const ACTIVITY_DURATION = 30;
-    private const COMMENT_IDENTIFIER = 'Ticket Bearbeitung';
+    public const ACTIVITY_DURATION = 30;
+    public const COMMENT_IDENTIFIER = 'Ticket Bearbeitung';
 
     public function collect(): ActivityDtoCollection
     {
