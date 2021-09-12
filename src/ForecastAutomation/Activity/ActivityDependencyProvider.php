@@ -34,6 +34,7 @@ class ActivityDependencyProvider extends AbstractDependencyProvider
             new MattermostActivityPlugin(),
             new GitlabActivityPlugin(),
         )
+
         ;
     }
 }
