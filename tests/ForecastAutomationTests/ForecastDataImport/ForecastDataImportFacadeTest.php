@@ -12,13 +12,9 @@ declare(strict_types=1);
 namespace ForecastAutomationTests\ForecastDataImport;
 
 use ForecastAutomation\Activity\ActivityFacade;
-use ForecastAutomation\Activity\ActivityFactory;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
-use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginCollection;
-use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginInterface;
 use ForecastAutomation\ForecastClient\ForecastClientFacade;
-use ForecastAutomation\ForecastDataImport\Business\Writer\ForecastActivityWriter;
 use ForecastAutomation\ForecastDataImport\ForecastDataImportFacade;
 use ForecastAutomation\ForecastDataImport\ForecastDataImportFactory;
 use PHPUnit\Framework\TestCase;
@@ -32,7 +28,7 @@ final class ForecastDataImportFacadeTest extends TestCase
     public function testCanStartTheImportProcess(): void
     {
         $writtenActivities = $this->createForecastDataImportFacade()->startImportProcess();
-        static::assertSame(1,$writtenActivities);
+        static::assertSame(1, $writtenActivities);
     }
 
     private function createForecastDataImportFacade(): ForecastDataImportFacade
@@ -57,15 +53,16 @@ final class ForecastDataImportFacadeTest extends TestCase
 
         $forecastClientFacadeMock = $this->getMockBuilder(ForecastClientFacade::class)
             ->onlyMethods(['writeActivities'])
-            ->getMock();
+            ->getMock()
+        ;
 
         $forecastClientFacadeMock
             ->method('writeActivities')
-            ->willReturn(1);
-
+            ->willReturn(1)
+        ;
 
         $forecastDataImportFactoryMock = $this->getMockBuilder(ForecastDataImportFactory::class)
-            ->onlyMethods(['getActivityFacade','getForecastClientFacade'])
+            ->onlyMethods(['getActivityFacade', 'getForecastClientFacade'])
             ->getMock()
         ;
         $forecastDataImportFactoryMock
