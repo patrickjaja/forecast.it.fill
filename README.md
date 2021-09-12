@@ -4,7 +4,14 @@
 [![Tests](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phptests.yml/badge.svg)](https://github.com/patrickjaja/forecast.it.fill/actions)
 [![phpstan level5](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phpstan.yml/badge.svg)](https://github.com/patrickjaja/forecast.it.fill/actions)
 
-# Forecast.it activity automation process
+Forecast.it activity automation process
+==========================
+
+This project is used to fill your forecast.it timesheets in a comfortable way.
+Enable and configure plugins on your needs and enjoy newly acquired free time.
+
+## Documentation
+
 ### ⚡ supported activity sources
  - [jira](src/ForecastAutomation/JiraClient/Shared/Plugin/JiraActivityPlugin.php)
    (will create an activity entry if you [comment](src/ForecastAutomation/JiraClient/Business/JiraCollector.php#L41) a ticket)
