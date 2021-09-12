@@ -41,7 +41,7 @@ final class ForecastDataImportFacadeTest extends TestCase
             ->method('collect')
             ->willReturn(
                 new ActivityDtoCollection(
-                    new ActivityDto('','',new \DateTime(),0)
+                    new ActivityDto('', '', new \DateTime(), 0)
                 )
             )
         ;
