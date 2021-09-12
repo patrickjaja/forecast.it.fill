@@ -20,6 +20,10 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class ForecastClientFacadeTest extends TestCase
 {
     public function testCanWriteActivityCollection(): void
