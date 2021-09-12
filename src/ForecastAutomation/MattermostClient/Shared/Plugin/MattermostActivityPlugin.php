@@ -37,9 +37,7 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
                 (new MattermostPostsQueryDto($channel->id, new \DateTime(date('Y-m-d'))))
             );
 
-            //ToDo: check if we can merge arrays like that
-            $filteredPostsCollection = +
-                $this->filterPosts($postsCollection)
+            $filteredPostsCollection += $this->filterPosts($postsCollection)
             ;
         }
 
