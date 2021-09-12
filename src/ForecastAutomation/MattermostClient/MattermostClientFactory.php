@@ -31,8 +31,13 @@ class MattermostClientFactory extends AbstractFactory
     public function createMattermostApi(): MattermostApi
     {
         return new MattermostApi(
-            new Client(['base_uri' => (string) $_ENV['MATTERMOST_HOST']]),
+            $this->createClient(),
             $this->createMattermostConfigDto(),
         );
+    }
+
+    public function createClient(): Client
+    {
+        return new Client(['base_uri' => (string)$_ENV['MATTERMOST_HOST']]);
     }
 }

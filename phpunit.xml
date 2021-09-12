@@ -20,6 +20,6 @@
     </filter>
 
     <logging>
-        <log type="coverage-html" target="./coverage" lowUpperBound="35" highLowerBound="85"/>
+        <log type="coverage-clover" target="./coverage.xml" lowUpperBound="35" highLowerBound="85"/>
     </logging>
 </phpunit>

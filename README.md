@@ -35,6 +35,6 @@ Enable and configure plugins on your needs and enjoy newly acquired free time.
 - add github workflow
 - move direct channel filter to dto
 - Logging (any open source logging target?)
-- extract Kernel (find project name)
+- extract Kernel (find project name i.e. Luna PHP)
 - save latest sync state and allow sync everything missed in between
 - allow more than one jira project to be synced to forecast
