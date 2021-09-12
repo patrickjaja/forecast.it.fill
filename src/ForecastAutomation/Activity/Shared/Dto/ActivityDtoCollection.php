@@ -80,11 +80,9 @@ class ActivityDtoCollection implements Iterator, ArrayAccess
 
     public function merge(self $activityDtoCollection): self
     {
-        foreach ($activityDtoCollection as $activityDto)
-        {
-            if (!$this->sumDurationIfExist($activityDto))
-            {
-                $this->activityDtos[]=$activityDto;
+        foreach ($activityDtoCollection as $activityDto) {
+            if (!$this->sumDurationIfExist($activityDto)) {
+                $this->activityDtos[] = $activityDto;
             }
         }
 
@@ -94,14 +92,13 @@ class ActivityDtoCollection implements Iterator, ArrayAccess
     private function sumDurationIfExist(ActivityDto $activityDto): bool
     {
         $exist = false;
-        foreach ($this->activityDtos as $storedActivityDto)
-        {
-            if (strtolower($storedActivityDto->needle)===(strtolower($activityDto->needle)))
-            {
-                $storedActivityDto->duration+=$activityDto->duration;
+        foreach ($this->activityDtos as $storedActivityDto) {
+            if (strtolower($storedActivityDto->needle) === (strtolower($activityDto->needle))) {
+                $storedActivityDto->duration += $activityDto->duration;
                 $exist = true;
             }
         }
+
         return $exist;
     }
 }
