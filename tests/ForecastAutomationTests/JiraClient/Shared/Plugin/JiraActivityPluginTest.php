@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace ForecastAutomationTests\JiraClient\Shared\Plugin;
 
-use ForecastAutomation\GitlabClient\GitlabClientFacade;
-use ForecastAutomation\GitlabClient\Shared\Plugin\GitlabActivityPlugin;
 use ForecastAutomation\JiraClient\JiraClientFacade;
 use ForecastAutomation\JiraClient\Shared\Plugin\JiraActivityPlugin;
 use JiraRestApi\Issue\Comment;
@@ -29,7 +27,6 @@ final class JiraActivityPluginTest extends TestCase
     public const TESTUSER_EXAMPLE_COM = 'testuser@example.com';
     public const TICKET_COMMENT_UPDATED = '2021-01-02 11:00:00';
     public const TICKET_COMMENT_BODY = 'test';
-
 
     public function testCanReadEvents(): void
     {
@@ -59,7 +56,7 @@ final class JiraActivityPluginTest extends TestCase
 
         $gitlabClientFacadeMock
             ->method('getComments')
-            ->willReturn([self::TICKET_PATTERN=>[$testComment]])
+            ->willReturn([self::TICKET_PATTERN => [$testComment]])
         ;
 
         $gitlabActivityPluginMock = $this->getMockBuilder(JiraActivityPlugin::class)
