@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- * @coversNothing
+ * @covers
  */
 final class ForecastClientFacadeTest extends TestCase
 {
