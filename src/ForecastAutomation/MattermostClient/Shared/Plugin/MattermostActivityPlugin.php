@@ -68,7 +68,7 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
             $activityDtoArray[$ticketNr] = new ActivityDto(
                 $ticketNr,
                 sprintf('%s: %s', self::POST_SUFFIX, $ticketNr),
-                new \DateTime(date('d-m-Y', (int)($post['create_at'] / 1000))),
+                new \DateTime(date('d-m-Y', (int) ($post['create_at'] / 1000))),
                 $duration
             );
         }
