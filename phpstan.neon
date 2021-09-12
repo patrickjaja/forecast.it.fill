@@ -7,7 +7,6 @@ parameters:
     level: 5
     paths:
         - src
-        - tests
     ignoreErrors:
         - '#Access to an undefined property [a-zA-Z0-9\\_]+::#'
     tipsOfTheDay: false
