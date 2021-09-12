@@ -22,9 +22,9 @@ use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
  */
 class GitlabActivityPlugin extends AbstractPlugin implements ActivityPluginInterface
 {
-    private const ALLOWED_ACTION_NAMES = ['commented on', 'approved'];
-    private const ACTIVITY_SUFFIX = 'Entwicklungsprozess';
-    private const ACTIVITY_DURATION = 15;
+    public const ALLOWED_ACTION_NAMES = ['commented on', 'approved'];
+    public const ACTIVITY_SUFFIX = 'Entwicklungsprozess';
+    public const ACTIVITY_DURATION = 15;
 
     public function collect(): ActivityDtoCollection
     {
