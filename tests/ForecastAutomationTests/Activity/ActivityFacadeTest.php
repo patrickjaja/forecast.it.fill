@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of forecast.it.fill project.
  * (c) Patrick Jaja <patrickjaja@web.de>
@@ -19,18 +17,14 @@ use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginCollection;
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginInterface;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- * @coversNothing
- */
-final class ActivityFacadeTest extends TestCase
+class ActivityFacadeTest extends TestCase
 {
     public const TEST_NEEDLE_1 = 'testNeedle1';
     public const TEST_DESCRIPTION = 'testDescription';
     public const TEST_CREATED = '2021-01-01 00:00:01';
     public const TEST_DURATION = 100;
 
-    public function testCanCollectActivityFromPlugins(): void
+    public function testCanCollectActivityFromPlugins()
     {
         $activityDto = $this->createActivityFacade()->collect()->current();
         static::assertSame(self::TEST_NEEDLE_1, $activityDto->needle);

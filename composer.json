@@ -22,11 +22,20 @@
     },
     "autoload": {
         "psr-4": {
+            "ForecastAutomation\\": "src/ForecastAutomation"
+        },
+        "classmap": [
+            "src/ForecastAutomation"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
             "ForecastAutomation\\": "src/ForecastAutomation",
             "ForecastAutomationTests\\": "tests/ForecastAutomationTests"
         },
         "classmap": [
-            "src/ForecastAutomation"
+            "src/ForecastAutomation",
+            "tests/ForecastAutomationTests"
         ]
     },
     "scripts": {
