@@ -23,8 +23,8 @@ use ForecastAutomation\MattermostClient\Shared\Dto\MattermostPostsQueryDto;
  */
 class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginInterface
 {
-    private const POST_SUFFIX = 'Abstimmung';
-    private const ACTIVITY_DURATION = 15;
+    public const POST_SUFFIX = 'Abstimmung';
+    public const ACTIVITY_DURATION = 15;
 
     public function collect(): ActivityDtoCollection
     {
