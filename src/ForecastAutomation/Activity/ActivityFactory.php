@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\Activity;
 
+use ForecastAutomation\Activity\Business\ActivityCollector;
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginCollection;
 use ForecastAutomation\Kernel\AbstractFactory;
 

@@ -61,7 +61,7 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
         $activityDtoArray = [];
         foreach ($filteredPostsCollection as $post) {
             $duration = self::ACTIVITY_DURATION;
-            $ticketNr = $this->getNeedle($post->message);
+            $ticketNr = $this->getNeedle($post['message']);
             if (isset($activityDtoArray[$ticketNr])) {
                 $duration = self::ACTIVITY_DURATION + $activityDtoArray[$ticketNr]->duration;
             }

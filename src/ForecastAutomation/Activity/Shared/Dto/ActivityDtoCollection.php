@@ -78,10 +78,30 @@ class ActivityDtoCollection implements Iterator, ArrayAccess
         unset($this->activityDtos[$offset]);
     }
 
-    public function merge(self $collection): self
+    public function merge(self $activityDtoCollection): self
     {
-        $this->activityDtos = array_merge($this->activityDtos, $collection->activityDtos);
+        foreach ($activityDtoCollection as $activityDto)
+        {
+            if (!$this->sumDurationIfExist($activityDto))
+            {
+                $this->activityDtos[]=$activityDto;
+            }
+        }
 
         return $this;
+    }
+
+    private function sumDurationIfExist(ActivityDto $activityDto): bool
+    {
+        $exist = false;
+        foreach ($this->activityDtos as $storedActivityDto)
+        {
+            if (strtolower($storedActivityDto->needle)===(strtolower($activityDto->needle)))
+            {
+                $storedActivityDto->duration+=$activityDto->duration;
+                $exist = true;
+            }
+        }
+        return $exist;
     }
 }

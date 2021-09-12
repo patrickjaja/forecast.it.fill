@@ -9,7 +9,7 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ForecastAutomation\Activity;
+namespace ForecastAutomation\Activity\Business;
 
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginCollection;
