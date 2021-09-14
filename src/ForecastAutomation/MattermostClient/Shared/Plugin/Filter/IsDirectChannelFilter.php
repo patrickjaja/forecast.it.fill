@@ -13,9 +13,6 @@ namespace ForecastAutomation\MattermostClient\Shared\Plugin\Filter;
 
 class IsDirectChannelFilter implements ChannelFilterInterface
 {
-    /**
-     * @return \DateTime
-     */
     public function apply(array $channelCollection): array
     {
         $filteredChannel = [];

@@ -19,9 +19,6 @@ class HasMessageChannelFilter implements ChannelFilterInterface
     {
     }
 
-    /**
-     * @return \DateTime
-     */
     public function apply(array $channelCollection): array
     {
         $filteredChannel = [];
