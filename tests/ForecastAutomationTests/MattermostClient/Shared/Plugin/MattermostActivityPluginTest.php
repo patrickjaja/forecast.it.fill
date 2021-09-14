@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace ForecastAutomationTests\MattermostClient\Shared\Plugin;
 
-use ForecastAutomation\GitlabClient\GitlabClientFacade;
-use ForecastAutomation\GitlabClient\Shared\Plugin\GitlabActivityPlugin;
 use ForecastAutomation\MattermostClient\MattermostClientFacade;
 use ForecastAutomation\MattermostClient\Shared\Plugin\MattermostActivityPlugin;
 use PHPUnit\Framework\TestCase;
@@ -51,7 +49,7 @@ final class MattermostActivityPluginTest extends TestCase
         ;
         $mattermostClientFacadeMock
             ->method('getPosts')
-            ->willReturn([['message'=>'testmessage '.self::TICKET_PATTERN.'-1234','create_at'=>(new \DateTime())->format('U')*1000]])
+            ->willReturn([['message' => 'testmessage '.self::TICKET_PATTERN.'-1234', 'create_at' => (new \DateTime())->format('U') * 1000]])
         ;
 
         $mattermostActivityPluginMock = $this->getMockBuilder(MattermostActivityPlugin::class)
