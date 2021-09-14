@@ -16,6 +16,8 @@ use ForecastAutomation\GitlabClient\Shared\Plugin\GitlabActivityPlugin;
 use ForecastAutomation\JiraClient\Shared\Plugin\JiraActivityPlugin;
 use ForecastAutomation\Kernel\AbstractDependencyProvider;
 use ForecastAutomation\Kernel\Locator;
+use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\HasMessageChannelFilter;
+use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\IsDirectChannelFilter;
 use ForecastAutomation\MattermostClient\Shared\Plugin\MattermostActivityPlugin;
 
 class ActivityDependencyProvider extends AbstractDependencyProvider
@@ -31,7 +33,10 @@ class ActivityDependencyProvider extends AbstractDependencyProvider
     {
         return new ActivityPluginCollection(
             new JiraActivityPlugin(),
-            new MattermostActivityPlugin(),
+            new MattermostActivityPlugin(
+                new HasMessageChannelFilter(new \DateTime(date('Y-m-d'))),
+                new IsDirectChannelFilter(),
+            ),
             new GitlabActivityPlugin(),
         )
 

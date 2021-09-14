@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace ForecastAutomation\MattermostClient;
 
 use ForecastAutomation\Kernel\AbstractFacade;
-use ForecastAutomation\MattermostClient\Shared\Dto\MattermostChannelFilterQueryDto;
+use ForecastAutomation\MattermostClient\Shared\Dto\IsDirectChannelFilter;
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostPostsQueryDto;
 
 /**
@@ -20,9 +20,9 @@ use ForecastAutomation\MattermostClient\Shared\Dto\MattermostPostsQueryDto;
  */
 class MattermostClientFacade extends AbstractFacade
 {
-    public function getChannel(MattermostChannelFilterQueryDto $channelFilterQueryDto): array
+    public function getChannel(array $channelFilterCollection): array
     {
-        return $this->getFactory()->createMattermostApi()->getChannel($channelFilterQueryDto);
+        return $this->getFactory()->createMattermostApi()->getChannel($channelFilterCollection);
     }
 
     public function getPosts(MattermostPostsQueryDto $mattermostPostsQueryDto): array

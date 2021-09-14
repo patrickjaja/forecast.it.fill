@@ -39,16 +39,20 @@ class GitlabActivityPlugin extends AbstractPlugin implements ActivityPluginInter
         foreach ($events as $event) {
             if (\in_array($event->action_name, self::ALLOWED_ACTION_NAMES, true)) {
                 $duration = self::ACTIVITY_DURATION;
-                $ticketNr = $this->getNeedle($event->target_title);
-                if (isset($activityDtoArray[$ticketNr])) {
-                    $duration = self::ACTIVITY_DURATION + $activityDtoArray[$ticketNr]->duration;
+                try {
+                    $ticketNr = $this->getNeedle($event->target_title);
+                    if (isset($activityDtoArray[$ticketNr])) {
+                        $duration = self::ACTIVITY_DURATION + $activityDtoArray[$ticketNr]->duration;
+                    }
+                    $activityDtoArray[$ticketNr] = new ActivityDto(
+                        $ticketNr,
+                        sprintf('%s: %s (%s)', self::ACTIVITY_SUFFIX, $event->target_title, $event->action_name),
+                        new \DateTime($event->created_at),
+                        $duration
+                    );
+                } catch (\Exception $e) {
+                    // needle not found. no activity will be created, its ok.
                 }
-                $activityDtoArray[$ticketNr] = new ActivityDto(
-                    $ticketNr,
-                    sprintf('%s: %s (%s)', self::ACTIVITY_SUFFIX, $event->target_title, $event->action_name),
-                    new \DateTime($event->created_at),
-                    $duration
-                );
             }
         }
 

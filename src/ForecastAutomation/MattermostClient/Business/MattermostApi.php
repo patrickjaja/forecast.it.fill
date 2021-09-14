@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\MattermostClient\Business;
 
-use ForecastAutomation\MattermostClient\Shared\Dto\MattermostChannelFilterQueryDto;
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostConfigDto;
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostPostsQueryDto;
+use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\ChannelFilterInterface;
 use GuzzleHttp\Client;
 
 class MattermostApi
@@ -28,7 +28,7 @@ class MattermostApi
     {
     }
 
-    public function getChannel(MattermostChannelFilterQueryDto $channelFilterQueryDto): array
+    public function getChannel(array $channelFilterCollection): array
     {
         $this->auth();
         $res = $this->guzzleClient->request(
@@ -43,7 +43,7 @@ class MattermostApi
         );
         $channelArray = json_decode((string) $res->getBody(), null, 512, JSON_THROW_ON_ERROR);
 
-        return $this->applyChannelFilter($channelArray, $channelFilterQueryDto);
+        return $this->applyChannelFilter($channelArray, $channelFilterCollection);
     }
 
     public function getPosts(MattermostPostsQueryDto $postsQueryDto): array
@@ -93,22 +93,11 @@ class MattermostApi
 
     private function applyChannelFilter(
         array $channelArray,
-        MattermostChannelFilterQueryDto $channelFilterQueryDto
+        array $channelFilterCollection
     ): array {
-        $filteredChannel = [];
-        foreach ($channelArray as $channel) {
-            if ($channel->total_msg_count > 0
-                && $this->isDirectChannel($channel)
-                && $channel->last_post_at >= ((int) $channelFilterQueryDto->lastPostAt->format('U') * 1000)) {
-                $filteredChannel[] = $channel;
-            }
+        foreach ($channelFilterCollection as $channelFilter) {
+            $channelArray = $channelFilter->apply($channelArray);
         }
-
-        return $filteredChannel;
-    }
-
-    private function isDirectChannel(\stdClass $channel): bool
-    {
-        return 'D' === $channel->type;
+        return $channelArray;
     }
 }

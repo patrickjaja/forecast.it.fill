@@ -15,8 +15,10 @@ use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginInterface;
 use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
-use ForecastAutomation\MattermostClient\Shared\Dto\MattermostChannelFilterQueryDto;
+use ForecastAutomation\MattermostClient\Shared\Dto\IsDirectChannelFilter;
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostPostsQueryDto;
+use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\ChannelFilterInterface;
+use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\HasMessageChannelFilter;
 
 /**
  * @method \ForecastAutomation\MattermostClient\MattermostClientFacade getFacade()
@@ -26,11 +28,17 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
     public const POST_SUFFIX = 'Abstimmung';
     public const ACTIVITY_DURATION = 15;
 
+    private array $channelFilterCollection;
+
+    public function __construct(ChannelFilterInterface ...$channelFilterCollection)
+    {
+        $this->channelFilterCollection = $channelFilterCollection;
+        parent::__construct();
+    }
+
     public function collect(): ActivityDtoCollection
     {
-        $channelWithActivity = $this->getFacade()->getChannel(
-            new MattermostChannelFilterQueryDto(new \DateTime(date('Y-m-d')))
-        );
+        $channelWithActivity = $this->getFacade()->getChannel($this->channelFilterCollection);
         $filteredPostsCollection = [];
         foreach ($channelWithActivity as $channel) {
             $postsCollection = $this->getFacade()->getPosts(
