@@ -15,10 +15,8 @@ use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginInterface;
 use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
-use ForecastAutomation\MattermostClient\Shared\Dto\IsDirectChannelFilter;
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostPostsQueryDto;
 use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\ChannelFilterInterface;
-use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\HasMessageChannelFilter;
 
 /**
  * @method \ForecastAutomation\MattermostClient\MattermostClientFacade getFacade()

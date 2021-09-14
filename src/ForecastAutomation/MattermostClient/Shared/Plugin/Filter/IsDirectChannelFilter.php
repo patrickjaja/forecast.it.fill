@@ -11,9 +11,6 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\MattermostClient\Shared\Plugin\Filter;
 
-use DateTime;
-use ForecastAutomation\Kernel\Shared\Dto\AbstractDto;
-
 class IsDirectChannelFilter implements ChannelFilterInterface
 {
     /**
@@ -22,12 +19,12 @@ class IsDirectChannelFilter implements ChannelFilterInterface
     public function apply(array $channelCollection): array
     {
         $filteredChannel = [];
-        foreach ($channelCollection as $channel)
-        {
+        foreach ($channelCollection as $channel) {
             if ('D' === $channel->type) {
-                $filteredChannel[]=$channel;
+                $filteredChannel[] = $channel;
             }
         }
+
         return $filteredChannel;
     }
 }

@@ -39,6 +39,7 @@ class GitlabActivityPlugin extends AbstractPlugin implements ActivityPluginInter
         foreach ($events as $event) {
             if (\in_array($event->action_name, self::ALLOWED_ACTION_NAMES, true)) {
                 $duration = self::ACTIVITY_DURATION;
+
                 try {
                     $ticketNr = $this->getNeedle($event->target_title);
                     if (isset($activityDtoArray[$ticketNr])) {

@@ -13,7 +13,6 @@ namespace ForecastAutomation\MattermostClient\Business;
 
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostConfigDto;
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostPostsQueryDto;
-use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\ChannelFilterInterface;
 use GuzzleHttp\Client;
 
 class MattermostApi
@@ -98,6 +97,7 @@ class MattermostApi
         foreach ($channelFilterCollection as $channelFilter) {
             $channelArray = $channelFilter->apply($channelArray);
         }
+
         return $channelArray;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -12,7 +12,6 @@ declare(strict_types = 1);
 namespace ForecastAutomation\MattermostClient\Shared\Plugin\Filter;
 
 use DateTime;
-use ForecastAutomation\Kernel\Shared\Dto\AbstractDto;
 
 class HasMessageChannelFilter implements ChannelFilterInterface
 {
@@ -27,9 +26,9 @@ class HasMessageChannelFilter implements ChannelFilterInterface
     {
         $filteredChannel = [];
         foreach ($channelCollection as $channel) {
-            if ($channel->total_msg_count > 0 &&
-                $channel->last_post_at >= ((int)$this->lastPostDateTime->format('U') * 1000)) {
-                $filteredChannel [] = $channel;
+            if ($channel->total_msg_count > 0
+                && $channel->last_post_at >= ((int) $this->lastPostDateTime->format('U') * 1000)) {
+                $filteredChannel[] = $channel;
             }
         }
 

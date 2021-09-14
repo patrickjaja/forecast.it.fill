@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace ForecastAutomation\MattermostClient;
 
 use ForecastAutomation\Kernel\AbstractFacade;
-use ForecastAutomation\MattermostClient\Shared\Dto\IsDirectChannelFilter;
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostPostsQueryDto;
 
 /**
