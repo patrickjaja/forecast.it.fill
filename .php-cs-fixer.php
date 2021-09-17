@@ -16,14 +16,10 @@ $config
     ->setRules(
         [ // https://mlocati.github.io/php-cs-fixer-configurator/#version:3.1|fixer:php_unit_internal_class
             '@PHP71Migration' => true,
-            '@PHP71Migration:risky' => true,
-            '@PHPUnit75Migration:risky' => true,
             '@PhpCsFixer' => true,
-            '@PhpCsFixer:risky' => true,
             'general_phpdoc_annotation_remove' => ['annotations' => ['expectedDeprecation']],
             'header_comment' => ['header' => $header],
             '@PHP80Migration' => true,
-            '@PHP80Migration:risky' => true,
             'heredoc_indentation' => false,
         ]
     )
