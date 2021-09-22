@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\Console;
 
+use ForecastAutomation\Console\Business\ConsoleCommandInstaller;
 use ForecastAutomation\Kernel\AbstractFactory;
 use Symfony\Component\Console\Application;
 

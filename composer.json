@@ -18,7 +18,9 @@
         "infection/infection": "^0.25.0",
         "slevomat/coding-standard": "^7.0",
         "jangregor/phpstan-prophecy": "^0.8.1",
-        "phpstan/phpstan-phpunit": "^0.12.22"
+        "phpstan/phpstan-phpunit": "^0.12.22",
+        "phparkitect/phparkitect": "^0.1.15",
+        "qossmic/deptrac-shim": "^0.15.2"
     },
     "autoload": {
         "psr-4": {
@@ -31,7 +33,8 @@
     "autoload-dev": {
         "psr-4": {
             "ForecastAutomation\\": "src/ForecastAutomation",
-            "ForecastAutomationTests\\": "tests/ForecastAutomationTests"
+            "ForecastAutomationTests\\": "tests/ForecastAutomationTests",
+            "Architecture\\": "tests/Architecture"
         },
         "classmap": [
             "src/ForecastAutomation",

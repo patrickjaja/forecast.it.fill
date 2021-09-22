@@ -9,12 +9,12 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ForecastAutomation\Console;
+namespace ForecastAutomation\Console\Business;
 
 use Symfony\Component\Console\Application;
 
 /**
- * @method ConsoleFactory getFactory()
+ * @method  getFactory()
  */
 class ConsoleCommandInstaller
 {
