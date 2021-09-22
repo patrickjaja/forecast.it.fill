@@ -54,7 +54,8 @@ class FlatClassSet extends ArkitectClassSet
             ->depth('< 2')
             ->followLinks()
             ->ignoreUnreadableDirs(true)
-            ->ignoreVCS(true);
+            ->ignoreVCS(true)
+        ;
 
         if ($this->exclude) {
             $finder->notPath($this->exclude);
