@@ -4,6 +4,7 @@
 [![Tests](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phptests.yml/badge.svg)](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phptests.yml)
 [![phpstan level5](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phpstan.yml/badge.svg)](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phpstan.yml)
 [![Arkitect](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phparkitect.yml/badge.svg)](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phparkitect.yml)
+[![Deptrac](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phpdeptrac.yml/badge.svg)](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phpdeptrac.yml)
 
 Forecast.it activity automation process
 ==========================
