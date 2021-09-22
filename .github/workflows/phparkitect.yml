@@ -1,0 +1,22 @@
+name: phpstan
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  php-cs-fixer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Install
+        run: composer install
+
+      - name: Run vendor/bin/phparkitect check
+        run: vendor/bin/phparkitect check
+
