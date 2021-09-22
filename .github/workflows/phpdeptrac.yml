@@ -1,4 +1,4 @@
-name: arkitect
+name: deptrac
 
 on:
   push:
@@ -17,6 +17,6 @@ jobs:
       - name: Install
         run: composer install
 
-      - name: Run vendor/bin/phparkitect check
-        run: vendor/bin/phparkitect check
+      - name: Run endor/bin/deptrac analyse
+        run: endor/bin/deptrac analyse
 

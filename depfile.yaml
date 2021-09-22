@@ -1,0 +1,41 @@
+paths:
+  - ./src
+exclude_files:
+  - '#.*test.*#'
+layers:
+  - name: ModulePlugins
+    collectors:
+      - type: className
+        regex: .*Plugin.*
+  - name: ModuleDto
+    collectors:
+      - type: className
+        regex: .*Dto.*
+  - name: ModuleDependencys
+    collectors:
+      - type: className
+        regex: .*DependencyProvider.*
+  - name: ModuleApi
+    collectors:
+      - type: className
+        regex: .*Facade.*
+  - name: ModuleFactory
+    collectors:
+      - type: className
+        regex: .*Factory.*
+ruleset:
+  ModulePlugins:
+    - ModuleApi
+    - ModuleDto
+  ModuleDto:
+  ModuleDependencys:
+    - ModuleApi
+    - ModulePlugins
+  ModuleApi:
+    - ModuleFactory
+    - ModuleDto
+  ModuleFactory:
+    - ModuleDependencys
+    - ModuleDto
+    - ModuleApi
+    - ModulePlugins
