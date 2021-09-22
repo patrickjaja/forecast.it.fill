@@ -1,9 +1,16 @@
 <?php
 
+/*
+ * This file is part of forecast.it.fill project.
+ * (c) Patrick Jaja <patrickjaja@web.de>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Architecture\Expression\ForClasses;
 
-use Arkitect\Analyzer\ClassDescription;
 use Architecture\Analyzer\FullyQualifiedClassName;
+use Arkitect\Analyzer\ClassDescription;
 use Arkitect\Expression\Description;
 use Arkitect\Expression\Expression;
 use Arkitect\Expression\PositiveDescription;
@@ -36,5 +43,4 @@ class HaveNameMatchingRegEx implements Expression
             $violations->add($violation);
         }
     }
-
 }

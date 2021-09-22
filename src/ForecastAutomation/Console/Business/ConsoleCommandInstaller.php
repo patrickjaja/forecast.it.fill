@@ -14,7 +14,7 @@ namespace ForecastAutomation\Console\Business;
 use Symfony\Component\Console\Application;
 
 /**
- * @method  getFactory()
+ * @method getFactory()
  */
 class ConsoleCommandInstaller
 {
