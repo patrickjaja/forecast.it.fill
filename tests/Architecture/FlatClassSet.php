@@ -11,12 +11,54 @@ declare(strict_types=1);
 
 namespace Architecture;
 
-use Arkitect\ClassSet as ArkitectClassSet;
+use Arkitect\Glob;
+use Symfony\Component\Finder\Finder;
 
-class FlatClassSet extends ArkitectClassSet
+class FlatClassSet
 {
+    private string $directory;
+
+    private array $exclude;
+
+    private function __construct(string $directory)
+    {
+        $this->directory = $directory;
+        $this->exclude = [];
+    }
+
+    public function excludePath(string $pattern): self
+    {
+        $this->exclude[] = Glob::toRegex($pattern);
+
+        return $this;
+    }
+
+    public static function fromDir(string $directory): self
+    {
+        return new self($directory);
+    }
+
+    public function getDir(): string
+    {
+        return $this->directory;
+    }
+
     public function getIterator()
     {
-        return parent::getIterator()->depth('< 2');
+        $finder = (new Finder())
+            ->files()
+            ->in($this->directory)
+            ->name('*.php')
+            ->sortByName()
+            ->depth('< 2')
+            ->followLinks()
+            ->ignoreUnreadableDirs(true)
+            ->ignoreVCS(true);
+
+        if ($this->exclude) {
+            $finder->notPath($this->exclude);
+        }
+
+        return $finder;
     }
 }
