@@ -17,6 +17,6 @@ jobs:
       - name: Install
         run: composer install
 
-      - name: Run endor/bin/deptrac analyse
-        run: endor/bin/deptrac analyse
+      - name: Run vendor/bin/deptrac analyse
+        run: vendor/bin/deptrac analyse
 
