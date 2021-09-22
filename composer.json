@@ -38,7 +38,8 @@
         },
         "classmap": [
             "src/ForecastAutomation",
-            "tests/ForecastAutomationTests"
+            "tests/ForecastAutomationTests",
+            "tests/Architecture"
         ]
     },
     "scripts": {
