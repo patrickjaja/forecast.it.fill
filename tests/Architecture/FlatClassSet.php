@@ -11,10 +11,11 @@ declare(strict_types=1);
 
 namespace Architecture;
 
+use Arkitect\ClassSet as ArkitectClassSet;
 use Arkitect\Glob;
 use Symfony\Component\Finder\Finder;
 
-class FlatClassSet
+class FlatClassSet extends ArkitectClassSet
 {
     private string $directory;
 
