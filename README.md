@@ -3,6 +3,7 @@
 [![Scrutinizer Code Coverage](https://scrutinizer-ci.com/g/patrickjaja/forecast.it.fill/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/patrickjaja/forecast.it.fill?branch=master)
 [![Tests](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phptests.yml/badge.svg)](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phptests.yml)
 [![phpstan level5](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phpstan.yml/badge.svg)](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phpstan.yml)
+[![Arkitect](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phparkitect.yml/badge.svg)](https://github.com/patrickjaja/forecast.it.fill/actions/workflows/phparkitect.yml)
 
 Forecast.it activity automation process
 ==========================
