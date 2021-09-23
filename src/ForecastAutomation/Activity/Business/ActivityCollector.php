@@ -13,6 +13,7 @@ namespace ForecastAutomation\Activity\Business;
 
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginCollection;
+use GuzzleHttp\Promise\Utils;
 
 class ActivityCollector
 {
@@ -22,11 +23,18 @@ class ActivityCollector
 
     public function collect(): ActivityDtoCollection
     {
-        $activityDtoCollection = new ActivityDtoCollection();
-        foreach ($this->activityPluginCollection as $activityPlugin) {
-            $activityDtoCollection = $activityDtoCollection->merge($activityPlugin->collect());
+        $activityDtoCollections = Utils::all($this->activityPluginCollection->collect())->wait();
+
+        return $this->mergeActivityDtoCollections($activityDtoCollections);
+    }
+
+    private function mergeActivityDtoCollections(array $activityDtoCollections): ActivityDtoCollection
+    {
+        $mergedActivityDtoCollection = new ActivityDtoCollection();
+        foreach ($activityDtoCollections as $activityDtoCollection) {
+            $mergedActivityDtoCollection->merge($activityDtoCollection);
         }
 
-        return $activityDtoCollection;
+        return $mergedActivityDtoCollection;
     }
 }

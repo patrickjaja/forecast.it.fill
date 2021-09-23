@@ -17,6 +17,8 @@ use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginInterface;
 use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostPostsQueryDto;
 use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\ChannelFilterInterface;
+use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Promise\Utils;
 
 /**
  * @method \ForecastAutomation\MattermostClient\MattermostClientFacade getFacade()
@@ -34,28 +36,36 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
         parent::__construct();
     }
 
-    public function collect(): ActivityDtoCollection
+    public function collect(): PromiseInterface
     {
-        $channelWithActivity = $this->getFacade()->getChannel($this->channelFilterCollection);
-        $filteredPostsCollection = [];
-        foreach ($channelWithActivity as $channel) {
-            $postsCollection = $this->getFacade()->getPosts(
-                (new MattermostPostsQueryDto($channel->id, new \DateTime(date('Y-m-d'))))
-            );
+        return $this->getFacade()
+            ->getChannel($this->channelFilterCollection)
+            ->then(
+                function (array $channels) {
+                    $postPromises = [];
+                    foreach ($channels as $channel) {
+                        $postPromises[] = $this->getFacade()->getPosts(
+                            (new MattermostPostsQueryDto($channel->id, new \DateTime(date('Y-m-d'))))
+                        );
+                    }
 
-            $filteredPostsCollection += $this->filterPosts($postsCollection)
-            ;
-        }
+                    $postsCollection = Utils::all($postPromises)->wait();
 
-        return $this->mapEventsToActivity($filteredPostsCollection);
+                    return $this->mapEventsToActivity($this->filterPosts($postsCollection));
+                }
+            )
+        ;
     }
 
     private function filterPosts(array $postsCollection): array
     {
         $filteredPosts = [];
-        foreach ($postsCollection as $post) {
-            if ($this->hasNeedle($post['message'])) {
-                $filteredPosts[] = $post;
+
+        foreach ($postsCollection as $postpackCollection) {
+            foreach ($postpackCollection as $post) {
+                if ($this->hasNeedle($post['message'])) {
+                    $filteredPosts[] = $post;
+                }
             }
         }
 

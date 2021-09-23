@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\Activity\Shared\Plugin;
 
-use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
+use GuzzleHttp\Promise\PromiseInterface;
 
 interface ActivityPluginInterface
 {
-    public function collect(): ActivityDtoCollection;
+    public function collect(): PromiseInterface;
 }

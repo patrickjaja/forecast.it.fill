@@ -26,7 +26,7 @@ final class GitlabActivityPluginTest extends TestCase
     public function testCanReadEvents(): void
     {
         $_ENV['GITLAB_PATTERN'] = self::TICKET_PATTERN;
-        $activityDtoCollection = $this->createGitlabActivityPlugin()->collect();
+        $activityDtoCollection = $this->createGitlabActivityPlugin()->collect()->wait();
         static::assertSame(self::TICKET_PATTERN.'-1234', $activityDtoCollection->offsetGet(0)->needle);
         static::assertSame('Entwicklungsprozess: TESTNR-1234 (commented on)', $activityDtoCollection->offsetGet(0)->description);
         static::assertSame('2021-01-01', $activityDtoCollection->offsetGet(0)->created->format('Y-m-d'));

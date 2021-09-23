@@ -13,18 +13,19 @@ namespace ForecastAutomation\MattermostClient;
 
 use ForecastAutomation\Kernel\AbstractFacade;
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostPostsQueryDto;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * @method \ForecastAutomation\MattermostClient\MattermostClientFactory getFactory()
  */
 class MattermostClientFacade extends AbstractFacade
 {
-    public function getChannel(array $channelFilterCollection): array
+    public function getChannel(array $channelFilterCollection): PromiseInterface
     {
         return $this->getFactory()->createMattermostApi()->getChannel($channelFilterCollection);
     }
 
-    public function getPosts(MattermostPostsQueryDto $mattermostPostsQueryDto): array
+    public function getPosts(MattermostPostsQueryDto $mattermostPostsQueryDto): PromiseInterface
     {
         return $this->getFactory()->createMattermostApi()->getPosts($mattermostPostsQueryDto);
     }

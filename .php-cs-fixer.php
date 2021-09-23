@@ -24,7 +24,6 @@ $config
             '@PSR2' => true,
             'array_syntax' => ['syntax' => 'short'],
             'ordered_imports' => ['sort_algorithm' => 'alpha'],
-            'no_unused_imports' => true,
             'not_operator_with_successor_space' => true,
             'trailing_comma_in_multiline' => true,
             'phpdoc_scalar' => true,
@@ -40,6 +39,7 @@ $config
                     'method' => 'one',
                 ],
             ],
+            'return_assignment'=>false, //disabled for guzzle promise usage passed as &$wrappedReference to be resolved later
             'method_argument_space' => [
                 'on_multiline' => 'ensure_fully_multiline',
                 'keep_multiple_spaces_after_comma' => true,

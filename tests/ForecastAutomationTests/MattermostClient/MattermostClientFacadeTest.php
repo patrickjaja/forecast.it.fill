@@ -19,6 +19,7 @@ use ForecastAutomation\MattermostClient\Shared\Dto\MattermostPostsQueryDto;
 use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\HasMessageChannelFilter;
 use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\IsDirectChannelFilter;
 use GuzzleHttp\Client;
+use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
@@ -43,7 +44,7 @@ final class MattermostClientFacadeTest extends TestCase
                 new HasMessageChannelFilter(new \DateTime(self::CHANNEL_FILTER_LAST_POSTS)),
                 new IsDirectChannelFilter(),
             ]
-        );
+        )->wait();
         static::assertCount(1, $channels);
         static::assertSame(self::MSG_COUNT, $channels[0]->total_msg_count);
         static::assertSame(self::CHANNEL_TYPE, $channels[0]->type);
@@ -54,21 +55,24 @@ final class MattermostClientFacadeTest extends TestCase
     {
         $posts = $this->createMattermostClientFacade($this->createPostsResponse())->getPosts(
             new MattermostPostsQueryDto('test-id', new \DateTime(self::POSTS_FILTER_LAST_POSTS))
-        );
+        )->wait();
         static::assertCount(1, $posts);
         static::assertSame('test-id-1234', $posts[0]['post-id']);
     }
 
     private function createMattermostClientFacade(string $jsonApiResponse): MattermostClientFacade
     {
+        $resolvedPromise = new Promise(function () use (&$resolvedPromise, $jsonApiResponse) {
+            $resolvedPromise->resolve(new Response(200, ['X-Foo' => 'Bar'], $jsonApiResponse));
+        });
         $clientMock = $this->getMockBuilder(Client::class)
-            ->onlyMethods(['request'])
+            ->onlyMethods(['requestAsync'])
             ->getMock()
         ;
         $clientMock
-            ->method('request')
+            ->method('requestAsync')
             ->willReturn(
-                new Response(200, ['X-Foo' => 'Bar'], $jsonApiResponse)
+                $resolvedPromise
             )
         ;
 

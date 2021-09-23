@@ -16,6 +16,8 @@ use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginInterface;
 use ForecastAutomation\GitlabClient\Shared\Dto\GitlabQueryDto;
 use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
+use GuzzleHttp\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * @method \ForecastAutomation\GitlabClient\GitlabClientFacade getFacade()
@@ -26,11 +28,19 @@ class GitlabActivityPlugin extends AbstractPlugin implements ActivityPluginInter
     public const ACTIVITY_SUFFIX = 'Entwicklungsprozess';
     public const ACTIVITY_DURATION = 15;
 
-    public function collect(): ActivityDtoCollection
+    public function collect(): PromiseInterface
     {
-        return $this->mapEventsToActivity(
-            $this->getFacade()->getEvents(new GitlabQueryDto(date(date('Y-m-d', strtotime('-1 day')))))
+        $wrapPromise = new Promise(
+            function () use (&$wrapPromise) {
+                $wrapPromise->resolve(
+                    $this->mapEventsToActivity(
+                        $this->getFacade()->getEvents(new GitlabQueryDto(date(date('Y-m-d', strtotime('-1 day')))))
+                    )
+                );
+            }
         );
+
+        return $wrapPromise;
     }
 
     private function mapEventsToActivity(array $events): ActivityDtoCollection
