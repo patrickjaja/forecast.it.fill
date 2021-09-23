@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -11,9 +11,11 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\ForecastClient;
 
+use ForecastAutomation\Cache\CacheFacade;
 use ForecastAutomation\ForecastClient\Business\ForecastApi;
 use ForecastAutomation\ForecastClient\Shared\Dto\ForecastConfigDto;
 use ForecastAutomation\Kernel\AbstractFactory;
+use ForecastAutomation\Log\LogFacade;
 use GuzzleHttp\Client;
 
 class ForecastClientFactory extends AbstractFactory
@@ -34,11 +36,23 @@ class ForecastClientFactory extends AbstractFactory
         return new ForecastApi(
             $this->createClient(),
             $this->createForecastConfigDto(),
+            $this->getLogFacade(),
+            $this->getCacheFacade(),
         );
     }
 
     public function createClient(): Client
     {
-        return new Client(['base_uri' => (string) $_ENV['FORECAST_HOST']]);
+        return new Client(['base_uri' => (string)$_ENV['FORECAST_HOST']]);
+    }
+
+    public function getLogFacade(): LogFacade
+    {
+        return $this->getProvidedDependency(ForecastClientDependencyProvider::LOG_FACADE);
+    }
+
+    public function getCacheFacade(): CacheFacade
+    {
+        return $this->getProvidedDependency(ForecastClientDependencyProvider::CACHE_FACADE);
     }
 }

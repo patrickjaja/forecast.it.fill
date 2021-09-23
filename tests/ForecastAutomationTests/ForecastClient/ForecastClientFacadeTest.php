@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -13,9 +13,11 @@ namespace ForecastAutomationTests\ForecastClient;
 
 use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
+use ForecastAutomation\Cache\CacheFacade;
 use ForecastAutomation\ForecastClient\ForecastClientFacade;
 use ForecastAutomation\ForecastClient\ForecastClientFactory;
 use ForecastAutomation\ForecastClient\Shared\Dto\ForecastConfigDto;
+use ForecastAutomation\Log\LogFacade;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
@@ -34,40 +36,64 @@ final class ForecastClientFacadeTest extends TestCase
         static::assertSame(1, $writtenActivities);
     }
 
+    private function createCacheFacadeMock(): CacheFacade
+    {
+        $cacheFacadeMock = $this->getMockBuilder(CacheFacade::class)
+            ->onlyMethods(['set', 'has'])
+            ->getMock();
+        $cacheFacadeMock->method('has')
+            ->willReturn(
+                false
+            );
+
+        $cacheFacadeMock->method('set')
+            ->willReturn(
+                true
+            );
+
+        return $cacheFacadeMock;
+    }
+
+    private function createLogFacadeMock(): LogFacade
+    {
+        return $this->getMockBuilder(LogFacade::class)
+            ->getMock();
+    }
+
     private function createForecastClientFacade(): ForecastClientFacade
     {
         $clientMock = $this->getMockBuilder(Client::class)
             ->onlyMethods(['request'])
-            ->getMock()
-        ;
+            ->getMock();
         $clientMock
             ->method('request')
             ->willReturn(
                 new Response(200, ['X-Foo' => 'Bar'], '[{"title":"test-ticket-number","id":1}]')
-            )
-        ;
+            );
 
         $forecastClientFactoryMock = $this->getMockBuilder(ForecastClientFactory::class)
-            ->onlyMethods(['createClient', 'createForecastConfigDto'])
-            ->getMock()
-        ;
+            ->onlyMethods(['createClient', 'createForecastConfigDto', 'getLogFacade', 'getCacheFacade'])
+            ->getMock();
         $forecastClientFactoryMock
             ->method('createClient')
-            ->willReturn($clientMock)
-        ;
+            ->willReturn($clientMock);
+        $forecastClientFactoryMock
+            ->method('getLogFacade')
+            ->willReturn($this->createLogFacadeMock());
+        $forecastClientFactoryMock
+            ->method('getCacheFacade')
+            ->willReturn($this->createCacheFacadeMock());
 
-        $forecastClientFactoryMock->method('createForecastConfigDto')
-            ->willReturn(new ForecastConfigDto('', '', '', '', ''))
-        ;
+        $forecastClientFactoryMock
+            ->method('createForecastConfigDto')
+            ->willReturn(new ForecastConfigDto('', '', '', '', ''));
 
         $forecastClientFacadeMock = $this->getMockBuilder(ForecastClientFacade::class)
             ->onlyMethods(['getFactory'])
-            ->getMock()
-        ;
+            ->getMock();
         $forecastClientFacadeMock
             ->method('getFactory')
-            ->willReturn($forecastClientFactoryMock)
-        ;
+            ->willReturn($forecastClientFactoryMock);
 
         return $forecastClientFacadeMock;
     }

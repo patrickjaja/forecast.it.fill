@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -12,7 +12,9 @@ declare(strict_types=1);
 namespace ForecastAutomation\ForecastClient\Business;
 
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
+use ForecastAutomation\Cache\CacheFacade;
 use ForecastAutomation\ForecastClient\Shared\Dto\ForecastConfigDto;
+use ForecastAutomation\Log\LogFacade;
 use GuzzleHttp\Client;
 
 class ForecastApi
@@ -22,9 +24,12 @@ class ForecastApi
 
     public static array $TASK_CACHE = [];
 
-    public function __construct(private Client $guzzleClient, private ForecastConfigDto $forecastConfigDto)
-    {
-        //ToDo: Use \Psr\SimpleCache\CacheInterface $this->cache->set($cacheKey, $result, 6000)
+    public function __construct(
+        private Client $guzzleClient,
+        private ForecastConfigDto $forecastConfigDto,
+        private LogFacade $logFacade,
+        private CacheFacade $cacheFacade,
+    ) {
         $this->warmTaskCache();
     }
 
@@ -33,15 +38,14 @@ class ForecastApi
         $savedActivities = 0;
         foreach ($activityDtoCollection as $activityDto) {
             $writeTimeRegistration = [
-                'person' => (int) $this->forecastConfigDto->forecastPersonId,
+                'person' => (int)$this->forecastConfigDto->forecastPersonId,
                 'task' => $this->findTaskIdToNeedle($activityDto->needle),
                 'time_registered' => $activityDto->duration,
                 'date' => $activityDto->created->format('Y-m-d'),
                 'notes' => $activityDto->description,
             ];
             $writeResponse = $this->callPostApi(self::TIME_REGISTRATIONS_ENDPOINT, $writeTimeRegistration);
-            //ToDo: return output or use loggertrait, otherwise not testable
-//            echo "New Time Entry (date: $writeResponse->date, person: $writeResponse->person, notes: $writeResponse->notes \n";
+            $this->logFacade->info('activity sent to forecast.', (array)$writeResponse);
             ++$savedActivities;
         }
 
@@ -50,26 +54,30 @@ class ForecastApi
 
     private function warmTaskCache(): array
     {
-        if (0 === \count(static::$TASK_CACHE)) {
-            static::$TASK_CACHE = $this->callGetApi(
-                str_replace('{{PROJECT_ID}}', $this->forecastConfigDto->forecastProjectId, self::TASK_LIST_ENDPOINT)
-            );
-        }
+        static::$TASK_CACHE = $this->callGetApi(
+            str_replace('{{PROJECT_ID}}', $this->forecastConfigDto->forecastProjectId, self::TASK_LIST_ENDPOINT)
+        );
 
         return static::$TASK_CACHE;
     }
 
-    private function callGetApi(string $path)
+    private function callGetApi(string $path): array
     {
-        $res = $this->guzzleClient->request(
-            'GET',
-            $path,
-            [
-                'headers' => ['X-FORECAST-API-KEY' => $this->forecastConfigDto->forecastApiKey],
-            ]
-        );
+        if (!$this->cacheFacade->has($path)) {
+            $res = $this->guzzleClient->request(
+                'GET',
+                $path,
+                [
+                    'headers' => ['X-FORECAST-API-KEY' => $this->forecastConfigDto->forecastApiKey],
+                ]
+            );
+            $forecastResponse = json_decode((string)$res->getBody(), null, 512, JSON_THROW_ON_ERROR);
+            $this->cacheFacade->set($path, $forecastResponse);
+        } else {
+            $forecastResponse = $this->cacheFacade->get($path);
+        }
 
-        return json_decode((string) $res->getBody(), null, 512, JSON_THROW_ON_ERROR);
+        return $forecastResponse;
     }
 
     private function callPostApi(string $path, array $postData)
@@ -87,7 +95,7 @@ class ForecastApi
             ]
         );
 
-        return json_decode((string) $res->getBody(), null, 512, JSON_THROW_ON_ERROR);
+        return json_decode((string)$res->getBody(), null, 512, JSON_THROW_ON_ERROR);
     }
 
     private function findTaskIdToNeedle(string $taskNeedle): int
@@ -98,6 +106,6 @@ class ForecastApi
             }
         }
 
-        return (int) $this->forecastConfigDto->forecastFallbackTaskId;
+        return (int)$this->forecastConfigDto->forecastFallbackTaskId;
     }
 }
