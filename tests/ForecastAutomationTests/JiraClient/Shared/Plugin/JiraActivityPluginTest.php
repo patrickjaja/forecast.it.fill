@@ -30,7 +30,7 @@ final class JiraActivityPluginTest extends TestCase
 
     public function testCanReadEvents(): void
     {
-        $comments = $this->createJiraActivityPlugin()->collect();
+        $comments = $this->createJiraActivityPlugin()->collect()->wait();
         static::assertSame(self::TICKET_PATTERN, $comments->offsetGet(0)->needle);
         static::assertSame('Ticket Bearbeitung: TESTNR-1 - test...', $comments->offsetGet(0)->description);
         static::assertSame('2021-01-02', $comments->offsetGet(0)->created->format('Y-m-d'));

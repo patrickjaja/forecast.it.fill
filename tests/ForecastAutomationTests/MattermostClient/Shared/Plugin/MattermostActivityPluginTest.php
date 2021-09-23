@@ -13,6 +13,8 @@ namespace ForecastAutomationTests\MattermostClient\Shared\Plugin;
 
 use ForecastAutomation\MattermostClient\MattermostClientFacade;
 use ForecastAutomation\MattermostClient\Shared\Plugin\MattermostActivityPlugin;
+use GuzzleHttp\Promise\Promise;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -26,7 +28,7 @@ final class MattermostActivityPluginTest extends TestCase
     public function testCanReadEvents(): void
     {
         $_ENV['MATTERMOST_PATTERN'] = self::TICKET_PATTERN;
-        $activityDtoCollection = $this->createMattermostActivityPlugin()->collect();
+        $activityDtoCollection = $this->createMattermostActivityPlugin()->collect()->wait();
         static::assertSame(self::TICKET_PATTERN.'-1234', $activityDtoCollection->offsetGet(0)->needle);
         static::assertSame(MattermostActivityPlugin::POST_SUFFIX.': TESTNR-1234', $activityDtoCollection->offsetGet(0)->description);
         static::assertSame((new \DateTime())->format('Y-m-d'), $activityDtoCollection->offsetGet(0)->created->format('Y-m-d'));
@@ -40,16 +42,24 @@ final class MattermostActivityPluginTest extends TestCase
             ->getMock()
         ;
 
+
         $testChannel = new \stdClass();
         $testChannel->id = 'test-channel-id';
+        $resolvedPromiseChannel = new Promise(function() use (&$resolvedPromiseChannel,$testChannel){
+            $resolvedPromiseChannel->resolve([$testChannel]);
+        });
 
         $mattermostClientFacadeMock
             ->method('getChannel')
-            ->willReturn([$testChannel])
+            ->willReturn($resolvedPromiseChannel)
         ;
+
+        $resolvedPromisePosts = new Promise(function() use (&$resolvedPromisePosts,$testChannel){
+            $resolvedPromisePosts->resolve([['message' => 'testmessage '.self::TICKET_PATTERN.'-1234', 'create_at' => (new \DateTime())->format('U') * 1000]]);
+        });
         $mattermostClientFacadeMock
             ->method('getPosts')
-            ->willReturn([['message' => 'testmessage '.self::TICKET_PATTERN.'-1234', 'create_at' => (new \DateTime())->format('U') * 1000]])
+            ->willReturn($resolvedPromisePosts)
         ;
 
         $mattermostActivityPluginMock = $this->getMockBuilder(MattermostActivityPlugin::class)

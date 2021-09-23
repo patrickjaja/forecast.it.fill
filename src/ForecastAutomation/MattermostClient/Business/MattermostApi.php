@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -14,6 +14,10 @@ namespace ForecastAutomation\MattermostClient\Business;
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostConfigDto;
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostPostsQueryDto;
 use GuzzleHttp\Client;
+use GuzzleHttp\Promise\FulfilledPromise;
+use GuzzleHttp\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Psr7\Response;
 
 class MattermostApi
 {
@@ -27,40 +31,49 @@ class MattermostApi
     {
     }
 
-    public function getChannel(array $channelFilterCollection): array
+    public function getChannel(array $channelFilterCollection): PromiseInterface
     {
         $this->auth();
-        $res = $this->guzzleClient->request(
-            'GET',
-            sprintf(self::CHANNEL_API, $this->mattermostConfigDto->teamId),
-            [
-                'headers' => [
-                    'Authorization' => 'Bearer '.static::$token,
-                    'Content-Type' => 'application/json',
-                ],
-            ]
-        );
-        $channelArray = json_decode((string) $res->getBody(), null, 512, JSON_THROW_ON_ERROR);
+        $wrapPromise = new Promise(function() use ($channelFilterCollection, &$wrapPromise) {
+            $res = $this->guzzleClient->requestAsync(
+                'GET',
+                sprintf(self::CHANNEL_API, $this->mattermostConfigDto->teamId),
+                [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . static::$token,
+                        'Content-Type' => 'application/json',
+                    ],
+                ]
+            )->wait();
 
-        return $this->applyChannelFilter($channelArray, $channelFilterCollection);
+            $channelArray = json_decode((string)$res->getBody(), null, 512, JSON_THROW_ON_ERROR);
+            $wrapPromise->resolve($this->applyChannelFilter($channelArray, $channelFilterCollection));
+        });
+
+        return $wrapPromise;
     }
 
-    public function getPosts(MattermostPostsQueryDto $postsQueryDto): array
+    public function getPosts(MattermostPostsQueryDto $postsQueryDto): PromiseInterface
     {
         $this->auth();
-        $res = $this->guzzleClient->request(
-            'GET',
-            sprintf(self::POSTS_API, $postsQueryDto->channelId),
-            [
-                'query' => ['since' => (int) $postsQueryDto->since->format('U') * 1000],
-                'headers' => [
-                    'Authorization' => 'Bearer '.static::$token,
-                    'Content-Type' => 'application/json',
-                ],
-            ],
-        );
 
-        return json_decode((string) $res->getBody(), true, 512, JSON_THROW_ON_ERROR)['posts'];
+        $wrapPromise = new Promise(function() use ($postsQueryDto, &$wrapPromise) {
+            $res = $this->guzzleClient->requestAsync(
+                'GET',
+                sprintf(self::POSTS_API, $postsQueryDto->channelId),
+                [
+                    'query' => ['since' => (int)$postsQueryDto->since->format('U') * 1000],
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . static::$token,
+                        'Content-Type' => 'application/json',
+                    ],
+                ],
+            )->wait();
+
+            $wrapPromise->resolve(json_decode((string)$res->getBody(), true, 512, JSON_THROW_ON_ERROR)['posts']);
+        });
+
+        return $wrapPromise;
     }
 
     private function auth(): string

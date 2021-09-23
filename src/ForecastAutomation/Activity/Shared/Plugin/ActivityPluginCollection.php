@@ -77,4 +77,17 @@ class ActivityPluginCollection implements Iterator, ArrayAccess
     {
         unset($this->plugins[$offset]);
     }
+
+    /**
+     * @return \GuzzleHttp\Promise\PromiseInterface[]
+     */
+    public function collect(): array
+    {
+        $promises = [];
+        foreach ($this->plugins as $plugin)
+        {
+            $promises[]=$plugin->collect();
+        }
+        return $promises;
+    }
 }

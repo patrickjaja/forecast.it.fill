@@ -17,6 +17,7 @@ use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginCollection;
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginInterface;
+use GuzzleHttp\Promise\Promise;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -44,18 +45,19 @@ final class ActivityFacadeTest extends TestCase
             ->onlyMethods(['collect'])
             ->getMock()
         ;
+        $resolvedPromise = new Promise(function() use (&$resolvedPromise){
+            $resolvedPromise->resolve(new ActivityDtoCollection(
+                new ActivityDto(
+                    self::TEST_NEEDLE_1,
+                    self::TEST_DESCRIPTION,
+                    new \DateTime(self::TEST_CREATED),
+                    self::TEST_DURATION
+                )
+            ));
+        });
         $activityPluginMock
             ->method('collect')
-            ->willReturn(
-                new ActivityDtoCollection(
-                    new ActivityDto(
-                        self::TEST_NEEDLE_1,
-                        self::TEST_DESCRIPTION,
-                        new \DateTime(self::TEST_CREATED),
-                        self::TEST_DURATION
-                    )
-                )
-            )
+            ->willReturn($resolvedPromise)
         ;
 
         $activityFactoryMock = $this->getMockBuilder(ActivityFactory::class)

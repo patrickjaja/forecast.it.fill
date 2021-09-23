@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -17,6 +17,9 @@ use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginInterface;
 use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostPostsQueryDto;
 use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\ChannelFilterInterface;
+use GuzzleHttp\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Promise\Utils;
 
 /**
  * @method \ForecastAutomation\MattermostClient\MattermostClientFacade getFacade()
@@ -34,28 +37,36 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
         parent::__construct();
     }
 
-    public function collect(): ActivityDtoCollection
+    public function collect(): PromiseInterface
     {
-        $channelWithActivity = $this->getFacade()->getChannel($this->channelFilterCollection);
-        $filteredPostsCollection = [];
-        foreach ($channelWithActivity as $channel) {
-            $postsCollection = $this->getFacade()->getPosts(
-                (new MattermostPostsQueryDto($channel->id, new \DateTime(date('Y-m-d'))))
+        return $this->getFacade()
+            ->getChannel($this->channelFilterCollection)
+            ->then(
+                function(array $channels) {
+                    $postPromises = [];
+                    foreach ($channels as $channel) {
+                        $postPromises []= $this->getFacade()->getPosts(
+                            (new MattermostPostsQueryDto($channel->id, new \DateTime(date('Y-m-d'))))
+                        );
+                    }
+
+                    $postsCollection = Utils::all($postPromises)->wait();
+
+                    return $this->mapEventsToActivity($this->filterPosts($postsCollection));
+                }
             );
-
-            $filteredPostsCollection += $this->filterPosts($postsCollection)
-            ;
-        }
-
-        return $this->mapEventsToActivity($filteredPostsCollection);
     }
 
     private function filterPosts(array $postsCollection): array
     {
         $filteredPosts = [];
-        foreach ($postsCollection as $post) {
-            if ($this->hasNeedle($post['message'])) {
-                $filteredPosts[] = $post;
+
+        foreach ($postsCollection as $postpackCollection)
+        {
+            foreach ($postpackCollection as $post) {
+                if ($this->hasNeedle($post['message'])) {
+                    $filteredPosts[] = $post;
+                }
             }
         }
 
@@ -74,7 +85,7 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
             $activityDtoArray[$ticketNr] = new ActivityDto(
                 $ticketNr,
                 sprintf('%s: %s', self::POST_SUFFIX, $ticketNr),
-                new \DateTime(date('d-m-Y', (int) ($post['create_at'] / 1000))),
+                new \DateTime(date('d-m-Y', (int)($post['create_at'] / 1000))),
                 $duration
             );
         }
@@ -86,8 +97,8 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
     {
         $matchPattern = sprintf('(%s-[0-9]{1,})i', $_ENV['GITLAB_PATTERN']);
         $resultMatch = preg_match($matchPattern, $target_title, $match);
-        if (0 === $resultMatch || ! isset($match[0])) {
-            throw new \Exception('gitlab needle not found for target_title: '.$target_title);
+        if (0 === $resultMatch || !isset($match[0])) {
+            throw new \Exception('gitlab needle not found for target_title: ' . $target_title);
         }
 
         return strtoupper($match[0]);
@@ -97,7 +108,7 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
     {
         $matchPattern = sprintf('(%s-[0-9]{1,})i', $_ENV['MATTERMOST_PATTERN']);
         $resultMatch = preg_match($matchPattern, $target_title, $match);
-        if (0 === $resultMatch || ! isset($match[0])) {
+        if (0 === $resultMatch || !isset($match[0])) {
             return false;
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -13,6 +13,7 @@ namespace ForecastAutomation\Activity\Business;
 
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginCollection;
+use GuzzleHttp\Promise\Utils;
 
 class ActivityCollector
 {
@@ -22,11 +23,19 @@ class ActivityCollector
 
     public function collect(): ActivityDtoCollection
     {
-        $activityDtoCollection = new ActivityDtoCollection();
-        foreach ($this->activityPluginCollection as $activityPlugin) {
-            $activityDtoCollection = $activityDtoCollection->merge($activityPlugin->collect());
-        }
+        $activityDtoCollections = Utils::all($this->activityPluginCollection->collect())->wait();
+        return $this->mergeActivityDtoCollections($activityDtoCollections);
+    }
 
-        return $activityDtoCollection;
+    private function mergeActivityDtoCollections(array $activityDtoCollections): ActivityDtoCollection
+    {
+        $mergedActivityDtoCollection = new ActivityDtoCollection();
+        array_map(
+            static fn($activityDtoCollection): ActivityDtoCollection => $mergedActivityDtoCollection->merge(
+                $activityDtoCollection
+            ),
+            $activityDtoCollections
+        );
+        return $mergedActivityDtoCollection;
     }
 }
