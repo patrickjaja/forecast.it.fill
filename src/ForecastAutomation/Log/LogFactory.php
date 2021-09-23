@@ -26,7 +26,7 @@ class LogFactory extends AbstractFacade
 
     public function createMonologger(): MonologLogger
     {
-        return (new MonologLogger(getenv('APPLICATION_NAME')))
+        return (new MonologLogger($_ENV['APPLICATION_NAME']))
             ->setHandlers(
                 [
                     $this->createStreamHandler(),
@@ -38,7 +38,7 @@ class LogFactory extends AbstractFacade
 
     public function createLogglyStreamHandler(): LogglyHandler
     {
-        return new LogglyHandler(getenv('LOGGLY_CUSTOMER_TOKEN'));
+        return new LogglyHandler($_ENV['LOGGLY_CUSTOMER_TOKEN']);
     }
 
     public function createStreamHandler(): StreamHandler
