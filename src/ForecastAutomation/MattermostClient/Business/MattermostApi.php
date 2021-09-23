@@ -33,7 +33,7 @@ class MattermostApi
     {
         $this->auth();
 
-        return new Promise(function () use ($channelFilterCollection, &$wrapPromise) {
+        $wrapPromise = new Promise(function () use ($channelFilterCollection, &$wrapPromise) {
             $res = $this->guzzleClient->requestAsync(
                 'GET',
                 sprintf(self::CHANNEL_API, $this->mattermostConfigDto->teamId),
@@ -48,6 +48,8 @@ class MattermostApi
             $channelArray = json_decode((string) $res->getBody(), null, 512, JSON_THROW_ON_ERROR);
             $wrapPromise->resolve($this->applyChannelFilter($channelArray, $channelFilterCollection));
         });
+
+        return $wrapPromise;
     }
 
     public function getPosts(MattermostPostsQueryDto $postsQueryDto): PromiseInterface
@@ -67,8 +69,8 @@ class MattermostApi
             )->wait();
 
             $wrapPromise->resolve(json_decode((string) $res->getBody(), true, 512, JSON_THROW_ON_ERROR)['posts']);
-            return 0;
         });
+
         return $wrapPromise;
     }
 
