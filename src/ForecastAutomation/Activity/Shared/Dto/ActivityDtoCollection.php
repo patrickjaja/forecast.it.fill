@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -81,7 +81,7 @@ class ActivityDtoCollection implements Iterator, ArrayAccess
     public function merge(self $activityDtoCollection): self
     {
         foreach ($activityDtoCollection as $activityDto) {
-            if (!$this->sumDurationIfExist($activityDto)) {
+            if (! $this->sumDurationIfExist($activityDto)) {
                 $this->activityDtos[] = $activityDto;
             }
         }

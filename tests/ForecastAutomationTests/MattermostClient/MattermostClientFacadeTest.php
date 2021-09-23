@@ -62,7 +62,7 @@ final class MattermostClientFacadeTest extends TestCase
 
     private function createMattermostClientFacade(string $jsonApiResponse): MattermostClientFacade
     {
-        $resolvedPromise = new Promise(function() use (&$resolvedPromise,$jsonApiResponse){
+        $resolvedPromise = new Promise(function () use (&$resolvedPromise, $jsonApiResponse) {
             $resolvedPromise->resolve(new Response(200, ['X-Foo' => 'Bar'], $jsonApiResponse));
         });
         $clientMock = $this->getMockBuilder(Client::class)

@@ -45,7 +45,7 @@ final class ActivityFacadeTest extends TestCase
             ->onlyMethods(['collect'])
             ->getMock()
         ;
-        $resolvedPromise = new Promise(function() use (&$resolvedPromise){
+        $resolvedPromise = new Promise(function () use (&$resolvedPromise) {
             $resolvedPromise->resolve(new ActivityDtoCollection(
                 new ActivityDto(
                     self::TEST_NEEDLE_1,

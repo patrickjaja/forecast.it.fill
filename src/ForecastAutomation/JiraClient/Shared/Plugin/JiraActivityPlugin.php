@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -28,14 +28,12 @@ class JiraActivityPlugin extends AbstractPlugin implements ActivityPluginInterfa
 
     public function collect(): PromiseInterface
     {
-        $wrapPromise = new Promise(
-            function() use (&$wrapPromise) {
+        return new Promise(
+            function () use (&$wrapPromise) {
                 $comments = $this->getFacade()->getComments(date('Y-m-d 00:00'));
                 $wrapPromise->resolve($this->createActivityDtoCollection($comments));
             }
         );
-
-        return $wrapPromise;
     }
 
     private function createActivityDtoCollection(array $jiraComments): ActivityDtoCollection

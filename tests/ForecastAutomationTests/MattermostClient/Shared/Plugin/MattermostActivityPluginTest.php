@@ -14,7 +14,6 @@ namespace ForecastAutomationTests\MattermostClient\Shared\Plugin;
 use ForecastAutomation\MattermostClient\MattermostClientFacade;
 use ForecastAutomation\MattermostClient\Shared\Plugin\MattermostActivityPlugin;
 use GuzzleHttp\Promise\Promise;
-use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -42,10 +41,9 @@ final class MattermostActivityPluginTest extends TestCase
             ->getMock()
         ;
 
-
         $testChannel = new \stdClass();
         $testChannel->id = 'test-channel-id';
-        $resolvedPromiseChannel = new Promise(function() use (&$resolvedPromiseChannel,$testChannel){
+        $resolvedPromiseChannel = new Promise(function () use (&$resolvedPromiseChannel, $testChannel) {
             $resolvedPromiseChannel->resolve([$testChannel]);
         });
 
@@ -54,7 +52,7 @@ final class MattermostActivityPluginTest extends TestCase
             ->willReturn($resolvedPromiseChannel)
         ;
 
-        $resolvedPromisePosts = new Promise(function() use (&$resolvedPromisePosts,$testChannel){
+        $resolvedPromisePosts = new Promise(function () use (&$resolvedPromisePosts) {
             $resolvedPromisePosts->resolve([['message' => 'testmessage '.self::TICKET_PATTERN.'-1234', 'create_at' => (new \DateTime())->format('U') * 1000]]);
         });
         $mattermostClientFacadeMock

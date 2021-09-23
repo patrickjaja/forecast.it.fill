@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -30,8 +30,8 @@ class GitlabActivityPlugin extends AbstractPlugin implements ActivityPluginInter
 
     public function collect(): PromiseInterface
     {
-        $wrapPromise = new Promise(
-            function() use (&$wrapPromise) {
+        return new Promise(
+            function () use (&$wrapPromise) {
                 $wrapPromise->resolve(
                     $this->mapEventsToActivity(
                         $this->getFacade()->getEvents(new GitlabQueryDto(date(date('Y-m-d', strtotime('-1 day')))))
@@ -39,8 +39,6 @@ class GitlabActivityPlugin extends AbstractPlugin implements ActivityPluginInter
                 );
             }
         );
-
-        return $wrapPromise;
     }
 
     private function mapEventsToActivity(array $events): ActivityDtoCollection
@@ -74,8 +72,8 @@ class GitlabActivityPlugin extends AbstractPlugin implements ActivityPluginInter
     {
         $matchPattern = sprintf('(%s-[0-9]{1,})i', $_ENV['GITLAB_PATTERN']);
         $resultMatch = preg_match($matchPattern, $target_title, $match);
-        if (0 === $resultMatch || !isset($match[0])) {
-            throw new \Exception('gitlab needle not found for target_title: ' . $target_title);
+        if (0 === $resultMatch || ! isset($match[0])) {
+            throw new \Exception('gitlab needle not found for target_title: '.$target_title);
         }
 
         return strtoupper($match[0]);

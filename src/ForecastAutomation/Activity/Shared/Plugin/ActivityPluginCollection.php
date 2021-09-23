@@ -84,10 +84,10 @@ class ActivityPluginCollection implements Iterator, ArrayAccess
     public function collect(): array
     {
         $promises = [];
-        foreach ($this->plugins as $plugin)
-        {
-            $promises[]=$plugin->collect();
+        foreach ($this->plugins as $plugin) {
+            $promises[] = $plugin->collect();
         }
+
         return $promises;
     }
 }
