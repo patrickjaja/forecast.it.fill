@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -31,12 +31,9 @@ class ActivityCollector
     private function mergeActivityDtoCollections(array $activityDtoCollections): ActivityDtoCollection
     {
         $mergedActivityDtoCollection = new ActivityDtoCollection();
-        array_map(
-            static fn ($activityDtoCollection): ActivityDtoCollection => $mergedActivityDtoCollection->merge(
-                $activityDtoCollection
-            ),
-            $activityDtoCollections
-        );
+        foreach ($activityDtoCollections as $activityDtoCollection) {
+            $mergedActivityDtoCollection->merge($activityDtoCollection);
+        }
 
         return $mergedActivityDtoCollection;
     }
