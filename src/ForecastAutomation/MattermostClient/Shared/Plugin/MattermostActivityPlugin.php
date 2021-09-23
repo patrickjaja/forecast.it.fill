@@ -86,7 +86,7 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
     {
         $matchPattern = sprintf('(%s-[0-9]{1,})i', $_ENV['GITLAB_PATTERN']);
         $resultMatch = preg_match($matchPattern, $target_title, $match);
-        if (0 === $resultMatch || !isset($match[0])) {
+        if (0 === $resultMatch || ! isset($match[0])) {
             throw new \Exception('gitlab needle not found for target_title: '.$target_title);
         }
 
@@ -97,7 +97,7 @@ class MattermostActivityPlugin extends AbstractPlugin implements ActivityPluginI
     {
         $matchPattern = sprintf('(%s-[0-9]{1,})i', $_ENV['MATTERMOST_PATTERN']);
         $resultMatch = preg_match($matchPattern, $target_title, $match);
-        if (0 === $resultMatch || !isset($match[0])) {
+        if (0 === $resultMatch || ! isset($match[0])) {
             return false;
         }
 

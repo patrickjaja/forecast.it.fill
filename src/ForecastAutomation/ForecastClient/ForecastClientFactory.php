@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -43,7 +43,7 @@ class ForecastClientFactory extends AbstractFactory
 
     public function createClient(): Client
     {
-        return new Client(['base_uri' => (string)$_ENV['FORECAST_HOST']]);
+        return new Client(['base_uri' => (string) $_ENV['FORECAST_HOST']]);
     }
 
     public function getLogFacade(): LogFacade

@@ -81,7 +81,7 @@ class ActivityDtoCollection implements Iterator, ArrayAccess
     public function merge(self $activityDtoCollection): self
     {
         foreach ($activityDtoCollection as $activityDto) {
-            if (!$this->sumDurationIfExist($activityDto)) {
+            if (! $this->sumDurationIfExist($activityDto)) {
                 $this->activityDtos[] = $activityDto;
             }
         }

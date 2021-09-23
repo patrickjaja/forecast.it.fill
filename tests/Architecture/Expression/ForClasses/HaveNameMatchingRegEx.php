@@ -35,7 +35,7 @@ class HaveNameMatchingRegEx implements Expression
     public function evaluate(ClassDescription $theClass, Violations $violations): void
     {
         $fqcn = FullyQualifiedClassName::fromString($theClass->getFQCN());
-        if (!$fqcn->classMatches($this->name)) {
+        if (! $fqcn->classMatches($this->name)) {
             $violation = Violation::create(
                 $theClass->getFQCN(),
                 $this->describe($theClass)->toString()

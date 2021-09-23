@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -38,14 +38,14 @@ class ForecastApi
         $savedActivities = 0;
         foreach ($activityDtoCollection as $activityDto) {
             $writeTimeRegistration = [
-                'person' => (int)$this->forecastConfigDto->forecastPersonId,
+                'person' => (int) $this->forecastConfigDto->forecastPersonId,
                 'task' => $this->findTaskIdToNeedle($activityDto->needle),
                 'time_registered' => $activityDto->duration,
                 'date' => $activityDto->created->format('Y-m-d'),
                 'notes' => $activityDto->description,
             ];
             $writeResponse = $this->callPostApi(self::TIME_REGISTRATIONS_ENDPOINT, $writeTimeRegistration);
-            $this->logFacade->info('activity sent to forecast.', (array)$writeResponse);
+            $this->logFacade->info('activity sent to forecast.', (array) $writeResponse);
             ++$savedActivities;
         }
 
@@ -63,7 +63,7 @@ class ForecastApi
 
     private function callGetApi(string $path): array
     {
-        if (!$this->cacheFacade->has($path)) {
+        if (! $this->cacheFacade->has($path)) {
             $res = $this->guzzleClient->request(
                 'GET',
                 $path,
@@ -71,7 +71,7 @@ class ForecastApi
                     'headers' => ['X-FORECAST-API-KEY' => $this->forecastConfigDto->forecastApiKey],
                 ]
             );
-            $forecastResponse = json_decode((string)$res->getBody(), null, 512, JSON_THROW_ON_ERROR);
+            $forecastResponse = json_decode((string) $res->getBody(), null, 512, JSON_THROW_ON_ERROR);
             $this->cacheFacade->set($path, $forecastResponse);
         } else {
             $forecastResponse = $this->cacheFacade->get($path);
@@ -95,7 +95,7 @@ class ForecastApi
             ]
         );
 
-        return json_decode((string)$res->getBody(), null, 512, JSON_THROW_ON_ERROR);
+        return json_decode((string) $res->getBody(), null, 512, JSON_THROW_ON_ERROR);
     }
 
     private function findTaskIdToNeedle(string $taskNeedle): int
@@ -106,6 +106,6 @@ class ForecastApi
             }
         }
 
-        return (int)$this->forecastConfigDto->forecastFallbackTaskId;
+        return (int) $this->forecastConfigDto->forecastFallbackTaskId;
     }
 }

@@ -25,7 +25,7 @@ class PatternString extends ArkitectPatternString
 
     public function matches(string $pattern): bool
     {
-        if (!parent::matches($pattern)) {
+        if (! parent::matches($pattern)) {
             return 1 === preg_match($pattern, $this->value);
         }
     }

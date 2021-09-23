@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of forecast.it.fill project.
+ * (c) Patrick Jaja <patrickjaja@web.de>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace ForecastAutomation\Log;
 
 use ForecastAutomation\Kernel\AbstractFacade;
@@ -25,7 +32,8 @@ class LogFactory extends AbstractFacade
                     $this->createStreamHandler(),
                     $this->createLogglyStreamHandler(),
                 ]
-            );
+            )
+        ;
     }
 
     public function createLogglyStreamHandler(): LogglyHandler

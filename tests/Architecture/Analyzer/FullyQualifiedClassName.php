@@ -63,7 +63,7 @@ class FullyQualifiedClassName
     {
         $validFqcn = '/^[a-zA-Z_\x7f-\xff\\\\][a-zA-Z0-9_\x7f-\xff\\\\]*[a-zA-Z0-9_\x7f-\xff]$/';
 
-        if (!(bool) preg_match($validFqcn, $fqcn)) {
+        if (! (bool) preg_match($validFqcn, $fqcn)) {
             throw new \RuntimeException("{$fqcn} is not a valid namespace definition");
         }
 

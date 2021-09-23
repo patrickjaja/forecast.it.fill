@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of forecast.it.fill project.
+ * (c) Patrick Jaja <patrickjaja@web.de>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace ForecastAutomation\Cache;
 
 use ForecastAutomation\Kernel\AbstractFactory;
@@ -9,16 +16,17 @@ class CacheFactory extends AbstractFactory
 {
     public function createSimpleCache(): Cache
     {
-        if (!file_exists('/tmp/simple-cache')
-            && !mkdir('/tmp/simple-cache', 0777, true)
-            && !is_dir(
+        if (! file_exists('/tmp/simple-cache')
+            && ! mkdir('/tmp/simple-cache', 0777, true)
+            && ! is_dir(
                 '/tmp/simple-cache'
             )) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', '/tmp/simple-cache'));
         }
 
         return new Cache(
-            $this->getCacheType(), [
+            $this->getCacheType(),
+            [
                 'storage' => '/tmp/simple-cache',
             ]
         );
