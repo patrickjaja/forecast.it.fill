@@ -53,8 +53,7 @@ class MattermostApi
     public function getPosts(MattermostPostsQueryDto $postsQueryDto): PromiseInterface
     {
         $this->auth();
-
-        return new Promise(function () use ($postsQueryDto, &$wrapPromise) {
+        $wrapPromise = new Promise(function () use ($postsQueryDto, &$wrapPromise) {
             $res = $this->guzzleClient->requestAsync(
                 'GET',
                 sprintf(self::POSTS_API, $postsQueryDto->channelId),
@@ -68,7 +67,9 @@ class MattermostApi
             )->wait();
 
             $wrapPromise->resolve(json_decode((string) $res->getBody(), true, 512, JSON_THROW_ON_ERROR)['posts']);
+            return 0;
         });
+        return $wrapPromise;
     }
 
     private function auth(): string
