@@ -30,7 +30,7 @@ class GitlabActivityPlugin extends AbstractPlugin implements ActivityPluginInter
 
     public function collect(): PromiseInterface
     {
-        return new Promise(
+        $wrapPromise = new Promise(
             function () use (&$wrapPromise) {
                 $wrapPromise->resolve(
                     $this->mapEventsToActivity(
@@ -39,6 +39,7 @@ class GitlabActivityPlugin extends AbstractPlugin implements ActivityPluginInter
                 );
             }
         );
+        return $wrapPromise;
     }
 
     private function mapEventsToActivity(array $events): ActivityDtoCollection
