@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -35,9 +35,9 @@ final class MattermostActivityPluginTest extends TestCase
     {
         $_ENV['MATTERMOST_PATTERN'] = self::TICKET_PATTERN;
         $activityDtoCollection = $this->createMattermostActivityPlugin()->collect()->wait();
-        static::assertSame(self::TICKET_PATTERN . '-1234', $activityDtoCollection->offsetGet(0)->needle);
+        static::assertSame(self::TICKET_PATTERN.'-1234', $activityDtoCollection->offsetGet(0)->needle);
         static::assertSame(
-            MattermostActivityPlugin::POST_SUFFIX . ': TESTNR-1234',
+            MattermostActivityPlugin::POST_SUFFIX.': TESTNR-1234',
             $activityDtoCollection->offsetGet(0)->description
         );
         static::assertSame(
@@ -51,14 +51,16 @@ final class MattermostActivityPluginTest extends TestCase
     {
         $mattermostClientFacadeMock = $this->getMockBuilder(MattermostClientFacade::class)
             ->onlyMethods(['getChannel', 'getPosts'])
-            ->getMock();
+            ->getMock()
+        ;
 
         $testChannel = new \stdClass();
         $testChannel->id = 'test-channel-id';
 
         $mattermostClientFacadeMock
             ->method('getChannel')
-            ->willReturn($this->guzzleFactoryHelper->createResolvedPromise([$testChannel]));
+            ->willReturn($this->guzzleFactoryHelper->createResolvedPromise([$testChannel]))
+        ;
 
         $mattermostClientFacadeMock
             ->method('getPosts')
@@ -66,19 +68,22 @@ final class MattermostActivityPluginTest extends TestCase
                 $this->guzzleFactoryHelper->createResolvedPromise(
                     [
                         [
-                            'message' => 'testmessage ' . self::TICKET_PATTERN . '-1234',
+                            'message' => 'testmessage '.self::TICKET_PATTERN.'-1234',
                             'create_at' => (new \DateTime())->format('U') * 1000,
                         ],
                     ]
                 )
-            );
+            )
+        ;
 
         $mattermostActivityPluginMock = $this->getMockBuilder(MattermostActivityPlugin::class)
             ->onlyMethods(['getFacade'])
-            ->getMock();
+            ->getMock()
+        ;
         $mattermostActivityPluginMock
             ->method('getFacade')
-            ->willReturn($mattermostClientFacadeMock);
+            ->willReturn($mattermostClientFacadeMock)
+        ;
 
         return $mattermostActivityPluginMock;
     }
