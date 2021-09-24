@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -13,7 +13,7 @@ namespace ForecastAutomationTests\MattermostClient\Shared\Plugin;
 
 use ForecastAutomation\MattermostClient\MattermostClientFacade;
 use ForecastAutomation\MattermostClient\Shared\Plugin\MattermostActivityPlugin;
-use GuzzleHttp\Promise\Promise;
+use ForecastAutomationTests\GuzzleClient\Shared\GuzzleFactoryHelper;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,13 +24,26 @@ final class MattermostActivityPluginTest extends TestCase
 {
     public const TICKET_PATTERN = 'TESTNR';
 
+    private GuzzleFactoryHelper $guzzleFactoryHelper;
+
+    protected function setUp(): void
+    {
+        $this->guzzleFactoryHelper = new GuzzleFactoryHelper();
+    }
+
     public function testCanReadEvents(): void
     {
         $_ENV['MATTERMOST_PATTERN'] = self::TICKET_PATTERN;
         $activityDtoCollection = $this->createMattermostActivityPlugin()->collect()->wait();
-        static::assertSame(self::TICKET_PATTERN.'-1234', $activityDtoCollection->offsetGet(0)->needle);
-        static::assertSame(MattermostActivityPlugin::POST_SUFFIX.': TESTNR-1234', $activityDtoCollection->offsetGet(0)->description);
-        static::assertSame((new \DateTime())->format('Y-m-d'), $activityDtoCollection->offsetGet(0)->created->format('Y-m-d'));
+        static::assertSame(self::TICKET_PATTERN . '-1234', $activityDtoCollection->offsetGet(0)->needle);
+        static::assertSame(
+            MattermostActivityPlugin::POST_SUFFIX . ': TESTNR-1234',
+            $activityDtoCollection->offsetGet(0)->description
+        );
+        static::assertSame(
+            (new \DateTime())->format('Y-m-d'),
+            $activityDtoCollection->offsetGet(0)->created->format('Y-m-d')
+        );
         static::assertSame(MattermostActivityPlugin::ACTIVITY_DURATION, $activityDtoCollection->offsetGet(0)->duration);
     }
 
@@ -38,36 +51,34 @@ final class MattermostActivityPluginTest extends TestCase
     {
         $mattermostClientFacadeMock = $this->getMockBuilder(MattermostClientFacade::class)
             ->onlyMethods(['getChannel', 'getPosts'])
-            ->getMock()
-        ;
+            ->getMock();
 
         $testChannel = new \stdClass();
         $testChannel->id = 'test-channel-id';
-        $resolvedPromiseChannel = new Promise(function () use (&$resolvedPromiseChannel, $testChannel) {
-            $resolvedPromiseChannel->resolve([$testChannel]);
-        });
 
         $mattermostClientFacadeMock
             ->method('getChannel')
-            ->willReturn($resolvedPromiseChannel)
-        ;
+            ->willReturn($this->guzzleFactoryHelper->createResolvedPromise([$testChannel]));
 
-        $resolvedPromisePosts = new Promise(function () use (&$resolvedPromisePosts) {
-            $resolvedPromisePosts->resolve([['message' => 'testmessage '.self::TICKET_PATTERN.'-1234', 'create_at' => (new \DateTime())->format('U') * 1000]]);
-        });
         $mattermostClientFacadeMock
             ->method('getPosts')
-            ->willReturn($resolvedPromisePosts)
-        ;
+            ->willReturn(
+                $this->guzzleFactoryHelper->createResolvedPromise(
+                    [
+                        [
+                            'message' => 'testmessage ' . self::TICKET_PATTERN . '-1234',
+                            'create_at' => (new \DateTime())->format('U') * 1000,
+                        ],
+                    ]
+                )
+            );
 
         $mattermostActivityPluginMock = $this->getMockBuilder(MattermostActivityPlugin::class)
             ->onlyMethods(['getFacade'])
-            ->getMock()
-        ;
+            ->getMock();
         $mattermostActivityPluginMock
             ->method('getFacade')
-            ->willReturn($mattermostClientFacadeMock)
-        ;
+            ->willReturn($mattermostClientFacadeMock);
 
         return $mattermostActivityPluginMock;
     }
