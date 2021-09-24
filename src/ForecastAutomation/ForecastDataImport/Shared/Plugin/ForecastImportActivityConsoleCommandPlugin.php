@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of forecast.it.fill project.
- * (c) Patrick Jaja <patrickjaja@web.de>
+ * (c) Patrick Jaja <patrickjajaa@gmail.com>
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ForecastImportActivityConsoleCommandPlugin extends AbstractCommandPlugin
 {
     public const COMMAND_NAME = 'forecast:import:activity';
-    public const DESCRIPTION = 'This command will run installer for search';
+    public const DESCRIPTION = 'This command will import your forecast.it activity, based on activated plugins.';
 
     protected function configure(): void
     {
