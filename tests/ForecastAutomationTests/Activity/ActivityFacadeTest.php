@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -50,7 +50,8 @@ final class ActivityFacadeTest extends TestCase
     {
         $activityPluginMock = $this->getMockBuilder(ActivityPluginInterface::class)
             ->onlyMethods(['collect'])
-            ->getMock();
+            ->getMock()
+        ;
         $activityPluginMock
             ->method('collect')
             ->willReturn(
@@ -64,21 +65,26 @@ final class ActivityFacadeTest extends TestCase
                         )
                     )
                 )
-            );
+            )
+        ;
 
         $activityFactoryMock = $this->getMockBuilder(ActivityFactory::class)
             ->onlyMethods(['getActivityPlugins'])
-            ->getMock();
+            ->getMock()
+        ;
         $activityFactoryMock
             ->method('getActivityPlugins')
-            ->willReturn(new ActivityPluginCollection($activityPluginMock));
+            ->willReturn(new ActivityPluginCollection($activityPluginMock))
+        ;
 
         $activityFacadeMock = $this->getMockBuilder(ActivityFacade::class)
             ->onlyMethods(['getFactory'])
-            ->getMock();
+            ->getMock()
+        ;
         $activityFacadeMock
             ->method('getFactory')
-            ->willReturn($activityFactoryMock);
+            ->willReturn($activityFactoryMock)
+        ;
 
         return $activityFacadeMock;
     }
