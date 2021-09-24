@@ -18,7 +18,7 @@ use ForecastAutomation\Kernel\AbstractFacade;
  */
 class PeriodicalActivityDataImportFacade extends AbstractFacade
 {
-    public function startImportProcess(string $periodicalDate): array
+    public function startImportProcess(string $periodicalDate): int
     {
         return $this->getFactory()->createPeriodicalActivityDataImportProcess()->start($periodicalDate);
     }
