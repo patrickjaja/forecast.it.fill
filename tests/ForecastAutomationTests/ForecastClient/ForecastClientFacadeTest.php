@@ -17,7 +17,7 @@ use ForecastAutomation\Cache\CacheFacade;
 use ForecastAutomation\ForecastClient\ForecastClientFacade;
 use ForecastAutomation\ForecastClient\ForecastClientFactory;
 use ForecastAutomation\ForecastClient\Shared\Dto\ForecastConfigDto;
-use ForecastAutomation\Log\LogFacade;
+use ForecastAutomationTests\Log\Shared\LogFactoryHelper;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
@@ -28,6 +28,13 @@ use PHPUnit\Framework\TestCase;
  */
 final class ForecastClientFacadeTest extends TestCase
 {
+    private LogFactoryHelper $logFactoryHelper;
+
+    protected function setUp(): void
+    {
+        $this->logFactoryHelper = new LogFactoryHelper();
+    }
+
     public function testCanWriteActivityCollection(): void
     {
         $writtenActivities = $this->createForecastClientFacade()->writeActivities(
@@ -57,13 +64,6 @@ final class ForecastClientFacadeTest extends TestCase
         return $cacheFacadeMock;
     }
 
-    private function createLogFacadeMock(): LogFacade
-    {
-        return $this->getMockBuilder(LogFacade::class)
-            ->getMock()
-        ;
-    }
-
     private function createForecastClientFacade(): ForecastClientFacade
     {
         $clientMock = $this->getMockBuilder(Client::class)
@@ -87,7 +87,7 @@ final class ForecastClientFacadeTest extends TestCase
         ;
         $forecastClientFactoryMock
             ->method('getLogFacade')
-            ->willReturn($this->createLogFacadeMock())
+            ->willReturn($this->logFactoryHelper->createLogFacadeMock())
         ;
         $forecastClientFactoryMock
             ->method('getCacheFacade')

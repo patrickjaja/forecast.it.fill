@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -18,8 +18,8 @@ use ForecastAutomation\MattermostClient\Shared\Dto\MattermostConfigDto;
 use ForecastAutomation\MattermostClient\Shared\Dto\MattermostPostsQueryDto;
 use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\HasMessageChannelFilter;
 use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\IsDirectChannelFilter;
+use ForecastAutomationTests\GuzzleClient\Shared\GuzzleFactoryHelper;
 use GuzzleHttp\Client;
-use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
@@ -35,10 +35,17 @@ final class MattermostClientFacadeTest extends TestCase
     public const CHANNEL_FILTER_LAST_POSTS = '2021-01-01 00:00:00';
     public const POSTS_FILTER_LAST_POSTS = '2021-01-01 00:00:00';
 
+    private GuzzleFactoryHelper $guzzleFactoryHelper;
+
+    protected function setUp(): void
+    {
+        $this->guzzleFactoryHelper = new GuzzleFactoryHelper();
+    }
+
     public function testCanGetChannel(): void
     {
         $channels = $this->createMattermostClientFacade(
-            $this->createChannelResponse((int) ((new \DateTime(self::LAST_POST))->format('U')) * 1000)
+            $this->createChannelResponse((int)((new \DateTime(self::LAST_POST))->format('U')) * 1000)
         )->getChannel(
             [
                 new HasMessageChannelFilter(new \DateTime(self::CHANNEL_FILTER_LAST_POSTS)),
@@ -62,40 +69,33 @@ final class MattermostClientFacadeTest extends TestCase
 
     private function createMattermostClientFacade(string $jsonApiResponse): MattermostClientFacade
     {
-        $resolvedPromise = new Promise(function () use (&$resolvedPromise, $jsonApiResponse) {
-            $resolvedPromise->resolve(new Response(200, ['X-Foo' => 'Bar'], $jsonApiResponse));
-        });
         $clientMock = $this->getMockBuilder(Client::class)
             ->onlyMethods(['requestAsync'])
-            ->getMock()
-        ;
+            ->getMock();
         $clientMock
             ->method('requestAsync')
             ->willReturn(
-                $resolvedPromise
-            )
-        ;
+                $this->guzzleFactoryHelper->createResolvedPromise(
+                    new Response(200, ['X-Foo' => 'Bar'], $jsonApiResponse)
+                )
+            );
 
         $mattermostClientFactoryMock = $this->getMockBuilder(MattermostClientFactory::class)
             ->onlyMethods(['createMattermostApi'])
-            ->getMock()
-        ;
+            ->getMock();
 
         $mattermostApi = new MattermostApi($clientMock, new MattermostConfigDto('', '', '', ''));
         $mattermostApi::$token = 'test-token';
         $mattermostClientFactoryMock
             ->method('createMattermostApi')
-            ->willReturn($mattermostApi)
-        ;
+            ->willReturn($mattermostApi);
 
         $mattermostClientFacadeMock = $this->getMockBuilder(MattermostClientFacade::class)
             ->onlyMethods(['getFactory'])
-            ->getMock()
-        ;
+            ->getMock();
         $mattermostClientFacadeMock
             ->method('getFactory')
-            ->willReturn($mattermostClientFactoryMock)
-        ;
+            ->willReturn($mattermostClientFactoryMock);
 
         return $mattermostClientFacadeMock;
     }
@@ -107,6 +107,6 @@ final class MattermostClientFacadeTest extends TestCase
 
     private function createChannelResponse(int $lastPostAt): string
     {
-        return '[{"id":"test-id-1234","total_msg_count":'.self::MSG_COUNT.',"type":"'.self::CHANNEL_TYPE.'","last_post_at":'.$lastPostAt.'}]';
+        return '[{"id":"test-id-1234","total_msg_count":' . self::MSG_COUNT . ',"type":"' . self::CHANNEL_TYPE . '","last_post_at":' . $lastPostAt . '}]';
     }
 }

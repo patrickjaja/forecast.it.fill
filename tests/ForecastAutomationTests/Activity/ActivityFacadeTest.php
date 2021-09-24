@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -17,7 +17,7 @@ use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginCollection;
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginInterface;
-use GuzzleHttp\Promise\Promise;
+use ForecastAutomationTests\GuzzleClient\Shared\GuzzleFactoryHelper;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -31,6 +31,13 @@ final class ActivityFacadeTest extends TestCase
     public const TEST_CREATED = '2021-01-01 00:00:01';
     public const TEST_DURATION = 100;
 
+    private GuzzleFactoryHelper $guzzleFactoryHelper;
+
+    protected function setUp(): void
+    {
+        $this->guzzleFactoryHelper = new GuzzleFactoryHelper();
+    }
+
     public function testCanCollectActivityFromPlugins(): void
     {
         $activityDto = $this->createActivityFacade()->collect()->current();
@@ -43,40 +50,35 @@ final class ActivityFacadeTest extends TestCase
     {
         $activityPluginMock = $this->getMockBuilder(ActivityPluginInterface::class)
             ->onlyMethods(['collect'])
-            ->getMock()
-        ;
-        $resolvedPromise = new Promise(function () use (&$resolvedPromise) {
-            $resolvedPromise->resolve(new ActivityDtoCollection(
-                new ActivityDto(
-                    self::TEST_NEEDLE_1,
-                    self::TEST_DESCRIPTION,
-                    new \DateTime(self::TEST_CREATED),
-                    self::TEST_DURATION
-                )
-            ));
-        });
+            ->getMock();
         $activityPluginMock
             ->method('collect')
-            ->willReturn($resolvedPromise)
-        ;
+            ->willReturn(
+                $this->guzzleFactoryHelper->createResolvedPromise(
+                    new ActivityDtoCollection(
+                        new ActivityDto(
+                            self::TEST_NEEDLE_1,
+                            self::TEST_DESCRIPTION,
+                            new \DateTime(self::TEST_CREATED),
+                            self::TEST_DURATION
+                        )
+                    )
+                )
+            );
 
         $activityFactoryMock = $this->getMockBuilder(ActivityFactory::class)
             ->onlyMethods(['getActivityPlugins'])
-            ->getMock()
-        ;
+            ->getMock();
         $activityFactoryMock
             ->method('getActivityPlugins')
-            ->willReturn(new ActivityPluginCollection($activityPluginMock))
-        ;
+            ->willReturn(new ActivityPluginCollection($activityPluginMock));
 
         $activityFacadeMock = $this->getMockBuilder(ActivityFacade::class)
             ->onlyMethods(['getFactory'])
-            ->getMock()
-        ;
+            ->getMock();
         $activityFacadeMock
             ->method('getFactory')
-            ->willReturn($activityFactoryMock)
-        ;
+            ->willReturn($activityFactoryMock);
 
         return $activityFacadeMock;
     }
