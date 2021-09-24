@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of forecast.it.fill project.
- * (c) Patrick Jaja <patrickjaja@web.de>
+ * (c) Patrick Jaja <patrickjajaa@gmail.com>
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -14,6 +14,7 @@ namespace ForecastAutomation\Console;
 use ForecastAutomation\ForecastDataImport\Shared\Plugin\ForecastImportActivityConsoleCommandPlugin;
 use ForecastAutomation\Kernel\AbstractDependencyProvider;
 use ForecastAutomation\Kernel\Locator;
+use ForecastAutomation\PeriodicalActivityDataImport\Shared\Plugin\PeriodicalActivityDataImportConsoleCommandPlugin;
 
 class ConsoleDependencyProvider extends AbstractDependencyProvider
 {
@@ -21,11 +22,22 @@ class ConsoleDependencyProvider extends AbstractDependencyProvider
 
     public function provideDependencies(Locator $locator): void
     {
-        $this->set(self::CONSOLE_PLUGINS, [$this->createTestConsoleCommand()]);
+        $this->set(
+            self::CONSOLE_PLUGINS,
+            [
+                $this->createForecastImportActivityConsoleCommandPlugin(),
+                $this->creatPeriodicalActivityConsoleCommandPlugin(),
+            ]
+        );
     }
 
-    protected function createTestConsoleCommand(): ForecastImportActivityConsoleCommandPlugin
+    protected function createForecastImportActivityConsoleCommandPlugin(): ForecastImportActivityConsoleCommandPlugin
     {
         return new ForecastImportActivityConsoleCommandPlugin();
+    }
+
+    protected function creatPeriodicalActivityConsoleCommandPlugin(): PeriodicalActivityDataImportConsoleCommandPlugin
+    {
+        return new PeriodicalActivityDataImportConsoleCommandPlugin();
     }
 }

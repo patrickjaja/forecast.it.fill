@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of forecast.it.fill project.
- * (c) Patrick Jaja <patrickjaja@web.de>
+ * (c) Patrick Jaja <patrickjajaa@gmail.com>
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -45,7 +45,7 @@ class MattermostApi
                 ]
             )->wait();
 
-            $channelArray = json_decode((string) $res->getBody(), null, 512, JSON_THROW_ON_ERROR);
+            $channelArray = json_decode((string) $res->getBody(), null, JSON_PARTIAL_OUTPUT_ON_ERROR, JSON_THROW_ON_ERROR);
             $wrapPromise->resolve($this->applyChannelFilter($channelArray, $channelFilterCollection));
         });
 
@@ -68,7 +68,7 @@ class MattermostApi
                 ],
             )->wait();
 
-            $wrapPromise->resolve(json_decode((string) $res->getBody(), true, 512, JSON_THROW_ON_ERROR)['posts']);
+            $wrapPromise->resolve(json_decode((string) $res->getBody(), true, JSON_PARTIAL_OUTPUT_ON_ERROR, JSON_THROW_ON_ERROR)['posts']);
         });
 
         return $wrapPromise;

@@ -9,14 +9,17 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ForecastAutomation\GitlabClient\Shared\Dto;
+namespace ForecastAutomation\PeriodicalActivityDataImport\Shared\Dto;
 
 use ForecastAutomation\Kernel\Shared\Dto\AbstractDto;
 
-class GitlabQueryDto extends AbstractDto
+class PeriodicalActivityConfigDto extends AbstractDto
 {
     public function __construct(
-        public string $after,
+        public string $note,
+        public int $duration,
+        public string $project_id,
+        public string $frequency,
     ) {
     }
 }
