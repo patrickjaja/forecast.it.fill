@@ -34,7 +34,7 @@ class GitlabActivityPlugin extends AbstractPlugin implements ActivityPluginInter
             function () use (&$wrapPromise) {
                 $wrapPromise->resolve(
                     $this->mapEventsToActivity(
-                        $this->getFacade()->getEvents(new GitlabQueryDto(date(date('Y-m-d', strtotime('-1 day')))))
+                        $this->getFacade()->getEvents(new GitlabQueryDto(date('Y-m-d', strtotime('-1 day'))))
                     )
                 );
             }
