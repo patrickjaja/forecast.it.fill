@@ -21,7 +21,8 @@ Enable and configure plugins on your needs and enjoy newly acquired free time.
    (will create an activity if you [comment or approve](src/ForecastAutomation/GitlabClient/Shared/Plugin/GitlabActivityPlugin.php#L25) a MR by consuming gitlab event api)
  - [mattermost](src/ForecastAutomation/MattermostClient/Shared/Plugin/MattermostActivityPlugin.php)
    (will create an activity if you [direct message](src/ForecastAutomation/MattermostClient/Business/MattermostApi.php#L112) a text that [contains a ticketnumber](src/ForecastAutomation/MattermostClient/Shared/Plugin/MattermostActivityPlugin.php#L53))
- - scheduled activity (The theoretical maximum length of an environment variable is around 32,760 characters.)
+ - [scheduled activity](src/ForecastAutomation/PeriodicalActivityDataImport/Shared/Plugin/PeriodicalActivityDataImportConsoleCommandPlugin.php)
+   (will create weekly reapting activities based on [configuration](.env.dist#L29))
 ### ✨ How to use
  - run `php bin/console forecast:import:activity` at the end of the day (date('Y-m-d 00:00') used by default) to fill your forecast.it timesheet with your [enabled activity plugins](src/ForecastAutomation/Activity/ActivityDependencyProvider.php)
 
