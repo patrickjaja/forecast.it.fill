@@ -8,7 +8,7 @@ with this source code in the file LICENSE.
 EOF;
 
 $finder = PhpCsFixer\Finder::create()
-    ->in([__DIR__ . '/src', __DIR__ . '/tests']);
+    ->in([__DIR__.'/src',__DIR__.'/tests']);
 
 $config = new PhpCsFixer\Config();
 $config
@@ -24,32 +24,14 @@ $config
             'combine_consecutive_unsets' => true,
             'declare_strict_types' => true,
             // one should use PHPUnit methods to set up expected exception instead of annotations
-            'general_phpdoc_annotation_remove' => [
-                'annotations' => [
-                    'expectedException',
-                    'expectedExceptionMessage',
-                    'expectedExceptionMessageRegExp',
-                ],
-            ],
+            'general_phpdoc_annotation_remove' => ['annotations' => ['expectedException', 'expectedExceptionMessage', 'expectedExceptionMessageRegExp']],
             'header_comment' => ['header' => $header],
             'heredoc_to_nowdoc' => true,
             'list_syntax' => ['syntax' => 'long'],
             'method_chaining_indentation' => false,
             'native_function_invocation' => false,
             'native_constant_invocation' => false,
-            'no_extra_blank_lines' => [
-                'tokens' => [
-                    'break',
-                    'continue',
-                    'extra',
-                    'return',
-                    'throw',
-                    'use',
-                    'parenthesis_brace_block',
-                    'square_brace_block',
-                    'curly_brace_block',
-                ],
-            ],
+            'no_extra_blank_lines' => ['tokens' => ['break', 'continue', 'extra', 'return', 'throw', 'use', 'parenthesis_brace_block', 'square_brace_block', 'curly_brace_block']],
             'no_null_property_initialization' => true,
             'echo_tag_syntax' => ['format' => 'long'],
             'no_superfluous_phpdoc_tags' => ['allow_mixed' => false],
@@ -80,7 +62,7 @@ $config
                     'method_protected_abstract',
                     'method_private',
                 ],
-                'sort_algorithm' => 'alpha',
+                'sort_algorithm' => 'alpha'
             ],
             'php_unit_construct' => true,
             'php_unit_method_casing' => ['case' => 'camel_case'],
@@ -109,6 +91,7 @@ $config
                     'method' => 'one',
                 ],
             ],
+            'return_assignment'=>false,
             'method_argument_space' => [
                 'on_multiline' => 'ensure_fully_multiline',
                 'keep_multiple_spaces_after_comma' => true,
