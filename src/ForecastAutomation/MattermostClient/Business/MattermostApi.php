@@ -55,6 +55,7 @@ class MattermostApi
     public function getPosts(MattermostPostsQueryDto $postsQueryDto): PromiseInterface
     {
         $this->auth();
+
         $wrapPromise = new Promise(function () use ($postsQueryDto, &$wrapPromise) {
             $res = $this->guzzleClient->requestAsync(
                 'GET',

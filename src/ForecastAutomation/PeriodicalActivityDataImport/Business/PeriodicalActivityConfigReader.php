@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of forecast.it.fill project.
  * (c) Patrick Jaja <patrickjajaa@gmail.com>
@@ -28,6 +30,8 @@ class PeriodicalActivityConfigReader
      */
     public function readPeriodicalConfig(string $periodicalDate): array
     {
+        $periodicalConfigDtoCollection = [];
+
         try {
             //ToDo: Move to separate Plugins in Business Layer to reduce class complexity and responsibility
             $periodicalConfigCollection = json_decode(
