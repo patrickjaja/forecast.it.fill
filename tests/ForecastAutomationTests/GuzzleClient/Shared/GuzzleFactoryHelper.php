@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of forecast.it.fill project.
  * (c) Patrick Jaja <patrickjajaa@gmail.com>
@@ -21,10 +23,8 @@ class GuzzleFactoryHelper extends TestCase
 {
     public function createResolvedPromise($data): PromiseInterface
     {
-        $resolvedPromise = new Promise(function () use (&$resolvedPromise, $data) {
+        return new Promise(function () use (&$resolvedPromise, $data) {
             $resolvedPromise->resolve($data);
         });
-
-        return $resolvedPromise;
     }
 }
