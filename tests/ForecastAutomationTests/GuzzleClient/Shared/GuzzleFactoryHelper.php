@@ -26,6 +26,5 @@ class GuzzleFactoryHelper extends TestCase
         $resolvedPromise = new Promise(function () use (&$resolvedPromise, $data) {
             $resolvedPromise->resolve($data);
         });
-        $resolvedPromise;
     }
 }
