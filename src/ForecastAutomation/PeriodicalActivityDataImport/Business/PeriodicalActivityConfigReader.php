@@ -30,6 +30,8 @@ class PeriodicalActivityConfigReader
      */
     public function readPeriodicalConfig(string $periodicalDate): array
     {
+        $periodicalConfigDtoCollection = [];
+
         try {
             //ToDo: Move to separate Plugins in Business Layer to reduce class complexity and responsibility
             $periodicalConfigCollection = json_decode(
