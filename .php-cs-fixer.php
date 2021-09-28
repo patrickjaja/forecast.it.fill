@@ -91,6 +91,7 @@ $config
                     'method' => 'one',
                 ],
             ],
+            // disabled for guzzle promise usage passed as &$wrappedReference to be resolved later
             'return_assignment'=>false,
             'method_argument_space' => [
                 'on_multiline' => 'ensure_fully_multiline',
