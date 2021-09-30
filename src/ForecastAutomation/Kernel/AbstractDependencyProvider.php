@@ -24,6 +24,7 @@ class AbstractDependencyProvider implements ContainerInterface
         $this->provideDependencies(new Locator($this));
     }
 
+    //ToDo: Pass Container (DI) with module dynamic resolver of KernelConfig Patterns
     public function provideDependencies(Locator $locator): void
     {
     }

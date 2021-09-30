@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace ForecastAutomation\Log;
 
 use ForecastAutomation\Kernel\AbstractFacade;
+use Monolog\ErrorHandler;
 use Throwable;
 
 /**
@@ -27,5 +28,10 @@ class LogFacade extends AbstractFacade
     public function info(string $message, array $context = []): void
     {
         $this->getFactory()->createLogger()->info($message, $context);
+    }
+
+    public function registerErrorHandler()
+    {
+        ErrorHandler::register($this->getFactory()->createMonologger());
     }
 }
