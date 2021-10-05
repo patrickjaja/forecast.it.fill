@@ -15,7 +15,7 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Install
-        run: composer install
+        run: composer install --ignore-platform-req=ext-amqp
 
       - name: Run php-cs-fixer fix src/
         run: ./vendor/bin/php-cs-fixer fix src/

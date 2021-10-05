@@ -2,6 +2,12 @@
     "name": "patrickjaja/forecast.it.fill",
     "description": "Enjoy and stay focused on important things. Leave the time reporting system automized.",
     "license": "BSD-3-Clause",
+    "config": {
+        "platform": {
+            "php": ">=8.0",
+            "ext-amqp": ">=1.11.0beta"
+        }
+    },
     "require": {
         "lesstif/php-jira-rest-client": "^2.5",
         "guzzlehttp/guzzle": "^7.3",
@@ -12,8 +18,7 @@
         "justinrainbow/json-schema": "^5.2",
         "symfony/serializer": "^5.3",
         "symfony/property-access": "^5.3",
-        "enqueue/amqp-ext": "^0.10.9",
-        "ext-amqp": "1.11.0beta"
+        "enqueue/amqp-ext": "^0.10.9"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",

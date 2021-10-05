@@ -27,7 +27,7 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      run: composer install --ignore-platform-req=ext-amqp
 
     - name: Run test suite
       run: composer run-script test
