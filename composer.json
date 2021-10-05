@@ -12,7 +12,8 @@
         "justinrainbow/json-schema": "^5.2",
         "symfony/serializer": "^5.3",
         "symfony/property-access": "^5.3",
-        "enqueue/amqp-ext": "^0.10.9"
+        "enqueue/amqp-ext": "^0.10.9",
+        "ext-amqp": "1.11.0beta"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f21d593087447a4e0dc46797a9c91c87",
+    "content-hash": "84c69d59cb54ec44b954869ef323fb26",
     "packages": [
         {
             "name": "enqueue/amqp-ext",
@@ -7502,11 +7502,14 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "ext-amqp": 10,
         "roave/security-advisories": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-amqp": "1.11.0beta"
+    },
     "platform-dev": [],
     "plugin-api-version": "2.1.0"
 }
