@@ -54,6 +54,7 @@
         ]
     },
     "scripts": {
+        "import": "docker-compose -f .docker/docker-compose.yml up -d && sleep 10 && php bin/console forecast:import:activity && php bin/console forecast:import:periodical:activity && php bin/console queue:client:consumer forecast.send.activity.queue",
         "console": "php bin/console",
         "test": "vendor/bin/phpunit"
     }
