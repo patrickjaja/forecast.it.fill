@@ -19,7 +19,7 @@ class ActivityDtoCollection implements Iterator, ArrayAccess
     /**
      * @var \ForecastAutomation\Activity\Shared\Dto\ActivityDto[]
      */
-    private array $activityDtos;
+    public array $activityDtos;
 
     private int $position = 0;
 

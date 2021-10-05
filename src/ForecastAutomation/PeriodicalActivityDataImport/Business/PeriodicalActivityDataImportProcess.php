@@ -41,7 +41,7 @@ class PeriodicalActivityDataImportProcess
             $this->createMessageCollectionDto($activityDtoCollection)
         );
 
-        return \count((array) $activityDtoCollection);
+        return \count($activityDtoCollection->activityDtos);
     }
 
     private function createMessageCollectionDto(ActivityDtoCollection $activityDtoCollection): MessageCollectionDto
