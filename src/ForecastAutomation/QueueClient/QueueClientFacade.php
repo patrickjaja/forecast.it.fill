@@ -19,9 +19,9 @@ use ForecastAutomation\QueueClient\Shared\Dto\MessageCollectionDto;
  */
 class QueueClientFacade extends AbstractFacade
 {
-    public function consume(string $queueName): MessageCollectionDto
+    public function consume(string $queueName): void
     {
-        return $this->getFactory()->createQueueManager()->consume($queueName);
+        $this->getFactory()->createQueueManager()->consume($queueName);
     }
 
     public function sendMessages(string $queueName, MessageCollectionDto $messageCollectionDto): void

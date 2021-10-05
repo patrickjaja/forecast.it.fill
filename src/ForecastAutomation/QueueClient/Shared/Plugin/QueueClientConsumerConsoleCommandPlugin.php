@@ -12,8 +12,7 @@ declare(strict_types=1);
 namespace ForecastAutomation\QueueClient\Shared\Plugin;
 
 use ForecastAutomation\Kernel\Shared\Plugin\AbstractCommandPlugin;
-use ForecastAutomation\QueueClient\Shared\Dto\MessageCollectionDto;
-use ForecastAutomation\QueueClient\Shared\Dto\MessageDto;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -24,27 +23,20 @@ class QueueClientConsumerConsoleCommandPlugin extends AbstractCommandPlugin
 {
     public const COMMAND_NAME = 'queue:client:consumer';
     public const DESCRIPTION = 'This command will consume messages in topics and call related processors.';
+    public const ARGUMENT_QUEUE_NAME = 'queue_name';
 
     protected function configure(): void
     {
         $this->setName(self::COMMAND_NAME);
         $this->setDescription(self::DESCRIPTION);
+        $this->addArgument(self::ARGUMENT_QUEUE_NAME, InputArgument::REQUIRED, 'Please add one of your registered Queue Plugins (QueuePluginCollection) as an argument.');
 
         parent::configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        //ToDo: Consume createQueueConsumer
-        $this->getFacade()->sendMessages(
-            'test-queue5',
-            new MessageCollectionDto(new MessageDto(['Hallo das ist ein Test4'], self::class))
-        );
-        $messageCollectionDto = $this->getFacade()->consume('test-queue5');
-
-        foreach ($messageCollectionDto->messageDtos as $messageDto) {
-            print_r($messageDto);
-        }
+        $this->getFacade()->consume($input->getArgument(self::ARGUMENT_QUEUE_NAME));
 
         return self::SUCCESS;
     }

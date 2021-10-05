@@ -13,6 +13,6 @@ namespace ForecastAutomation\ForecastClient\Shared\Config;
 
 interface ForecastClientQueueConstants
 {
-    public const QUEUE_NAME = 'ACTIVITY_TOPIC';
+    public const QUEUE_NAME = 'forecast.send.activity.queue';
     public const IMPORT_EVENT = 'IMPORT_EVENT';
 }

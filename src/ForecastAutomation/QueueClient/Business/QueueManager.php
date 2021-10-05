@@ -16,28 +16,18 @@ use ForecastAutomation\QueueClient\Shared\Plugin\AdapterPluginInterface;
 
 class QueueManager implements AdapterPluginInterface
 {
-    /**
-     * @param AdapterPluginInterface[] array $adapterPlugins
-     */
-    public function __construct(private array $adapterPlugins)
-    {
+    public function __construct(
+        private AdapterPluginInterface $adapterPlugin
+    ) {
     }
 
     public function sendMessages(string $queueName, MessageCollectionDto $messageCollectionDto): void
     {
-        foreach ($this->adapterPlugins as $adapterPlugin) {
-            $adapterPlugin->sendMessages($queueName, $messageCollectionDto);
-        }
+        $this->adapterPlugin->sendMessages($queueName, $messageCollectionDto);
     }
 
-    public function consume(string $queueName): MessageCollectionDto
+    public function consume(string $queueName): void
     {
-        $messageCollectionDto = new MessageCollectionDto();
-        foreach ($this->adapterPlugins as $adapterPlugin) {
-            // ToDo: Merge responses
-            $messageCollectionDto = $adapterPlugin->consume($queueName);
-        }
-
-        return $messageCollectionDto;
+        $this->adapterPlugin->consume($queueName);
     }
 }

@@ -27,13 +27,13 @@ class Consumer
     public function consume(string $queueName): MessageCollectionDto
     {
         $this->conf->set('group.id', 'myConsumerGroup');
-//        $conf->set('debug', 'generic,broker,queue,msg,protocol');
 
         $rk = new \RdKafka\Consumer($this->conf);
 //        $rk->setLogLevel(LOG_DEBUG);
         $rk->addBrokers('127.0.0.1:9092');
 
         $topicConf = new \RdKafka\TopicConf();
+        $topicConf->set('offset.store.method', 'broker');
         $topicConf->set('auto.commit.interval.ms', '100');
         $topicConf->set('auto.offset.reset', 'earliest');
 
@@ -51,7 +51,8 @@ class Consumer
                 break;
             }
             if ($message) {
-                $messageDto = new MessageDto(...$this->serializerFacade->deserialize($message->payload));
+                $messageDto = (new MessageDto(...$this->serializerFacade->deserialize($message->payload)));
+                $messageDto->setAdapterMetaResponse(['err' => $message->err, 'topic_name' => $message->topic_name, 'timestamp' => $message->timestamp, 'partition' => $message->partition, 'len' => $message->len, 'key' => $message->key, 'offset' => $message->offset, 'headers' => $message->headers]);
                 $messages[] = $messageDto;
 //                call_user_func($handler, $messageDto);
                 ++$count;

@@ -9,29 +9,24 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ForecastAutomation\KafkaClient\Shared\Plugin;
+namespace ForecastAutomation\AmqpClient\Shared\Plugin;
 
 use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
 use ForecastAutomation\QueueClient\Shared\Dto\MessageCollectionDto;
 use ForecastAutomation\QueueClient\Shared\Plugin\AdapterPluginInterface;
 
 /**
- * @method \ForecastAutomation\KafkaClient\KafkaClientFacade getFacade()
+ * @method \ForecastAutomation\AmqpClient\AmqpClientFacade getFacade()
  */
-class KafkaAdapterPluginPlugin extends AbstractPlugin implements AdapterPluginInterface
+class AmqpAdapterPluginPlugin extends AbstractPlugin implements AdapterPluginInterface
 {
     public function sendMessages(string $queueName, MessageCollectionDto $messageCollectionDto): void
     {
         $this->getFacade()->sendMessages($queueName, $messageCollectionDto);
     }
 
-    public function consume(string $queueName): MessageCollectionDto
+    public function consume(string $queueName): void
     {
-        return $this->getFacade()->consume($queueName);
-    }
-
-    public function getQueueName(): string
-    {
-        // TODO: Implement getQueueName() method.
+        $this->getFacade()->consume($queueName);
     }
 }

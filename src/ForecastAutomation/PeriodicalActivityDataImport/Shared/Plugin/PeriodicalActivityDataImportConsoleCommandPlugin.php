@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class PeriodicalActivityDataImportConsoleCommandPlugin extends AbstractCommandPlugin
 {
     public const COMMAND_NAME = 'forecast:import:periodical:activity';
-    public const DESCRIPTION = 'This command will import your forecast.it activity, based on activated plugins.';
+    public const DESCRIPTION = 'This command will generate forecast.it activity, based on your personal configuration.';
 
     protected function configure(): void
     {

@@ -13,8 +13,11 @@ namespace ForecastAutomation\PeriodicalActivityDataImport\Business;
 
 use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
-use ForecastAutomation\ForecastClient\ForecastClientFacade;
+use ForecastAutomation\ForecastClient\Shared\Config\ForecastClientQueueConstants;
 use ForecastAutomation\PeriodicalActivityDataImport\Shared\Dto\PeriodicalActivityConfigDto;
+use ForecastAutomation\QueueClient\QueueClientFacade;
+use ForecastAutomation\QueueClient\Shared\Dto\MessageCollectionDto;
+use ForecastAutomation\QueueClient\Shared\Dto\MessageDto;
 
 class PeriodicalActivityDataImportProcess
 {
@@ -22,18 +25,38 @@ class PeriodicalActivityDataImportProcess
 
     public function __construct(
         private PeriodicalActivityConfigReader $periodicalActivityConfigReader,
-        private ForecastClientFacade $forecastClientFacade
+        private QueueClientFacade $queueClientFacade
     ) {
     }
 
     public function start(string $periodicalDate): int
     {
-        return $this->forecastClientFacade->writeActivities(
-            $this->generateActivity(
-                $this->periodicalActivityConfigReader->readPeriodicalConfig($periodicalDate),
-                $periodicalDate
-            )
+        $activityDtoCollection = $this->generateActivity(
+            $this->periodicalActivityConfigReader->readPeriodicalConfig($periodicalDate),
+            $periodicalDate
         );
+
+        $this->queueClientFacade->sendMessages(
+            ForecastClientQueueConstants::QUEUE_NAME,
+            $this->createMessageCollectionDto($activityDtoCollection)
+        );
+
+        return \count((array) $activityDtoCollection);
+    }
+
+    private function createMessageCollectionDto(ActivityDtoCollection $activityDtoCollection): MessageCollectionDto
+    {
+        $messages = [];
+        foreach ($activityDtoCollection as $activityDto) {
+            $messages[] =
+                new MessageDto(
+                    ['created' => $activityDto->created->format('c')] + (array) $activityDto,
+                    ForecastClientQueueConstants::QUEUE_NAME,
+                    ForecastClientQueueConstants::IMPORT_EVENT
+                );
+        }
+
+        return new MessageCollectionDto(...$messages);
     }
 
     private function generateActivity(

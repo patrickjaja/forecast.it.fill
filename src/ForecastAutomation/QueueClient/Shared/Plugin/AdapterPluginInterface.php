@@ -11,6 +11,11 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\QueueClient\Shared\Plugin;
 
-interface AdapterPluginInterface extends ReceiverInterface, SenderInterface, ManagerInterface
+use ForecastAutomation\QueueClient\Shared\Dto\MessageCollectionDto;
+
+interface AdapterPluginInterface
 {
+    public function sendMessages(string $queueName, MessageCollectionDto $messageCollection): void;
+
+    public function consume(string $queueName): void;
 }

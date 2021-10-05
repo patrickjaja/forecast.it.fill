@@ -9,29 +9,30 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ForecastAutomation\KafkaClient\Business;
+namespace ForecastAutomation\AmqpClient\Business;
 
 use DateTimeImmutable;
+use Enqueue\AmqpExt\AmqpContext;
 use ForecastAutomation\Log\LogFacade;
 use ForecastAutomation\QueueClient\Shared\Dto\MessageCollectionDto;
+use ForecastAutomation\QueueClient\Shared\Plugin\QueuePluginCollection;
 use ForecastAutomation\Serializer\SerializerFacade;
 use Monolog\Processor\UidProcessor;
-use RdKafka\Conf;
 
 class Producer
 {
     public function __construct(
-        private Conf $conf,
+        private AmqpContext $context,
+        private QueuePluginCollection $queuePluginCollection,
         private SerializerFacade $serializerFacade,
         private LogFacade $logFacade
     ) {
     }
 
-    public function sendMessages(string $queueName, MessageCollectionDto $messageCollectionDto)
+    public function sendMessages(string $queueName, MessageCollectionDto $messageCollectionDto): void
     {
-        $producer = new \RdKafka\Producer($this->conf);
-
-        $topic = $producer->newTopic($queueName);
+        $queue = $this->context->createQueue($this->queuePluginCollection->offsetGet($queueName)->getQueueName());
+        $this->context->declareQueue($queue);
 
         foreach ($messageCollectionDto->messageDtos as $messageDto) {
             $messageDto
@@ -40,20 +41,9 @@ class Producer
                 ->setQueueName($queueName)
             ;
             $msg = $this->serializerFacade->serialize($messageDto);
-            $topic->produce(RD_KAFKA_PARTITION_UA, 0, $msg);
-            $producer->poll(0);
-            $this->logFacade->info('Publishing Kafka Message.', ['queue_message' => $msg]);
-        }
-
-        for ($flushRetries = 0; $flushRetries < 10; ++$flushRetries) {
-            $result = $producer->flush(10000);
-            if (RD_KAFKA_RESP_ERR_NO_ERROR === $result) {
-                break;
-            }
-        }
-
-        if (RD_KAFKA_RESP_ERR_NO_ERROR !== $result) {
-            throw new \RuntimeException('Was unable to flush, messages might be lost!');
+            $message = $this->context->createMessage($msg);
+            $this->logFacade->info('Publishing AMQP Message.', ['queue_message' => $msg]);
+            $this->context->createProducer()->send($queue, $message);
         }
     }
 }

@@ -11,9 +11,11 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\QueueClient\Shared\Plugin;
 
-use ForecastAutomation\QueueClient\Shared\Dto\MessageCollectionDto;
+use ForecastAutomation\QueueClient\Shared\Dto\MessageDto;
 
-interface SenderInterface
+interface QueuePluginInterface
 {
-    public function sendMessages(string $queueName, MessageCollectionDto $messageCollectionDto): void;
+    public function consumeMessage(MessageDto $message): bool;
+
+    public function getQueueName(): string;
 }

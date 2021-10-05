@@ -19,14 +19,11 @@ class QueueClientFactory extends AbstractFactory
 {
     public function createQueueManager(): QueueManager
     {
-        return new QueueManager($this->getQueueAdapters());
+        return new QueueManager($this->getQueueAdapter());
     }
 
-    /**
-     * @return AdapterPluginInterface[] array
-     */
-    public function getQueueAdapters(): array
+    public function getQueueAdapter(): AdapterPluginInterface
     {
-        return $this->getProvidedDependency(QueueClientDependencyProvider::QUEUE_ADAPTERS);
+        return $this->getProvidedDependency(QueueClientDependencyProvider::QUEUE_ADAPTER);
     }
 }

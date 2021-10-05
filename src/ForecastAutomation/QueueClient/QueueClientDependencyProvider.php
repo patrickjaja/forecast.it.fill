@@ -11,26 +11,24 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\QueueClient;
 
-use ForecastAutomation\KafkaClient\Shared\Plugin\KafkaAdapterPluginPlugin;
+use ForecastAutomation\AmqpClient\Shared\Plugin\AmqpAdapterPluginPlugin;
 use ForecastAutomation\Kernel\AbstractDependencyProvider;
 use ForecastAutomation\Kernel\Locator;
+use ForecastAutomation\QueueClient\Shared\Plugin\AdapterPluginInterface;
 
 class QueueClientDependencyProvider extends AbstractDependencyProvider
 {
-    public const QUEUE_ADAPTERS = 'QUEUE_ADAPTERS';
+    public const QUEUE_ADAPTER = 'QUEUE_ADAPTER';
+    public const CONSUMER_PLUGINS = 'CONSUMER_PLUGINS';
 
     public function provideDependencies(Locator $locator): void
     {
-        $this->set(self::QUEUE_ADAPTERS, $this->createQueueAdapters());
+        $this->set(self::QUEUE_ADAPTER, $this->createQueueAdapter());
     }
 
-    /**
-     * @return \ForecastAutomation\QueueClient\Shared\Plugin\AdapterPluginInterface[]
-     */
-    protected function createQueueAdapters(): array
+    protected function createQueueAdapter(): AdapterPluginInterface
     {
-        return [
-            new KafkaAdapterPluginPlugin(),
-        ];
+        return new AmqpAdapterPluginPlugin();
+//        return new KafkaAdapterPluginPlugin();
     }
 }

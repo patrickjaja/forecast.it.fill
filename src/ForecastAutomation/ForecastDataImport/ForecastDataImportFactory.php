@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -12,12 +12,9 @@ declare(strict_types = 1);
 namespace ForecastAutomation\ForecastDataImport;
 
 use ForecastAutomation\Activity\ActivityFacade;
-use ForecastAutomation\ForecastClient\ForecastClientFacade;
 use ForecastAutomation\ForecastDataImport\Business\ForecastDataImportProcess;
-use ForecastAutomation\ForecastDataImport\Business\Writer\ForecastActivityWriter;
 use ForecastAutomation\Kernel\AbstractFactory;
 use ForecastAutomation\QueueClient\QueueClientFacade;
-use ForecastAutomation\Serializer\SerializerFacade;
 
 class ForecastDataImportFactory extends AbstractFactory
 {
@@ -25,9 +22,7 @@ class ForecastDataImportFactory extends AbstractFactory
     {
         return new ForecastDataImportProcess(
             $this->getActivityFacade(),
-            $this->createForecastActivityWriter(),
             $this->getQueueClientFacade(),
-            $this->getSerializerFacade()
         );
     }
 
@@ -36,25 +31,8 @@ class ForecastDataImportFactory extends AbstractFactory
         return $this->getProvidedDependency(ForecastDataImportDependencyProvider::ACTIVITY_FACADE);
     }
 
-    public function getForecastClientFacade(): ForecastClientFacade
-    {
-        return $this->getProvidedDependency(ForecastDataImportDependencyProvider::FORECAST_CLIENT_FACADE);
-    }
-
     public function getQueueClientFacade(): QueueClientFacade
     {
         return $this->getProvidedDependency(ForecastDataImportDependencyProvider::QUEUE_CLIENT_FACADE);
-    }
-
-    public function getSerializerFacade(): SerializerFacade
-    {
-        return $this->getProvidedDependency(ForecastDataImportDependencyProvider::SERIALIZER_FACADE);
-    }
-
-    public function createForecastActivityWriter(): ForecastActivityWriter
-    {
-        return new ForecastActivityWriter(
-            $this->getForecastClientFacade(),
-        );
     }
 }
