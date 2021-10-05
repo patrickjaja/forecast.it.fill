@@ -24,6 +24,7 @@ Enable and configure plugins on your needs and enjoy newly acquired free time.
  - [periodical activity](src/ForecastAutomation/PeriodicalActivityDataImport/Shared/Plugin/PeriodicalActivityDataImportConsoleCommandPlugin.php)
    (will create weekly reapting activities based on [configuration](.env.dist#L29))
 ### ✨ How to use
+ - run `docker-compose -f .docker/docker-compose.yml up -d` start rabbitmq
  - run `php bin/console forecast:import:activity` at the end of the day (date('Y-m-d 00:00') used by default) to fill your forecast.it timesheet with your [enabled activity plugins](src/ForecastAutomation/Activity/ActivityDependencyProvider.php)
  - run `php bin/console forecast:import:periodical:activity` once a day (date('Y-m-d 00:00') used by default) run this command to generate your periodical activities and fill your forecast.it timesheet
 

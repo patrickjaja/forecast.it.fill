@@ -9,31 +9,34 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ForecastAutomation\PeriodicalActivityDataImport\Shared\Plugin;
+namespace ForecastAutomation\QueueClient\Shared\Plugin;
 
 use ForecastAutomation\Kernel\Shared\Plugin\AbstractCommandPlugin;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @method \ForecastAutomation\PeriodicalActivityDataImport\PeriodicalActivityDataImportFacade getFacade()
+ * @method \ForecastAutomation\QueueClient\QueueClientFacade getFacade()
  */
-class PeriodicalActivityDataImportConsoleCommandPlugin extends AbstractCommandPlugin
+class QueueClientConsumerConsoleCommandPlugin extends AbstractCommandPlugin
 {
-    public const COMMAND_NAME = 'forecast:import:periodical:activity';
-    public const DESCRIPTION = 'This command will generate forecast.it activity, based on your personal configuration.';
+    public const COMMAND_NAME = 'queue:client:consumer';
+    public const DESCRIPTION = 'This command will consume messages in topics and call related processors.';
+    public const ARGUMENT_QUEUE_NAME = 'queue_name';
 
     protected function configure(): void
     {
         $this->setName(self::COMMAND_NAME);
         $this->setDescription(self::DESCRIPTION);
+        $this->addArgument(self::ARGUMENT_QUEUE_NAME, InputArgument::REQUIRED, 'Please add one of your registered Queue Plugins (QueuePluginCollection) as an argument.');
 
         parent::configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->getFacade()->startImportProcess(date('Y-m-d'));
+        $this->getFacade()->consume($input->getArgument(self::ARGUMENT_QUEUE_NAME));
 
         return self::SUCCESS;
     }

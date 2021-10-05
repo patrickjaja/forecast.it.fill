@@ -11,19 +11,19 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\PeriodicalActivityDataImport;
 
-use ForecastAutomation\ForecastClient\ForecastClientFacade;
 use ForecastAutomation\Kernel\AbstractDependencyProvider;
 use ForecastAutomation\Kernel\Locator;
 use ForecastAutomation\Log\LogFacade;
+use ForecastAutomation\QueueClient\QueueClientFacade;
 
 class PeriodicalActivityDataImportDependencyProvider extends AbstractDependencyProvider
 {
     public const LOG_FACADE = 'LOG_FACADE';
-    public const FORECAST_CLIENT_FACADE = 'FORECAST_CLIENT_FACADE';
+    public const QUEUE_CLIENT_FACADE = 'QUEUE_CLIENT_FACADE';
 
     public function provideDependencies(Locator $locator): void
     {
         $this->set(self::LOG_FACADE, new LogFacade());
-        $this->set(self::FORECAST_CLIENT_FACADE, new ForecastClientFacade());
+        $this->set(self::QUEUE_CLIENT_FACADE, new QueueClientFacade());
     }
 }

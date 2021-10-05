@@ -14,9 +14,9 @@ namespace ForecastAutomationTests\ForecastDataImport;
 use ForecastAutomation\Activity\ActivityFacade;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
-use ForecastAutomation\ForecastClient\ForecastClientFacade;
 use ForecastAutomation\ForecastDataImport\ForecastDataImportFacade;
 use ForecastAutomation\ForecastDataImport\ForecastDataImportFactory;
+use ForecastAutomation\QueueClient\QueueClientFacade;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -41,23 +41,17 @@ final class ForecastDataImportFacadeTest extends TestCase
             ->method('collect')
             ->willReturn(
                 new ActivityDtoCollection(
-                    new ActivityDto('', '', new \DateTime(), 0)
+                    new ActivityDto('test-needle', 'test-description', new \DateTime(), 100)
                 )
             )
         ;
 
-        $forecastClientFacadeMock = $this->getMockBuilder(ForecastClientFacade::class)
-            ->onlyMethods(['writeActivities'])
+        $forecastClientFacadeMock = $this->getMockBuilder(QueueClientFacade::class)
             ->getMock()
         ;
 
-        $forecastClientFacadeMock
-            ->method('writeActivities')
-            ->willReturn(1)
-        ;
-
         $forecastDataImportFactoryMock = $this->getMockBuilder(ForecastDataImportFactory::class)
-            ->onlyMethods(['getActivityFacade', 'getForecastClientFacade'])
+            ->onlyMethods(['getActivityFacade', 'getQueueClientFacade'])
             ->getMock()
         ;
         $forecastDataImportFactoryMock
@@ -65,7 +59,7 @@ final class ForecastDataImportFacadeTest extends TestCase
             ->willReturn($activityFacadeMock)
         ;
         $forecastDataImportFactoryMock
-            ->method('getForecastClientFacade')
+            ->method('getQueueClientFacade')
             ->willReturn($forecastClientFacadeMock)
         ;
 

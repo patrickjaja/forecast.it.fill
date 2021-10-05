@@ -12,5 +12,8 @@ Dotenv::createImmutable(__DIR__.DIRECTORY_SEPARATOR.'..')->load();
 $application = new Application($_ENV['APPLICATION_NAME'], '1.0.0');
 
 (new ConsoleFacade())->installConsoleCommands($application);
+(new \ForecastAutomation\Log\LogFacade())->registerErrorHandler();
+$application->setAutoExit(true);
+$application->setCatchExceptions(false);
 
 $application->run();

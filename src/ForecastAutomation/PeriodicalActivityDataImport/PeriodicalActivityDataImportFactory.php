@@ -11,11 +11,11 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\PeriodicalActivityDataImport;
 
-use ForecastAutomation\ForecastClient\ForecastClientFacade;
 use ForecastAutomation\Kernel\AbstractFactory;
 use ForecastAutomation\Log\LogFacade;
 use ForecastAutomation\PeriodicalActivityDataImport\Business\PeriodicalActivityConfigReader;
 use ForecastAutomation\PeriodicalActivityDataImport\Business\PeriodicalActivityDataImportProcess;
+use ForecastAutomation\QueueClient\QueueClientFacade;
 use JsonSchema\Validator;
 
 class PeriodicalActivityDataImportFactory extends AbstractFactory
@@ -24,7 +24,7 @@ class PeriodicalActivityDataImportFactory extends AbstractFactory
     {
         return new PeriodicalActivityDataImportProcess(
             $this->createPeriodicalActivityConfigReader(),
-            $this->getForecastClientFacade()
+            $this->getQueueClientFacade()
         );
     }
 
@@ -55,8 +55,8 @@ class PeriodicalActivityDataImportFactory extends AbstractFactory
         return $this->getProvidedDependency(PeriodicalActivityDataImportDependencyProvider::LOG_FACADE);
     }
 
-    public function getForecastClientFacade(): ForecastClientFacade
+    public function getQueueClientFacade(): QueueClientFacade
     {
-        return $this->getProvidedDependency(PeriodicalActivityDataImportDependencyProvider::FORECAST_CLIENT_FACADE);
+        return $this->getProvidedDependency(PeriodicalActivityDataImportDependencyProvider::QUEUE_CLIENT_FACADE);
     }
 }

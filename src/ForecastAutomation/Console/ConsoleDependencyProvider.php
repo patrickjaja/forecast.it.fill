@@ -15,6 +15,7 @@ use ForecastAutomation\ForecastDataImport\Shared\Plugin\ForecastImportActivityCo
 use ForecastAutomation\Kernel\AbstractDependencyProvider;
 use ForecastAutomation\Kernel\Locator;
 use ForecastAutomation\PeriodicalActivityDataImport\Shared\Plugin\PeriodicalActivityDataImportConsoleCommandPlugin;
+use ForecastAutomation\QueueClient\Shared\Plugin\QueueClientConsumerConsoleCommandPlugin;
 
 class ConsoleDependencyProvider extends AbstractDependencyProvider
 {
@@ -27,6 +28,7 @@ class ConsoleDependencyProvider extends AbstractDependencyProvider
             [
                 $this->createForecastImportActivityConsoleCommandPlugin(),
                 $this->creatPeriodicalActivityConsoleCommandPlugin(),
+                $this->createQueueClientConsumerConsoleCommandPlugin(),
             ]
         );
     }
@@ -34,6 +36,11 @@ class ConsoleDependencyProvider extends AbstractDependencyProvider
     protected function createForecastImportActivityConsoleCommandPlugin(): ForecastImportActivityConsoleCommandPlugin
     {
         return new ForecastImportActivityConsoleCommandPlugin();
+    }
+
+    protected function createQueueClientConsumerConsoleCommandPlugin(): QueueClientConsumerConsoleCommandPlugin
+    {
+        return new QueueClientConsumerConsoleCommandPlugin();
     }
 
     protected function creatPeriodicalActivityConsoleCommandPlugin(): PeriodicalActivityDataImportConsoleCommandPlugin
