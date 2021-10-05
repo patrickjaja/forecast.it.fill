@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1256e17f84919ebb4aaf6baf5187ff4",
+    "content-hash": "f21d593087447a4e0dc46797a9c91c87",
     "packages": [
         {
             "name": "enqueue/amqp-ext",
@@ -7506,9 +7506,7 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": {
-        "ext-rdkafka": "^5.0"
-    },
+    "platform": [],
     "platform-dev": [],
     "plugin-api-version": "2.1.0"
 }

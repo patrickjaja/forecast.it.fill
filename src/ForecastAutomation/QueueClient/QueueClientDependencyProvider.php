@@ -29,6 +29,5 @@ class QueueClientDependencyProvider extends AbstractDependencyProvider
     protected function createQueueAdapter(): AdapterPluginInterface
     {
         return new AmqpAdapterPluginPlugin();
-//        return new KafkaAdapterPluginPlugin();
     }
 }
