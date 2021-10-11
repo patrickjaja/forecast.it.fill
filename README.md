@@ -22,7 +22,7 @@ Enable and configure plugins on your needs and enjoy newly acquired free time.
  - [mattermost](src/ForecastAutomation/MattermostClient/Shared/Plugin/MattermostActivityPlugin.php)
    (will create an activity if you [direct message](src/ForecastAutomation/MattermostClient/Business/MattermostApi.php#L112) a text that [contains a ticketnumber](src/ForecastAutomation/MattermostClient/Shared/Plugin/MattermostActivityPlugin.php#L53))
  - [periodical activity](src/ForecastAutomation/PeriodicalActivityDataImport/Shared/Plugin/PeriodicalActivityDataImportConsoleCommandPlugin.php)
-   (will create weekly reapting activities based on [configuration](.env.dist#L29))
+   (will create weekly repeating activities based on [configuration](.env.dist#L29))
 ### ✨ How to use
  - run `composer run import` at the end of the day (date('Y-m-d 00:00') used by default) to fill your forecast.it timesheet with your [enabled activity plugins](src/ForecastAutomation/Activity/ActivityDependencyProvider.php)
 
