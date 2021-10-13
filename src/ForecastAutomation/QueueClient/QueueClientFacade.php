@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -19,13 +19,17 @@ use ForecastAutomation\QueueClient\Shared\Dto\MessageCollectionDto;
  */
 class QueueClientFacade extends AbstractFacade
 {
+    public function __construct(private QueueClientFactory $queueClientFactory)
+    {
+    }
+
     public function consume(string $queueName): void
     {
-        $this->getFactory()->createQueueManager()->consume($queueName);
+        $this->queueClientFactory->createQueueManager()->consume($queueName);
     }
 
     public function sendMessages(string $queueName, MessageCollectionDto $messageCollectionDto): void
     {
-        $this->getFactory()->createQueueManager()->sendMessages($queueName, $messageCollectionDto);
+        $this->queueClientFactory->createQueueManager()->sendMessages($queueName, $messageCollectionDto);
     }
 }

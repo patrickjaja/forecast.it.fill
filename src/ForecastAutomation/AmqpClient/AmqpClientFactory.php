@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -22,13 +22,20 @@ use ForecastAutomation\Serializer\SerializerFacade;
 
 class AmqpClientFactory extends AbstractFactory
 {
+    public function __construct(
+        private SerializerFacade $serializerFacade,
+        private QueuePluginCollection $queuePluginCollection,
+        private LogFacade $logFacade
+    ) {
+    }
+
     public function createConsumer(): Consumer
     {
         return new Consumer(
             $this->createAmqpContext(),
-            $this->getQueuePluginCollection(),
-            $this->getSerializerFacade(),
-            $this->getLogFacade(),
+            $this->queuePluginCollection,
+            $this->serializerFacade,
+            $this->logFacade,
         );
     }
 
@@ -36,9 +43,9 @@ class AmqpClientFactory extends AbstractFactory
     {
         return new Producer(
             $this->createAmqpContext(),
-            $this->getQueuePluginCollection(),
-            $this->getSerializerFacade(),
-            $this->getLogFacade(),
+            $this->queuePluginCollection,
+            $this->serializerFacade,
+            $this->logFacade,
         );
     }
 
@@ -47,27 +54,12 @@ class AmqpClientFactory extends AbstractFactory
         return (new AmqpConnectionFactory(
             [
                 'host' => $_ENV['AMQP_HOST'],
-                'port' => (int) $_ENV['AMQP_PORT'],
+                'port' => (int)$_ENV['AMQP_PORT'],
                 'vhost' => $_ENV['AMQP_VHOST'],
                 'user' => $_ENV['AMQP_USER'],
                 'pass' => $_ENV['AMQP_PASS'],
                 'persisted' => false,
             ]
         ))->createContext();
-    }
-
-    public function getSerializerFacade(): SerializerFacade
-    {
-        return $this->getProvidedDependency(AmqpClientDependencyProvider::SERIALIZER_FACADE);
-    }
-
-    public function getQueuePluginCollection(): QueuePluginCollection
-    {
-        return $this->getProvidedDependency(AmqpClientDependencyProvider::QUEUE_PLUGIN_COLLECTION);
-    }
-
-    public function getLogFacade(): LogFacade
-    {
-        return $this->getProvidedDependency(AmqpClientDependencyProvider::LOG_FACADE);
     }
 }

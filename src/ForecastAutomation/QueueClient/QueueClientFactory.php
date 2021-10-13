@@ -11,19 +11,22 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\QueueClient;
 
+use ForecastAutomation\AmqpClient\AmqpClientFacade;
+use ForecastAutomation\AmqpClient\AmqpClientFactory;
+use ForecastAutomation\AmqpClient\Shared\Plugin\AmqpAdapterPluginPlugin;
 use ForecastAutomation\Kernel\AbstractFactory;
+use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
 use ForecastAutomation\QueueClient\Business\QueueManager;
-use ForecastAutomation\QueueClient\Shared\Plugin\AdapterPluginInterface;
 
 class QueueClientFactory extends AbstractFactory
 {
-    public function createQueueManager(): QueueManager
+    public function __construct(private AmqpAdapterPluginPlugin $amqpAdapterPluginPlugin)
     {
-        return new QueueManager($this->getQueueAdapter());
     }
 
-    public function getQueueAdapter(): AdapterPluginInterface
+    public function createQueueManager(): QueueManager
     {
-        return $this->getProvidedDependency(QueueClientDependencyProvider::QUEUE_ADAPTER);
+        //ToDo: Figure our symfony way
+        return new QueueManager($this->amqpAdapterPluginPlugin);
     }
 }

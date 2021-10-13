@@ -13,5 +13,5 @@ namespace ForecastAutomation\Kernel\Shared\Dto;
 
 class AbstractDto
 {
-    // ToDo: - toArray? fromArray? => works automatically in php8 by just passing array to constructor
+    // ToDo: - toArray? fromArray? => works automatically in php8 by casting to array or passing array
 }

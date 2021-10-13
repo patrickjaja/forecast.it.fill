@@ -15,16 +15,18 @@ use DateTime;
 
 class HasMessageChannelFilter implements ChannelFilterInterface
 {
-    public function __construct(private DateTime $lastPostDateTime)
-    {
-    }
+//    public function __construct(private DateTime $lastPostDateTime)
+//    {
+//    }
 
     public function apply(array $channelCollection): array
     {
+        //ToDo: move new \DateTime(date('Y-m-d')) to configuration or db
         $filteredChannel = [];
         foreach ($channelCollection as $channel) {
             if ($channel->total_msg_count > 0
-                && $channel->last_post_at >= ((int) $this->lastPostDateTime->format('U') * 1000)) {
+                && $channel->last_post_at >= ((int) (DateTime::createFromFormat('Y-m-d H:i','2021-10-11 00:00'))->format('U') * 1000)) {
+//                && $channel->last_post_at >= ((int) (new \DateTime(date('Y-m-d')))->format('U') * 1000)) {
                 $filteredChannel[] = $channel;
             }
         }

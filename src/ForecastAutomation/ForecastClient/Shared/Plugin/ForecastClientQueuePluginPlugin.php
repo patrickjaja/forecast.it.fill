@@ -13,16 +13,18 @@ namespace ForecastAutomation\ForecastClient\Shared\Plugin;
 
 use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
+use ForecastAutomation\ForecastClient\ForecastClientFacade;
 use ForecastAutomation\ForecastClient\Shared\Config\ForecastClientQueueConstants;
 use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
 use ForecastAutomation\QueueClient\Shared\Dto\MessageDto;
 use ForecastAutomation\QueueClient\Shared\Plugin\QueuePluginInterface;
 
-/**
- * @method \ForecastAutomation\ForecastClient\ForecastClientFacade getFacade()
- */
 class ForecastClientQueuePluginPlugin extends AbstractPlugin implements QueuePluginInterface
 {
+    public function __construct(private ForecastClientFacade $forecastClientFacade)
+    {
+    }
+
     public function getQueueName(): string
     {
         return ForecastClientQueueConstants::QUEUE_NAME;
@@ -30,7 +32,7 @@ class ForecastClientQueuePluginPlugin extends AbstractPlugin implements QueuePlu
 
     public function consumeMessage(MessageDto $messageDto): bool
     {
-        $this->getFacade()->writeActivities(new ActivityDtoCollection($this->createActivityDto($messageDto)));
+        $this->forecastClientFacade->writeActivities(new ActivityDtoCollection($this->createActivityDto($messageDto)));
 
         return true;
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -20,14 +20,18 @@ use Throwable;
  */
 class LogFacade extends AbstractFacade
 {
+    public function __construct(private LogFactory $logFactory)
+    {
+    }
+
     public function error(string $message, Throwable $e = null): void
     {
-        $this->getFactory()->createLogger()->error($message, $e);
+        $this->logFactory->createLogger()->error($message, $e);
     }
 
     public function info(string $message, array $context = []): void
     {
-        $this->getFactory()->createLogger()->info($message, $context);
+        $this->logFactory->createLogger()->info($message, $context);
     }
 
     public function registerErrorHandler()

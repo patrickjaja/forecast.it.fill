@@ -9,19 +9,25 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ForecastAutomation\PeriodicalActivityDataImport\Shared\Plugin;
+namespace ForecastAutomation\PeriodicalActivityDataImport\Command;
 
-use ForecastAutomation\Kernel\Shared\Plugin\AbstractCommandPlugin;
+use ForecastAutomation\Kernel\Command\AbstractCommand;
+use ForecastAutomation\PeriodicalActivityDataImport\PeriodicalActivityDataImportFacade;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @method \ForecastAutomation\PeriodicalActivityDataImport\PeriodicalActivityDataImportFacade getFacade()
  */
-class PeriodicalActivityDataImportConsoleCommandPlugin extends AbstractCommandPlugin
+class PeriodicalActivityDataImportConsoleCommand extends AbstractCommand
 {
     public const COMMAND_NAME = 'forecast:import:periodical:activity';
     public const DESCRIPTION = 'This command will generate forecast.it activity, based on your personal configuration.';
+
+    public function __construct(private PeriodicalActivityDataImportFacade $periodicalActivityDataImportFacade)
+    {
+        parent::__construct();
+    }
 
     protected function configure(): void
     {
@@ -33,7 +39,7 @@ class PeriodicalActivityDataImportConsoleCommandPlugin extends AbstractCommandPl
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->getFacade()->startImportProcess(date('Y-m-d'));
+        $this->periodicalActivityDataImportFacade->startImportProcess(date('Y-m-d'));
 
         return self::SUCCESS;
     }

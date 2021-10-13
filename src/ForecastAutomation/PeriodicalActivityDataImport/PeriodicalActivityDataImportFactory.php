@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -20,11 +20,15 @@ use JsonSchema\Validator;
 
 class PeriodicalActivityDataImportFactory extends AbstractFactory
 {
+    public function __construct(private LogFacade $logFacade, private QueueClientFacade $queueClientFacade)
+    {
+    }
+
     public function createPeriodicalActivityDataImportProcess(): PeriodicalActivityDataImportProcess
     {
         return new PeriodicalActivityDataImportProcess(
             $this->createPeriodicalActivityConfigReader(),
-            $this->getQueueClientFacade()
+            $this->queueClientFacade
         );
     }
 
@@ -32,31 +36,21 @@ class PeriodicalActivityDataImportFactory extends AbstractFactory
     {
         return new PeriodicalActivityConfigReader(
             $_ENV['PERIODICAL_ACTIVITY_CONFIG'],
-            'file://'.realpath(
+            'file://' . realpath(
                 $this->getSchemaPath()
             ),
             $this->createValidator(),
-            $this->getLogFacade(),
+            $this->logFacade,
         );
     }
 
     public function getSchemaPath(): string
     {
-        return __DIR__.DIRECTORY_SEPARATOR.'Business/Schema/periodical_activity_config_schema.json';
+        return __DIR__ . DIRECTORY_SEPARATOR . 'Business/Schema/periodical_activity_config_schema.json';
     }
 
     public function createValidator(): Validator
     {
         return new Validator();
-    }
-
-    public function getLogFacade(): LogFacade
-    {
-        return $this->getProvidedDependency(PeriodicalActivityDataImportDependencyProvider::LOG_FACADE);
-    }
-
-    public function getQueueClientFacade(): QueueClientFacade
-    {
-        return $this->getProvidedDependency(PeriodicalActivityDataImportDependencyProvider::QUEUE_CLIENT_FACADE);
     }
 }

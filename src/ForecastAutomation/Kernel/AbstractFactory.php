@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -13,15 +13,20 @@ namespace ForecastAutomation\Kernel;
 
 class AbstractFactory
 {
-    private Locator $locator;
-
-    public function __construct()
-    {
-        $this->locator = new Locator($this);
-    }
-
-    public function getProvidedDependency(string $id)
-    {
-        return $this->locator->getProvidedDependency($id);
-    }
+//    private Locator $locator;
+//
+//    public function __construct()
+//    {
+//        $this->locator = new Locator($this);
+//    }
+//
+//    public function getProvidedDependency(string $id)
+//    {
+//        return $this->locator->getProvidedDependency($id);
+//    }
+//
+//    public function getRepository(): object
+//    {
+//        return $this->locator->getRepository();
+//    }
 }

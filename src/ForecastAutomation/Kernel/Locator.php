@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -16,6 +16,12 @@ use ReflectionClass;
 class Locator
 {
     private array $callerClassParts;
+    public static $container = null;
+
+    /**
+     * @var static
+     */
+    private static $instance;
 
     public function __construct(object $callerClass)
     {
@@ -26,7 +32,7 @@ class Locator
     {
         // bla, bla testen
         echo "Rufe die Objektmethode '{$name}' "
-            .implode(', ', $arguments)."\n";
+            . implode(', ', $arguments) . "\n";
     }
 
     public function getFacade(): object
@@ -46,8 +52,29 @@ class Locator
 
     private function resolve(string $type): object
     {
-        $reflector = new ReflectionClass(sprintf($type, $this->callerClassParts[KernelConfig::NAMESPACE_CLASSNAME_POSITION], $this->callerClassParts[KernelConfig::BUNDLE_CLASSNAME_POSITION], $this->callerClassParts[KernelConfig::BUNDLE_CLASSNAME_POSITION]));
+        $reflector = new ReflectionClass(
+            sprintf(
+                $type,
+                $this->callerClassParts[KernelConfig::NAMESPACE_CLASSNAME_POSITION],
+                $this->callerClassParts[KernelConfig::BUNDLE_CLASSNAME_POSITION],
+                $this->callerClassParts[KernelConfig::BUNDLE_CLASSNAME_POSITION]
+            )
+        );
 
         return $reflector->newInstance();
+    }
+
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
+            self::$instance = new static();
+        }
+
+        return self::$instance;
+    }
+
+    public function getRepository(): object
+    {
+        return $this->resolve(KernelConfig::MODULE_REPOSITORY);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -13,13 +13,16 @@ namespace ForecastAutomation\ForecastDataImport;
 
 use ForecastAutomation\Kernel\AbstractFacade;
 
-/**
- * @method \ForecastAutomation\ForecastDataImport\ForecastDataImportFactory getFactory()
- */
 class ForecastDataImportFacade extends AbstractFacade
 {
+    public function __construct(private ForecastDataImportFactory $forecastDataImportFactory)
+    {
+    }
+
     public function startImportProcess(): int
     {
-        return $this->getFactory()->createForecastDataImportProcess()->start();
+        return $this->forecastDataImportFactory
+            ->createForecastDataImportProcess()
+            ->start();
     }
 }

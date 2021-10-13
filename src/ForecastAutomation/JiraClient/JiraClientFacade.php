@@ -13,13 +13,14 @@ namespace ForecastAutomation\JiraClient;
 
 use ForecastAutomation\Kernel\AbstractFacade;
 
-/**
- * @method \ForecastAutomation\JiraClient\JiraClientFactory getFactory()
- */
 class JiraClientFacade extends AbstractFacade
 {
+    public function __construct(private JiraClientFactory $jiraClientFactory)
+    {
+    }
+
     public function getComments(string $startDate): array
     {
-        return $this->getFactory()->createJiraCollector()->getComments($startDate);
+        return $this->jiraClientFactory->createJiraCollector()->getComments($startDate);
     }
 }

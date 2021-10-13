@@ -20,13 +20,17 @@ use GuzzleHttp\Promise\PromiseInterface;
  */
 class MattermostClientFacade extends AbstractFacade
 {
+    public function __construct(private MattermostClientFactory $mattermostClientFactory)
+    {
+    }
+
     public function getChannel(array $channelFilterCollection): PromiseInterface
     {
-        return $this->getFactory()->createMattermostApi()->getChannel($channelFilterCollection);
+        return $this->mattermostClientFactory->createMattermostApi()->getChannel($channelFilterCollection);
     }
 
     public function getPosts(MattermostPostsQueryDto $mattermostPostsQueryDto): PromiseInterface
     {
-        return $this->getFactory()->createMattermostApi()->getPosts($mattermostPostsQueryDto);
+        return $this->mattermostClientFactory->createMattermostApi()->getPosts($mattermostPostsQueryDto);
     }
 }

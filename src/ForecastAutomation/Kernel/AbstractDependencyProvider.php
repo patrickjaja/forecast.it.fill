@@ -11,21 +11,24 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\Kernel;
 
-use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class AbstractDependencyProvider implements ContainerInterface
+class AbstractDependencyProvider extends Bundle
+//    implements ContainerInterface
 {
     protected static array $instances;
 
     protected Locator $locator;
 
-    public function __construct()
+    public function boot()
     {
-        $this->provideDependencies(new Locator($this));
+        parent::boot();
+        $this->provideDependencies($this->container);
     }
 
     //ToDo: Pass Container (DI) with module dynamic resolver of KernelConfig Patterns
-    public function provideDependencies(Locator $locator): void
+    public function provideDependencies(ContainerInterface $container): void
     {
     }
 

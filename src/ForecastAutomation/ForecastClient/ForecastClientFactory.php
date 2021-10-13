@@ -20,6 +20,10 @@ use GuzzleHttp\Client;
 
 class ForecastClientFactory extends AbstractFactory
 {
+    public function __construct(private LogFacade $logFacade, private CacheFacade $cacheFacade)
+    {
+    }
+
     public function createForecastConfigDto(): ForecastConfigDto
     {
         return new ForecastConfigDto(
@@ -36,23 +40,13 @@ class ForecastClientFactory extends AbstractFactory
         return new ForecastApi(
             $this->createClient(),
             $this->createForecastConfigDto(),
-            $this->getLogFacade(),
-            $this->getCacheFacade(),
+            $this->logFacade,
+            $this->cacheFacade,
         );
     }
 
     public function createClient(): Client
     {
         return new Client(['base_uri' => (string) $_ENV['FORECAST_HOST']]);
-    }
-
-    public function getLogFacade(): LogFacade
-    {
-        return $this->getProvidedDependency(ForecastClientDependencyProvider::LOG_FACADE);
-    }
-
-    public function getCacheFacade(): CacheFacade
-    {
-        return $this->getProvidedDependency(ForecastClientDependencyProvider::CACHE_FACADE);
     }
 }

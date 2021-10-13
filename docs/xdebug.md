@@ -1,0 +1,2 @@
+ - add your client_host ip in `.docker/etc/php/conf.d/99-project.ini` ($ip addr | grep '192')
+ - add phpstorm server `forecast` with path mapping /var/www

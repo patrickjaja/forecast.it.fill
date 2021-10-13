@@ -17,6 +17,7 @@ use ForecastAutomation\Kernel\Locator;
 use ForecastAutomation\Log\LogFacade;
 use ForecastAutomation\QueueClient\Shared\Plugin\QueuePluginCollection;
 use ForecastAutomation\Serializer\SerializerFacade;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AmqpClientDependencyProvider extends AbstractDependencyProvider
 {
@@ -26,7 +27,7 @@ class AmqpClientDependencyProvider extends AbstractDependencyProvider
     public const LOG_FACADE = 'LOG_FACADE';
     public const QUEUE_PLUGIN_COLLECTION = 'QUEUE_CONSUMER_PLUGINS';
 
-    public function provideDependencies(Locator $locator): void
+    public function provideDependencies(ContainerInterface $container): void
     {
         $this->set(self::SERIALIZER_FACADE, new SerializerFacade());
         $this->set(self::LOG_FACADE, new LogFacade());

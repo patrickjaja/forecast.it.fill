@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\AmqpClient\Shared\Plugin;
 
+use ForecastAutomation\AmqpClient\AmqpClientFacade;
 use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
 use ForecastAutomation\QueueClient\Shared\Dto\MessageCollectionDto;
 use ForecastAutomation\QueueClient\Shared\Plugin\AdapterPluginInterface;
@@ -20,13 +21,17 @@ use ForecastAutomation\QueueClient\Shared\Plugin\AdapterPluginInterface;
  */
 class AmqpAdapterPluginPlugin extends AbstractPlugin implements AdapterPluginInterface
 {
+    public function __construct(private AmqpClientFacade $amqpClientFacade)
+    {
+    }
+
     public function sendMessages(string $queueName, MessageCollectionDto $messageCollectionDto): void
     {
-        $this->getFacade()->sendMessages($queueName, $messageCollectionDto);
+        $this->amqpClientFacade->sendMessages($queueName, $messageCollectionDto);
     }
 
     public function consume(string $queueName): void
     {
-        $this->getFacade()->consume($queueName);
+        $this->amqpClientFacade->consume($queueName);
     }
 }

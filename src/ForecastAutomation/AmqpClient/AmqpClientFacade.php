@@ -19,13 +19,17 @@ use ForecastAutomation\QueueClient\Shared\Dto\MessageCollectionDto;
  */
 class AmqpClientFacade extends AbstractFacade
 {
+    public function __construct(private AmqpClientFactory $amqpClientFactory)
+    {
+    }
+
     public function sendMessages($queueName, MessageCollectionDto $messageCollectionDto): void
     {
-        $this->getFactory()->createProducer()->sendMessages($queueName, $messageCollectionDto);
+        $this->amqpClientFactory->createProducer()->sendMessages($queueName, $messageCollectionDto);
     }
 
     public function consume(string $queueName): void
     {
-        $this->getFactory()->createConsumer()->consume($queueName);
+        $this->amqpClientFactory->createConsumer()->consume($queueName);
     }
 }

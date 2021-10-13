@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -18,8 +18,14 @@ use ForecastAutomation\Kernel\AbstractFacade;
  */
 class PeriodicalActivityDataImportFacade extends AbstractFacade
 {
+    public function __construct(private PeriodicalActivityDataImportFactory $periodicalActivityDataImportFactory)
+    {
+    }
+
     public function startImportProcess(string $periodicalDate): int
     {
-        return $this->getFactory()->createPeriodicalActivityDataImportProcess()->start($periodicalDate);
+        return $this->periodicalActivityDataImportFactory->createPeriodicalActivityDataImportProcess()->start(
+            $periodicalDate
+        );
     }
 }

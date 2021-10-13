@@ -8,3 +8,8 @@ vendor
 .phpunit.result.cache
 cloverage.xml
 phpstan/
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###

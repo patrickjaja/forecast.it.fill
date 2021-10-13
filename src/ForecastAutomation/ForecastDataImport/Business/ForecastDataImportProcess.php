@@ -14,6 +14,7 @@ namespace ForecastAutomation\ForecastDataImport\Business;
 use ForecastAutomation\Activity\ActivityFacade;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\ForecastClient\Shared\Config\ForecastClientQueueConstants;
+use ForecastAutomation\ForecastDataImport\ForecastDataImportRepository;
 use ForecastAutomation\QueueClient\QueueClientFacade;
 use ForecastAutomation\QueueClient\Shared\Dto\MessageCollectionDto;
 use ForecastAutomation\QueueClient\Shared\Dto\MessageDto;

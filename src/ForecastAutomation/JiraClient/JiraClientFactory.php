@@ -21,6 +21,7 @@ class JiraClientFactory extends AbstractFactory
 {
     public function createJiraConfigDto(): JiraConfigDto
     {
+        //ToDo: Move to bundle config
         return new JiraConfigDto(
             $_ENV['JIRA_TOKEN'],
             $_ENV['JIRA_HOST'],

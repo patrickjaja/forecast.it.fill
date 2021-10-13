@@ -11,30 +11,35 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\GitlabClient\Shared\Plugin;
 
+use DateTime;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginInterface;
+use ForecastAutomation\GitlabClient\GitlabClientFacade;
 use ForecastAutomation\GitlabClient\Shared\Dto\GitlabQueryDto;
 use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 
-/**
- * @method \ForecastAutomation\GitlabClient\GitlabClientFacade getFacade()
- */
 class GitlabActivityPlugin extends AbstractPlugin implements ActivityPluginInterface
 {
     public const ALLOWED_ACTION_NAMES = ['commented on', 'approved'];
     public const ACTIVITY_SUFFIX = 'Entwicklungsprozess';
     public const ACTIVITY_DURATION = 15;
 
+    public function __construct(private GitlabClientFacade $gitlabClientFacade)
+    {
+    }
+
     public function collect(): PromiseInterface
     {
         $wrapPromise = new Promise(
             function () use (&$wrapPromise) {
+                $lastImportDate = DateTime::createFromFormat('Y-m-d H:i','2021-10-10 00:00');
                 $wrapPromise->resolve(
                     $this->mapEventsToActivity(
-                        $this->getFacade()->getEvents(new GitlabQueryDto(date('Y-m-d', strtotime('-1 day'))))
+                        $this->gitlabClientFacade->getEvents(new GitlabQueryDto( ($lastImportDate->format('Y-m-d'))))
+//                        $this->gitlabClientFacade->getEvents(new GitlabQueryDto( date('Y-m-d', strtotime('-1 day'))))
                     )
                 );
             }

@@ -13,6 +13,7 @@ namespace ForecastAutomation\Serializer;
 
 use ForecastAutomation\Kernel\AbstractDependencyProvider;
 use ForecastAutomation\Kernel\Locator;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
@@ -21,7 +22,7 @@ class SerializerDependencyProvider extends AbstractDependencyProvider
     public const SERIALIZE_NORMALIZER_PLUGINS = 'SERIALIZE_NORMALIZER_PLUGINS';
     public const SERIALIZE_ENCODER_PLUGINS = 'SERIALIZE_ENCODER_PLUGINS';
 
-    public function provideDependencies(Locator $locator): void
+    public function provideDependencies(ContainerInterface $container): void
     {
         $this->set(
             self::SERIALIZE_ENCODER_PLUGINS,

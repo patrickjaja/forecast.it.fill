@@ -2,7 +2,7 @@
 version: "3.8"
 services:
   rabbitmq3:
-    container_name: "rabbitmq"
+    container_name: 'rabbitmq'
     image: rabbitmq:3.8-management-alpine
     environment:
       - RABBITMQ_DEFAULT_USER=guest
@@ -12,3 +12,20 @@ services:
       - '5672:5672'
       # HTTP management UI
       - '15672:15672'
+  db:
+    container_name: 'mariadb'
+    image: mariadb:10.6.4-focal
+    env_file:
+      - ./env/mariadb.env
+    ports:
+      # MySQL protocol port
+      - '3306:3306'
+  app:
+    build: app/
+    container_name: 'app'
+    working_dir: /var/www/
+    env_file:
+      - ./env/app.env
+    volumes:
+      - ./..:/var/www
+      - ./etc/php/conf.d/99-project.ini:/usr/local/etc/php/conf.d/99-project.ini

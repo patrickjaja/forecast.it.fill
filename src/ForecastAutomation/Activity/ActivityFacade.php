@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -14,13 +14,14 @@ namespace ForecastAutomation\Activity;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\Kernel\AbstractFacade;
 
-/**
- * @method ActivityFactory getFactory()
- */
 class ActivityFacade extends AbstractFacade
 {
+    public function __construct(private ActivityFactory $activityFactory)
+    {
+    }
+
     public function collect(): ActivityDtoCollection
     {
-        return $this->getFactory()->createActivityCollector()->collect();
+        return $this->activityFactory->createActivityCollector()->collect();
     }
 }

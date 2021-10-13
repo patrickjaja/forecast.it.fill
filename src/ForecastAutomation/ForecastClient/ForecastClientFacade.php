@@ -19,8 +19,12 @@ use ForecastAutomation\Kernel\AbstractFacade;
  */
 class ForecastClientFacade extends AbstractFacade
 {
+    public function __construct(private ForecastClientFactory $forecastClientFactory)
+    {
+    }
+
     public function writeActivities(ActivityDtoCollection $activityDtoCollection): int
     {
-        return $this->getFactory()->createForecastApi()->writeActivities($activityDtoCollection);
+        return $this->forecastClientFactory->createForecastApi()->writeActivities($activityDtoCollection);
     }
 }

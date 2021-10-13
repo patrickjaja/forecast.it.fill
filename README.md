@@ -21,12 +21,13 @@ Enable and configure plugins on your needs and enjoy newly acquired free time.
    (will create an activity if you [comment or approve](src/ForecastAutomation/GitlabClient/Shared/Plugin/GitlabActivityPlugin.php#L25) a MR by consuming gitlab event api)
  - [mattermost](src/ForecastAutomation/MattermostClient/Shared/Plugin/MattermostActivityPlugin.php)
    (will create an activity if you [direct message](src/ForecastAutomation/MattermostClient/Business/MattermostApi.php#L112) a text that [contains a ticketnumber](src/ForecastAutomation/MattermostClient/Shared/Plugin/MattermostActivityPlugin.php#L53))
- - [periodical activity](src/ForecastAutomation/PeriodicalActivityDataImport/Shared/Plugin/PeriodicalActivityDataImportConsoleCommandPlugin.php)
+ - [periodical activity](src/ForecastAutomation/PeriodicalActivityDataImport/Command/PeriodicalActivityDataImportConsoleCommandPlugin.php)
    (will create weekly reapting activities based on [configuration](.env.dist#L29))
 ### ✨ How to use
  - run `composer run import` at the end of the day (date('Y-m-d 00:00') used by default) to fill your forecast.it timesheet with your [enabled activity plugins](src/ForecastAutomation/Activity/ActivityDependencyProvider.php)
 
 ### ⚙️ setup
+ - `docker-compose up -d && docker exec -it app bash`
  - `composer install`
  - create `http-client.local.json` (to get forecast_ids via `forecast_api.http`)
  - create `.env` with your configuration

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -13,17 +13,27 @@ namespace ForecastAutomation\Activity;
 
 use ForecastAutomation\Activity\Business\ActivityCollector;
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginCollection;
+use ForecastAutomation\GitlabClient\Shared\Plugin\GitlabActivityPlugin;
+use ForecastAutomation\JiraClient\Shared\Plugin\JiraActivityPlugin;
 use ForecastAutomation\Kernel\AbstractFactory;
+use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
+use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\HasMessageChannelFilter;
+use ForecastAutomation\MattermostClient\Shared\Plugin\Filter\IsDirectChannelFilter;
+use ForecastAutomation\MattermostClient\Shared\Plugin\MattermostActivityPlugin;
 
 class ActivityFactory extends AbstractFactory
 {
-    public function getActivityPlugins(): ActivityPluginCollection
+    //    public function __construct(private ActivityPluginCollection $activityPluginCollection)
+    //    {
+    //    }
+    //
+
+    public function __construct(private ActivityPluginCollection $activityPluginCollection)
     {
-        return $this->getProvidedDependency(ActivityDependencyProvider::ACTIVITY_PLUGINS);
     }
 
     public function createActivityCollector(): ActivityCollector
     {
-        return new ActivityCollector($this->getActivityPlugins());
+        return new ActivityCollector($this->activityPluginCollection);
     }
 }

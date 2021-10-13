@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -18,21 +18,18 @@ use ForecastAutomation\QueueClient\QueueClientFacade;
 
 class ForecastDataImportFactory extends AbstractFactory
 {
+    public function __construct(
+        private ActivityFacade $activityFacade,
+        private QueueClientFacade $queueClientFacade,
+    ) {
+
+    }
+
     public function createForecastDataImportProcess(): ForecastDataImportProcess
     {
         return new ForecastDataImportProcess(
-            $this->getActivityFacade(),
-            $this->getQueueClientFacade(),
+            $this->activityFacade,
+            $this->queueClientFacade,
         );
-    }
-
-    public function getActivityFacade(): ActivityFacade
-    {
-        return $this->getProvidedDependency(ForecastDataImportDependencyProvider::ACTIVITY_FACADE);
-    }
-
-    public function getQueueClientFacade(): QueueClientFacade
-    {
-        return $this->getProvidedDependency(ForecastDataImportDependencyProvider::QUEUE_CLIENT_FACADE);
     }
 }

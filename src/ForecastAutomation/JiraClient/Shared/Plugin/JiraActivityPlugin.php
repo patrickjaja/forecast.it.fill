@@ -11,26 +11,31 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\JiraClient\Shared\Plugin;
 
+use DateTime;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\Activity\Shared\Plugin\ActivityPluginInterface;
+use ForecastAutomation\JiraClient\JiraClientFacade;
 use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
+use JiraRestApi\JiraClient;
 
-/**
- * @method \ForecastAutomation\JiraClient\JiraClientFacade getFacade()
- */
 class JiraActivityPlugin extends AbstractPlugin implements ActivityPluginInterface
 {
     public const ACTIVITY_DURATION = 30;
     public const COMMENT_IDENTIFIER = 'Ticket Bearbeitung';
 
+    public function __construct(private JiraClientFacade $jiraClientFacade)
+    {
+
+    }
+
     public function collect(): PromiseInterface
     {
         $wrapPromise = new Promise(
             function () use (&$wrapPromise) {
-                $comments = $this->getFacade()->getComments(date('Y-m-d 00:00'));
+                $comments = $this->jiraClientFacade->getComments(DateTime::createFromFormat('Y-m-d H:i','2021-10-11 00:00')->format('Y-m-d H:i')); // date('Y-m-d 00:00')
                 $wrapPromise->resolve($this->createActivityDtoCollection($comments));
             }
         );

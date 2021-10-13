@@ -16,6 +16,7 @@ class KernelConfig
     public const MODULE_FACADE = '\\%s\\%s\\%sFacade';
     public const MODULE_FACTORY = '\\%s\\%s\\%sFactory';
     public const MODULE_DEPENDENCY_PROVIDER = '\\%s\\%s\\%sDependencyProvider';
+    public const MODULE_REPOSITORY = '\\%s\\%s\\%sRepository';
     public const NAMESPACE_CLASSNAME_POSITION = 0;
     public const BUNDLE_CLASSNAME_POSITION = 1;
 }

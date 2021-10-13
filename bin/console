@@ -1,19 +1,20 @@
 #!/usr/bin/env php
 <?php
 
-require __DIR__.'/../vendor/autoload.php';
+use ForecastAutomation\Kernel\Kernel;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 
-use Dotenv\Dotenv;
-use ForecastAutomation\Console\ConsoleFacade;
-use Symfony\Component\Console\Application;
+if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
+    throw new LogicException('Symfony Runtime is missing. Try running "composer require symfony/runtime".');
+}
 
-// ToDo: Add Kernel ConsoleBootstrap (Symfony Application Abstraction)
-Dotenv::createImmutable(__DIR__.DIRECTORY_SEPARATOR.'..')->load();
-$application = new Application($_ENV['APPLICATION_NAME'], '1.0.0');
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
-(new ConsoleFacade())->installConsoleCommands($application);
-(new \ForecastAutomation\Log\LogFacade())->registerErrorHandler();
-$application->setAutoExit(true);
-$application->setCatchExceptions(false);
+return function (array $context) {
+    $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+    $application = new Application($kernel);
+    $application->setAutoExit(true);
+    $application->setCatchExceptions(false);
+    return $application->run();
+};
 
-$application->run();
