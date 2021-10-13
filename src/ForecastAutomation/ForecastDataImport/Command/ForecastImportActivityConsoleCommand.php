@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of forecast.it.fill project.
@@ -21,8 +21,9 @@ class ForecastImportActivityConsoleCommand extends AbstractCommand
     public const COMMAND_NAME = 'forecast:import:activity';
     public const DESCRIPTION = 'This command will import your forecast.it activity, based on activated plugins.';
 
-    public function __construct(private ForecastDataImportFacade $forecastDataImportFacade)
-    {
+    public function __construct(
+        private ForecastDataImportFacade $forecastDataImportFacade
+    ) {
         parent::__construct();
     }
 

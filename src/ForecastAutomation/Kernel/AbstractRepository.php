@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\Kernel;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
-class AbstractRepository extends EntityRepository
+class AbstractRepository extends ServiceEntityRepository
 {
     public function findOneOrCreate(array $criteria)
     {

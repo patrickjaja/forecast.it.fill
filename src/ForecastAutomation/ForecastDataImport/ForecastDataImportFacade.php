@@ -11,6 +11,7 @@ declare(strict_types = 1);
 
 namespace ForecastAutomation\ForecastDataImport;
 
+use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\Kernel\AbstractFacade;
 
 class ForecastDataImportFacade extends AbstractFacade
@@ -19,7 +20,7 @@ class ForecastDataImportFacade extends AbstractFacade
     {
     }
 
-    public function startImportProcess(): int
+    public function startImportProcess(): ActivityDtoCollection
     {
         return $this->forecastDataImportFactory
             ->createForecastDataImportProcess()

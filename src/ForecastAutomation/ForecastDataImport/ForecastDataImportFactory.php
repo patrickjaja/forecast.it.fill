@@ -11,6 +11,7 @@ declare(strict_types = 1);
 
 namespace ForecastAutomation\ForecastDataImport;
 
+use Doctrine\ORM\EntityManagerInterface;
 use ForecastAutomation\Activity\ActivityFacade;
 use ForecastAutomation\ForecastDataImport\Business\ForecastDataImportProcess;
 use ForecastAutomation\Kernel\AbstractFactory;
