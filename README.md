@@ -16,7 +16,7 @@ Enable and configure plugins on your needs and enjoy newly acquired free time.
 
 ## Introduction
 This is a side project I've been working on.
-With this application, you can automate your time accounting and have clear fair transparent bills etc to your clients. This project is something I've been working on in my free time so I cannot be sure that everything will work out correctly. But I'll appreciate you if can report any issue.
+With this application, you can automate your time accounting and have clear fair transparent bills etc for your clients. This project is something I've been working on in my free time so I cannot be sure that everything will work out correctly. But I'll appreciate you if can report any issue.
 
 ### ⚡ supported activity sources
  - [jira](src/ForecastAutomation/JiraClient/Shared/Plugin/JiraActivityPlugin.php)
