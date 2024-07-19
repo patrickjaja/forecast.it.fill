@@ -22,9 +22,10 @@ class JiraClientFactory extends AbstractFactory
     public function createJiraConfigDto(): JiraConfigDto
     {
         return new JiraConfigDto(
-            $_ENV['JIRA_TOKEN'],
             $_ENV['JIRA_HOST'],
             $_ENV['JIRA_USER'],
+            true,
+            $_ENV['JIRA_TOKEN'],
             (int) $_ENV['JIRA_MAX_RESULTS'],
             $_ENV['JIRA_QUERY'],
         );
@@ -32,7 +33,13 @@ class JiraClientFactory extends AbstractFactory
 
     public function createJiraClient(): IssueService
     {
-        return new IssueService(new ArrayConfiguration((array) $this->createJiraConfigDto()));
+        return new IssueService(new ArrayConfiguration(
+            [
+                'jiraHost' => $this->createJiraConfigDto()->jiraHost,
+                'useTokenBasedAuth' => $this->createJiraConfigDto()->useTokenBasedAuth,
+                'personalAccessToken' => $this->createJiraConfigDto()->personalAccessToken,
+            ]
+        ));
     }
 
     public function createJiraCollector(): JiraCollector

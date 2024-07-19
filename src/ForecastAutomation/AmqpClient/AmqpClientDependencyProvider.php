@@ -15,6 +15,7 @@ use ForecastAutomation\ForecastClient\Shared\Plugin\ForecastClientQueuePluginPlu
 use ForecastAutomation\Kernel\AbstractDependencyProvider;
 use ForecastAutomation\Kernel\Locator;
 use ForecastAutomation\Log\LogFacade;
+use ForecastAutomation\ProjektronClient\Shared\Plugin\ProjektronClientQueuePluginPlugin;
 use ForecastAutomation\QueueClient\Shared\Plugin\QueuePluginCollection;
 use ForecastAutomation\Serializer\SerializerFacade;
 
@@ -36,7 +37,8 @@ class AmqpClientDependencyProvider extends AbstractDependencyProvider
     protected function createQueuePluginCollection(): QueuePluginCollection
     {
         return new QueuePluginCollection(
-            new ForecastClientQueuePluginPlugin(),
+//            new ForecastClientQueuePluginPlugin(),
+            new ProjektronClientQueuePluginPlugin(),
         );
     }
 }
