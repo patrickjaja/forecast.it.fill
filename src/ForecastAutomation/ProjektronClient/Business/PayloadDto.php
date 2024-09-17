@@ -25,8 +25,8 @@ class PayloadDto {
             'daytimerecording,Content,singleeffort,EffortEditor,effort1,effortStart,effortStart_minute' => '',
             'daytimerecording,Content,singleeffort,EffortEditor,effort1,effortEnd,effortEnd_hour' => '',
             'daytimerecording,Content,singleeffort,EffortEditor,effort1,effortEnd,effortEnd_minute' => '',
-            'daytimerecording,Content,singleeffort,EffortEditor,effort1,effortExpense,effortExpense_hour' => '0', // $hours
-            'daytimerecording,Content,singleeffort,EffortEditor,effort1,effortExpense,effortExpense_minute' => '1', // $minutes
+            'daytimerecording,Content,singleeffort,EffortEditor,effort1,effortExpense,effortExpense_hour' => $hours,
+            'daytimerecording,Content,singleeffort,EffortEditor,effort1,effortExpense,effortExpense_minute' => $minutes,
             'daytimerecording,Content,singleeffort,EffortEditor,effort1,description,description' => $description,
             'daytimerecording,Content,singleeffort,recordType' => 'neweffort',
             'daytimerecording,Content,singleeffort,recordOid' => '',

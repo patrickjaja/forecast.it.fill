@@ -22,12 +22,14 @@ class ProjektronApi
         private string $projektronApiEndpoint,
         private string $projektronCookieHeaderValue,
         private string $username,
+        private string $catchAllTask
     ) { $this->setCsrfFromCookie();  }
 
     public function writeActivities(ActivityDtoCollection $activityDtoCollection): int
     {
         $savedActivities = 0;
         foreach ($activityDtoCollection as $activityDto) {
+            $activityDto->needle = $this->setCatchAllOnUnknownTask($activityDto->needle);
             $activityDto->created->sub(new \DateInterval('P1D')); // give projektron a date, and it adds +1 day, so remove one day of the time entry, HAHAHA
             $activityDto->created->setTime(22, 0, 0); // projektron doesnt save the entry if the time is not 22:00 HAHAHA
             $payloadDto = new PayloadDto(
@@ -83,6 +85,14 @@ class ProjektronApi
             $this->csrf = $matches[1];
         } else {
             new \Exception('Projektron API error. CSRF_Token not found in cookie header.');
+        }
+    }
+
+    private function setCatchAllOnUnknownTask(string $projektronTaskId):string {
+        if (\strpos($projektronTaskId, '_JTask') === false) {
+            return $this->catchAllTask;
+        } else {
+            return $projektronTaskId;
         }
     }
 }

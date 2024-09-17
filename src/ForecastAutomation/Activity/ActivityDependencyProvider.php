@@ -37,12 +37,12 @@ class ActivityDependencyProvider extends AbstractDependencyProvider
     {
         return new ActivityPluginCollection(
             new PeriodicalActivityPlugin(),
-//            new JiraActivityPlugin(),
-//            new MattermostActivityPlugin(
-//                new HasMessageChannelFilter(new \DateTime(date('Y-m-d'))),
-//                new IsDirectChannelFilter(),
-//            ),
-//            new GitlabActivityPlugin(),
+            new JiraActivityPlugin(),
+            new MattermostActivityPlugin(
+                new HasMessageChannelFilter(new \DateTime(date('Y-m-d'))),
+                new IsDirectChannelFilter(),
+            ),
+            new GitlabActivityPlugin(),
         )
 
         ;

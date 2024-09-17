@@ -22,6 +22,7 @@ class ProjektronClientFactory extends AbstractFactory
             $_ENV['PROJEKTRON_API_ENDPOINT'],
             $_ENV['PROJEKTRON_COOKIE_HEADER_VALUE'],
             $_ENV['PROJEKTRON_USERNAME'],
+            $_ENV['PROJEKTRON_CATCH_ALL_TASK'],
         );
     }
 }
