@@ -9,19 +9,19 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ForecastAutomation\ForecastDataImport\Shared\Plugin;
+namespace ForecastAutomation\Activity\Shared\Plugin;
 
 use ForecastAutomation\Kernel\Shared\Plugin\AbstractCommandPlugin;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @method \ForecastAutomation\ForecastDataImport\ForecastDataImportFacade getFacade()
+ * @method \ForecastAutomation\Activity\ActivityFacade getFacade()
  */
-class ForecastImportActivityConsoleCommandPlugin extends AbstractCommandPlugin
+class ImportActivityConsoleCommandPlugin extends AbstractCommandPlugin
 {
-    public const COMMAND_NAME = 'forecast:import:activity';
-    public const DESCRIPTION = 'This command will import your forecast.it activity, based on activated plugins.';
+    public const COMMAND_NAME = 'import:activity';
+    public const DESCRIPTION = 'This command will import your personal activity based on activated plugins.';
 
     protected function configure(): void
     {
@@ -33,7 +33,9 @@ class ForecastImportActivityConsoleCommandPlugin extends AbstractCommandPlugin
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->getFacade()->startImportProcess();
+        $this->getFacade()->send(
+            $this->getFacade()->collect()
+        );
 
         return self::SUCCESS;
     }

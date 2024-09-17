@@ -32,7 +32,7 @@ class ActivityCollector
     {
         $mergedActivityDtoCollection = new ActivityDtoCollection();
         foreach ($activityDtoCollections as $activityDtoCollection) {
-            $mergedActivityDtoCollection->merge($activityDtoCollection);
+            $mergedActivityDtoCollection->mergeFreedom($activityDtoCollection);
         }
 
         return $mergedActivityDtoCollection;

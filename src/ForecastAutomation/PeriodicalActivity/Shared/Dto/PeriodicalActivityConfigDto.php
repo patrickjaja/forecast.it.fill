@@ -9,7 +9,7 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ForecastAutomation\PeriodicalActivityDataImport\Shared\Dto;
+namespace ForecastAutomation\PeriodicalActivity\Shared\Dto;
 
 use ForecastAutomation\Kernel\Shared\Dto\AbstractDto;
 

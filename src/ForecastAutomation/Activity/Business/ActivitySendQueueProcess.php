@@ -9,28 +9,25 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ForecastAutomation\ForecastDataImport\Business;
+namespace ForecastAutomation\Activity\Business;
 
-use ForecastAutomation\Activity\ActivityFacade;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
-use ForecastAutomation\ForecastClient\Shared\Config\ForecastClientQueueConstants;
+use ForecastAutomation\ProjektronClient\Shared\Config\ProjektronClientQueueConstants;
 use ForecastAutomation\QueueClient\QueueClientFacade;
 use ForecastAutomation\QueueClient\Shared\Dto\MessageCollectionDto;
 use ForecastAutomation\QueueClient\Shared\Dto\MessageDto;
 
-class ForecastDataImportProcess
+class ActivitySendQueueProcess
 {
     public function __construct(
-        private ActivityFacade $activityFacade,
         private QueueClientFacade $queueClientFacade,
     ) {
     }
 
-    public function start(): int
+    public function send(ActivityDtoCollection $activityDtoCollection): int
     {
-        $activityDtoCollection = $this->activityFacade->collect();
         $this->queueClientFacade->sendMessages(
-            ForecastClientQueueConstants::QUEUE_NAME,
+            ProjektronClientQueueConstants::QUEUE_NAME,
             $this->createMessageCollectionDto($activityDtoCollection)
         );
 
@@ -44,8 +41,8 @@ class ForecastDataImportProcess
             $messages[] =
                 new MessageDto(
                     ['created' => $activityDto->created->format('c')] + (array) $activityDto,
-                    ForecastClientQueueConstants::QUEUE_NAME,
-                    ForecastClientQueueConstants::IMPORT_EVENT
+                    ProjektronClientQueueConstants::QUEUE_NAME, // ToDo: Move to output plugin
+                    ProjektronClientQueueConstants::IMPORT_EVENT
                 );
         }
 

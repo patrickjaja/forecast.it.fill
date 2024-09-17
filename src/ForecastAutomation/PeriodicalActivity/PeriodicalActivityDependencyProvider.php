@@ -9,21 +9,21 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ForecastAutomation\ForecastDataImport;
+namespace ForecastAutomation\PeriodicalActivity;
 
-use ForecastAutomation\Activity\ActivityFacade;
 use ForecastAutomation\Kernel\AbstractDependencyProvider;
 use ForecastAutomation\Kernel\Locator;
+use ForecastAutomation\Log\LogFacade;
 use ForecastAutomation\QueueClient\QueueClientFacade;
 
-class ForecastDataImportDependencyProvider extends AbstractDependencyProvider
+class PeriodicalActivityDependencyProvider extends AbstractDependencyProvider
 {
-    public const ACTIVITY_FACADE = 'ACTIVITY_FACADE';
+    public const LOG_FACADE = 'LOG_FACADE';
     public const QUEUE_CLIENT_FACADE = 'QUEUE_CLIENT_FACADE';
 
     public function provideDependencies(Locator $locator): void
     {
-        $this->set(self::ACTIVITY_FACADE, new ActivityFacade());
+        $this->set(self::LOG_FACADE, new LogFacade());
         $this->set(self::QUEUE_CLIENT_FACADE, new QueueClientFacade());
     }
 }

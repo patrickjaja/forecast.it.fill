@@ -13,8 +13,8 @@ namespace ForecastAutomation\ProjektronClient\Shared\Plugin;
 
 use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
-use ForecastAutomation\ForecastClient\Shared\Config\ForecastClientQueueConstants;
 use ForecastAutomation\Kernel\Shared\Plugin\AbstractPlugin;
+use ForecastAutomation\ProjektronClient\Shared\Config\ProjektronClientQueueConstants;
 use ForecastAutomation\QueueClient\Shared\Dto\MessageDto;
 use ForecastAutomation\QueueClient\Shared\Plugin\QueuePluginInterface;
 
@@ -25,7 +25,7 @@ class ProjektronClientQueuePluginPlugin extends AbstractPlugin implements QueueP
 {
     public function getQueueName(): string
     {
-        return ForecastClientQueueConstants::QUEUE_NAME;
+        return ProjektronClientQueueConstants::QUEUE_NAME;
     }
 
     public function consumeMessage(MessageDto $messageDto): bool

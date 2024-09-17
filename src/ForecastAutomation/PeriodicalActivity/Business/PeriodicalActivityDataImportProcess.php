@@ -9,12 +9,12 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ForecastAutomation\PeriodicalActivityDataImport\Business;
+namespace ForecastAutomation\PeriodicalActivity\Business;
 
 use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
 use ForecastAutomation\ForecastClient\Shared\Config\ForecastClientQueueConstants;
-use ForecastAutomation\PeriodicalActivityDataImport\Shared\Dto\PeriodicalActivityConfigDto;
+use ForecastAutomation\PeriodicalActivity\Shared\Dto\PeriodicalActivityConfigDto;
 use ForecastAutomation\QueueClient\QueueClientFacade;
 use ForecastAutomation\QueueClient\Shared\Dto\MessageCollectionDto;
 use ForecastAutomation\QueueClient\Shared\Dto\MessageDto;
@@ -29,19 +29,12 @@ class PeriodicalActivityDataImportProcess
     ) {
     }
 
-    public function start(string $periodicalDate): int
+    public function generateActivityToDate(string $periodicalDate): ActivityDtoCollection
     {
-        $activityDtoCollection = $this->generateActivity(
+        return $this->generateActivity(
             $this->periodicalActivityConfigReader->readPeriodicalConfig($periodicalDate),
             $periodicalDate
         );
-
-        $this->queueClientFacade->sendMessages(
-            ForecastClientQueueConstants::QUEUE_NAME,
-            $this->createMessageCollectionDto($activityDtoCollection)
-        );
-
-        return \count($activityDtoCollection->activityDtos);
     }
 
     private function createMessageCollectionDto(ActivityDtoCollection $activityDtoCollection): MessageCollectionDto

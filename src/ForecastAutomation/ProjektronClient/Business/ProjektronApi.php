@@ -9,103 +9,80 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ForecastAutomation\ForecastClient\Business;
+namespace ForecastAutomation\ProjektronClient\Business;
 
+use ForecastAutomation\Activity\Shared\Dto\ActivityDto;
 use ForecastAutomation\Activity\Shared\Dto\ActivityDtoCollection;
-use ForecastAutomation\Cache\CacheFacade;
-use ForecastAutomation\ForecastClient\Shared\Dto\ForecastConfigDto;
-use ForecastAutomation\Log\LogFacade;
-use GuzzleHttp\Client;
 
 class ProjektronApi
 {
-    private const TASK_LIST_ENDPOINT = '/api/v2/projects/{{PROJECT_ID}}/tasks';
-    private const TIME_REGISTRATIONS_ENDPOINT = '/api/v1/time_registrations';
-
-    public static array $TASK_CACHE = [];
+    private string $csrf;
 
     public function __construct(
-        private Client $guzzleClient,
-        private ForecastConfigDto $forecastConfigDto,
-        private LogFacade $logFacade,
-        private CacheFacade $cacheFacade,
-    ) {
-        $this->warmTaskCache();
-    }
+        private string $projektronApiEndpoint,
+        private string $projektronCookieHeaderValue,
+        private string $username,
+    ) { $this->setCsrfFromCookie();  }
 
     public function writeActivities(ActivityDtoCollection $activityDtoCollection): int
     {
         $savedActivities = 0;
         foreach ($activityDtoCollection as $activityDto) {
-            $writeTimeRegistration = [
-                'person' => (int) $this->forecastConfigDto->forecastPersonId,
-                'task' => $this->findTaskIdToNeedle($activityDto->needle),
-                'time_registered' => $activityDto->duration,
-                'date' => $activityDto->created->format('Y-m-d'),
-                'notes' => $activityDto->description,
-            ];
-            $writeResponse = $this->callPostApi(self::TIME_REGISTRATIONS_ENDPOINT, $writeTimeRegistration);
-            $this->logFacade->info('activity sent to forecast.', (array) $writeResponse);
+            $activityDto->created->sub(new \DateInterval('P1D')); // give projektron a date, and it adds +1 day, so remove one day of the time entry, HAHAHA
+            $activityDto->created->setTime(22, 0, 0); // projektron doesnt save the entry if the time is not 22:00 HAHAHA
+            $payloadDto = new PayloadDto(
+                $activityDto->needle,
+                $this->csrf,$this->username,
+                $activityDto->created->getTimestamp().'000',
+                (string)intdiv($activityDto->duration, 60),
+                (string)($activityDto->duration%60),
+                $activityDto->description
+            );
+            $this->sendActivity($this->projektronApiEndpoint.'?oid='.$activityDto->needle, $payloadDto);
             ++$savedActivities;
         }
 
         return $savedActivities;
     }
 
-    private function warmTaskCache(): array
+    private function sendActivity(string $path, PayloadDto $payloadDto): string
     {
-        static::$TASK_CACHE = $this->callGetApi(
-            str_replace('{{PROJECT_ID}}', $this->forecastConfigDto->forecastProjectId, self::TASK_LIST_ENDPOINT)
-        );
+        $this->headers = [
+            'Cookie: '.$this->projektronCookieHeaderValue,
+            'User-Agent: ArchUser/1337',
+        ];
 
-        return static::$TASK_CACHE;
+        $ch = curl_init($path);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payloadDto->getEncodedData());
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+
+        if (!$this->isProjektronActivitySuccess($response)) {
+            throw new \Exception('Could not send activity to projektron.');
+        }
+
+        if (curl_errno($ch)) {
+            throw new \Exception(curl_error($ch));
+        }
+        curl_close($ch);
+
+        return $response;
     }
 
-    private function callGetApi(string $path): array
+    private function isProjektronActivitySuccess(string $response): bool
     {
-        if (! $this->cacheFacade->has($path)) {
-            $res = $this->guzzleClient->request(
-                'GET',
-                $path,
-                [
-                    'headers' => ['X-FORECAST-API-KEY' => $this->forecastConfigDto->forecastApiKey],
-                ]
-            );
-            $forecastResponse = json_decode((string) $res->getBody(), null, JSON_PARTIAL_OUTPUT_ON_ERROR, JSON_THROW_ON_ERROR);
-            $this->cacheFacade->set($path, $forecastResponse);
+        return strpos($response, '<div class="msg affirmation">') !== false;
+    }
+
+    private function setCsrfFromCookie() {
+        $pattern = '/CSRF_Token=([^;]+)/';
+        if (preg_match($pattern, $this->projektronCookieHeaderValue, $matches)) {
+            $this->csrf = $matches[1];
         } else {
-            $forecastResponse = $this->cacheFacade->get($path);
+            new \Exception('Projektron API error. CSRF_Token not found in cookie header.');
         }
-
-        return $forecastResponse;
-    }
-
-    private function callPostApi(string $path, array $postData)
-    {
-        $res = $this->guzzleClient->request(
-            'POST',
-            $path,
-            [
-                'headers' => [
-                    'X-FORECAST-API-KEY' => $this->forecastConfigDto->forecastApiKey,
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/json',
-                ],
-                'body' => json_encode($postData, JSON_THROW_ON_ERROR),
-            ]
-        );
-
-        return json_decode((string) $res->getBody(), null, JSON_PARTIAL_OUTPUT_ON_ERROR, JSON_THROW_ON_ERROR);
-    }
-
-    private function findTaskIdToNeedle(string $taskNeedle): int
-    {
-        foreach (static::$TASK_CACHE as $task) {
-            if (str_contains($task->title, $taskNeedle)) {
-                return $task->id;
-            }
-        }
-
-        return (int) $this->forecastConfigDto->forecastFallbackTaskId;
     }
 }
