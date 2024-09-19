@@ -9,10 +9,10 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ForecastAutomation\PeriodicalActivityDataImport\Business;
+namespace ForecastAutomation\PeriodicalActivity\Business;
 
 use ForecastAutomation\Log\LogFacade;
-use ForecastAutomation\PeriodicalActivityDataImport\Shared\Dto\PeriodicalActivityConfigDto;
+use ForecastAutomation\PeriodicalActivity\Shared\Dto\PeriodicalActivityConfigDto;
 use JsonSchema\Validator;
 
 class PeriodicalActivityConfigReader

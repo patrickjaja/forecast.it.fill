@@ -11,10 +11,9 @@ declare(strict_types=1);
 
 namespace ForecastAutomation\Console;
 
-use ForecastAutomation\ForecastDataImport\Shared\Plugin\ForecastImportActivityConsoleCommandPlugin;
+use ForecastAutomation\Activity\Shared\Plugin\ImportActivityConsoleCommandPlugin;
 use ForecastAutomation\Kernel\AbstractDependencyProvider;
 use ForecastAutomation\Kernel\Locator;
-use ForecastAutomation\PeriodicalActivityDataImport\Shared\Plugin\PeriodicalActivityDataImportConsoleCommandPlugin;
 use ForecastAutomation\QueueClient\Shared\Plugin\QueueClientConsumerConsoleCommandPlugin;
 
 class ConsoleDependencyProvider extends AbstractDependencyProvider
@@ -26,25 +25,19 @@ class ConsoleDependencyProvider extends AbstractDependencyProvider
         $this->set(
             self::CONSOLE_PLUGINS,
             [
-                $this->createForecastImportActivityConsoleCommandPlugin(),
-                $this->creatPeriodicalActivityConsoleCommandPlugin(),
+                $this->createImportActivityConsoleCommandPlugin(),
                 $this->createQueueClientConsumerConsoleCommandPlugin(),
             ]
         );
     }
 
-    protected function createForecastImportActivityConsoleCommandPlugin(): ForecastImportActivityConsoleCommandPlugin
+    protected function createImportActivityConsoleCommandPlugin(): ImportActivityConsoleCommandPlugin
     {
-        return new ForecastImportActivityConsoleCommandPlugin();
+        return new ImportActivityConsoleCommandPlugin();
     }
 
     protected function createQueueClientConsumerConsoleCommandPlugin(): QueueClientConsumerConsoleCommandPlugin
     {
         return new QueueClientConsumerConsoleCommandPlugin();
-    }
-
-    protected function creatPeriodicalActivityConsoleCommandPlugin(): PeriodicalActivityDataImportConsoleCommandPlugin
-    {
-        return new PeriodicalActivityDataImportConsoleCommandPlugin();
     }
 }

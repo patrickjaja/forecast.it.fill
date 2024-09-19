@@ -6,10 +6,14 @@
         "platform": {
             "php": "8.0",
             "ext-amqp": "1.11.0beta"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "infection/extension-installer": true
         }
     },
     "require": {
-        "lesstif/php-jira-rest-client": "^2.5",
+        "lesstif/php-jira-rest-client": "^5.8",
         "guzzlehttp/guzzle": "^7.3",
         "symfony/dotenv": "^5.3",
         "vlucas/phpdotenv": "^5.3",

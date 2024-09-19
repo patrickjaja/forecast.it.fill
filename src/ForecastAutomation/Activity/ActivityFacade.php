@@ -23,4 +23,9 @@ class ActivityFacade extends AbstractFacade
     {
         return $this->getFactory()->createActivityCollector()->collect();
     }
+
+    public function send(ActivityDtoCollection $activityDtoCollection): int
+    {
+        return $this->getFactory()->createActivitySendQueueProcess()->send($activityDtoCollection);
+    }
 }

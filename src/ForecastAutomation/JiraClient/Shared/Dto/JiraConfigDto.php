@@ -16,9 +16,10 @@ use ForecastAutomation\Kernel\Shared\Dto\AbstractDto;
 class JiraConfigDto extends AbstractDto
 {
     public function __construct(
-        public string $jiraPassword,
         public string $jiraHost,
         public string $jiraUser,
+        public bool $useTokenBasedAuth,
+        public string $personalAccessToken,
         public int $jiraMaxResults,
         public string $jiraQuery
     ) {

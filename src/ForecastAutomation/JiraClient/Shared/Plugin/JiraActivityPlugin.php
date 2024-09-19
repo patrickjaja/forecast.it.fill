@@ -50,7 +50,7 @@ class JiraActivityPlugin extends AbstractPlugin implements ActivityPluginInterfa
                     $jiraTicketNumber,
                     sprintf('%s...', substr(preg_replace('/\[[^)]+\]/', '', $jiraComment[0]->body), 0, 60))
                 ),
-                new \DateTime($jiraComment[0]->updated),
+                $jiraComment[0]->updated,
                 self::ACTIVITY_DURATION * \count($jiraComment)
             );
         }

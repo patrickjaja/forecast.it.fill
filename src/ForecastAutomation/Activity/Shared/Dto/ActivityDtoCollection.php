@@ -89,6 +89,15 @@ class ActivityDtoCollection implements Iterator, ArrayAccess
         return $this;
     }
 
+    public function mergeFreedom(self $activityDtoCollection): self
+    {
+        foreach ($activityDtoCollection as $activityDto) {
+            $this->activityDtos[] = $activityDto;
+        }
+
+        return $this;
+    }
+
     private function sumDurationIfExist(ActivityDto $activityDto): bool
     {
         $exist = false;

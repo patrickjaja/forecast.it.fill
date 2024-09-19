@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace ForecastAutomation\ForecastClient;
 
 use ForecastAutomation\Cache\CacheFacade;
-use ForecastAutomation\ForecastClient\Business\ForecastApi;
+use ForecastAutomation\ForecastClient\Business\ProjektronApi;
 use ForecastAutomation\ForecastClient\Shared\Dto\ForecastConfigDto;
 use ForecastAutomation\Kernel\AbstractFactory;
 use ForecastAutomation\Log\LogFacade;
@@ -31,9 +31,9 @@ class ForecastClientFactory extends AbstractFactory
         );
     }
 
-    public function createForecastApi(): ForecastApi
+    public function createForecastApi(): ProjektronApi
     {
-        return new ForecastApi(
+        return new ProjektronApi(
             $this->createClient(),
             $this->createForecastConfigDto(),
             $this->getLogFacade(),

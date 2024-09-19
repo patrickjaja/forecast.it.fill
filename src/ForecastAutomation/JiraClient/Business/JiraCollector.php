@@ -40,7 +40,8 @@ class JiraCollector
         foreach ($ticketList as $issueKey) {
             $comments = $this->jiraClient->getComments($issueKey);
             foreach ($comments->comments as $comment) {
-                if (date('Y-m-d H:i', strtotime($comment->updated)) >= $startDate
+                $passedDate = \DateTime::createFromFormat('Y-m-d H:i', $startDate);
+                if (($comment->updated >= $passedDate)
                     && (isset($comment->author->emailAddress) && $comment->author->emailAddress === $this->jiraConfigDto->jiraUser)) {
                     $jiraActivities[$issueKey][] = $comment;
                 }

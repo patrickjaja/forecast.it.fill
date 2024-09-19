@@ -9,16 +9,16 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ForecastAutomation\PeriodicalActivityDataImport;
+namespace ForecastAutomation\PeriodicalActivity;
 
 use ForecastAutomation\Kernel\AbstractFactory;
 use ForecastAutomation\Log\LogFacade;
-use ForecastAutomation\PeriodicalActivityDataImport\Business\PeriodicalActivityConfigReader;
-use ForecastAutomation\PeriodicalActivityDataImport\Business\PeriodicalActivityDataImportProcess;
+use ForecastAutomation\PeriodicalActivity\Business\PeriodicalActivityConfigReader;
+use ForecastAutomation\PeriodicalActivity\Business\PeriodicalActivityDataImportProcess;
 use ForecastAutomation\QueueClient\QueueClientFacade;
 use JsonSchema\Validator;
 
-class PeriodicalActivityDataImportFactory extends AbstractFactory
+class PeriodicalActivityFactory extends AbstractFactory
 {
     public function createPeriodicalActivityDataImportProcess(): PeriodicalActivityDataImportProcess
     {
@@ -52,11 +52,11 @@ class PeriodicalActivityDataImportFactory extends AbstractFactory
 
     public function getLogFacade(): LogFacade
     {
-        return $this->getProvidedDependency(PeriodicalActivityDataImportDependencyProvider::LOG_FACADE);
+        return $this->getProvidedDependency(PeriodicalActivityDependencyProvider::LOG_FACADE);
     }
 
     public function getQueueClientFacade(): QueueClientFacade
     {
-        return $this->getProvidedDependency(PeriodicalActivityDataImportDependencyProvider::QUEUE_CLIENT_FACADE);
+        return $this->getProvidedDependency(PeriodicalActivityDependencyProvider::QUEUE_CLIENT_FACADE);
     }
 }
