@@ -34,6 +34,9 @@ With this application, you can automate your time accounting and have clear fair
  - `composer install`
  - create `http-client.local.json` (to get forecast_ids via `forecast_api.http`)
  - create `.env` with your configuration
+ - docker-compose -f .docker/docker-compose.yml up -d
+ - php bin/console forecast:import:activity
+ - php bin/console queue:client:consumer projektron.send.activity.queue
 
 ### ✌️ ToDo:
 - https://github.com/patrickjaja/forecast.it.fill/issues
